@@ -48,7 +48,7 @@ in {
     };
 
     workerCount = lib.mkOption {
-      type = with lib.types; oneOf (attrsOf [int string]);
+      type = with lib.types; attrsOf (oneOf [int string]);
       default = "auto";
       description = "The number of workers that should be available to handle requests";
     };
