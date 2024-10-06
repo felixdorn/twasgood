@@ -47,7 +47,7 @@ in {
       description = "The port the server should bind to.";
     };
 
-    workerCount = lib.mkOptions {
+    workerCount = lib.mkOption {
       type = with lib.types; oneOf (attrsOf [int string]);
       default = "auto";
       description = "The number of workers that should be available to handle requests";
