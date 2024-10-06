@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#app { @apply h-full; }
+
+.container {
+    max-width: calc(65ch + 26rem) !important;
+}

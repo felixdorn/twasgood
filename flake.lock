@@ -1,0 +1,62 @@
+{
+  "nodes": {
+    "composer2nix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1728229667,
+        "narHash": "sha256-01+4x+vb6p5o3fVh9FgoTA8WbPZXn8tDLLuN6mvq4so=",
+        "owner": "felixdorn",
+        "repo": "composer2nix",
+        "rev": "93420e0b2a6c77085adf9d3bbecbe1eff9ae3725",
+        "type": "github"
+      },
+      "original": {
+        "owner": "felixdorn",
+        "repo": "composer2nix",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1728018373,
+        "narHash": "sha256-NOiTvBbRLIOe5F6RbHaAh6++BNjsb149fGZd1T4+KBg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "bc947f541ae55e999ffdb4013441347d83b00feb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1728182355,
+        "narHash": "sha256-RyQMxBhpaZfL0AqEyuiM8I7aAtxDVc9siAsNMY8WFTs=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "7d49afd36b5590f023ec56809c02e05d8164fbc4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "composer2nix": "composer2nix",
+        "nixpkgs": "nixpkgs_2"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
