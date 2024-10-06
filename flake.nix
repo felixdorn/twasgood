@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     composer2nix.url = "github:felixdorn/composer2nix";
+    composer2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
