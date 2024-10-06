@@ -9,9 +9,48 @@ in {
   options.services.twasgood = {
     enable = lib.mkEnableOption "twagood";
 
-    hostName = lib.mkOption {
+    package = lib.mkPackageOption "twasgood" {};
+
+    createUser = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Create the user specified in services.twasgood.user";
+    };
+
+    createGroup = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Create the group specified in services.twasgood.group";
+    };
+
+    user = lib.mkOption {
       type = lib.types.str;
-      description = "FQDN for the twasgood instance";
+      default = "twasgood";
+      description = "User twasgood runs as.";
+    };
+
+    group = lib.mkOption {
+      type = lib.types.str;
+      default = "twasgood";
+      description = "Group twasgood runs as.";
+    };
+
+    host = lib.mkOption {
+      type = lib.types.string;
+      default = "127.0.0.1";
+      description = "The address the server should bind to.";
+    };
+
+    port = lib.mkOption {
+      type = lib.types.int;
+      default = 80;
+      description = "The port the server should bind to.";
+    };
+
+    workerCount = lib.mkOptions {
+      type = with lib.types; oneOf (attrsOf [int string]);
+      default = "auto";
+      description = "The number of workers that should be available to handle requests";
     };
 
     home = lib.mkOption {
@@ -34,28 +73,59 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    users.users.twasgood = {
-      home = "${cfg.home}";
-      group = "twasgood";
-      isSystemUser = true;
+    users = {
+      users = lib.mkIf cfg.createUser {
+        twasgood = {
+          home = "${cfg.home}";
+          group = "${cfg.group}";
+          isSystemUser = true;
+        };
+      };
+
+      groups = lib.mkIf cfg.createGroup {
+        twasgood.members = ["${cfg.user}" "traefik"];
+      };
     };
-    users.groups.twasgood.members = ["twasgood" "traefik"];
 
     systemd.services = {
       twasgood-setup = {
         wantedBy = ["multi-user.target"];
         before = ["twasgood.service"];
-        script = let
-          php = cfg.phpPackage;
-        in ''
-          ${php}/bin/php artisan optimize:clear
-          ${php}/bin/php artisan optimize
+        script = ''
+          ${cfg.phpPackage}/bin/php artisan optimize:clear
+          ${cfg.phpPackage}/bin/php artisan optimize
         '';
+        serviceConfig.Type = "oneshot";
+        serviceConfig.User = "${cfg.user}";
+      };
+
+      twasgood = {
+        description = "Twasgood";
+        wantedBy = ["multi-user.target"];
+        serviceConfig = {
+          ExecStart = lib.escapeShellArgs [
+            "${cfg.phpPackage}/bin/php"
+            "${cfg.package}/artisan"
+            "octane:start"
+            "--no-interaction"
+            "--host"
+            cfg.host
+            "--port"
+            cfg.port
+            "--workers"
+            cfg.workerCount
+            "--env"
+            cfg.configFile
+          ];
+
+          User = "${cfg.user}";
+          Restart = "always";
+        };
       };
     };
 
     systemd.tmpfiles.rules =
-      map (dir: "d ${dir} 0750 twasgood twasgood - -") [
+      map (dir: "d ${dir} 0700 ${cfg.user} ${cfg.group} - -") [
         "${cfg.home}"
         "${cfg.home}/storage"
         "${cfg.home}/storage/app/public"
@@ -66,7 +136,7 @@ in {
         "${cfg.home}/storage/logs"
       ]
       ++ [
-        "f ${cfg.home}/storage/logs/laravel.log 0750 twasgood twasgood - -"
+        "f ${cfg.home}/storage/logs/laravel.log 0750 ${cfg.user} ${cfg.group} - -"
       ];
   };
 }
