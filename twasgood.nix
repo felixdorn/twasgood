@@ -59,12 +59,7 @@ in {
       description = "Storage path for twasgood";
     };
 
-    phpPackage = lib.mkPackageOption pkgs "php" {
-      example = "php83";
-      default = pkgs.php83.buildEnv {
-        extensions = exts: exts.enabled ++ (with exts.all; [swoole gd exif]);
-      };
-    };
+    phpPackage = lib.mkPackageOption pkgs "php83" {};
 
     configFile = lib.mkOption {
       type = lib.types.str;
@@ -87,13 +82,17 @@ in {
       };
     };
 
-    systemd.services = {
+    systemd.services = let
+      phpPackage = cfg.phpPackage.buildEnv {
+        extensions = exts: exts.enabled ++ (with exts.all; [swoole gd exif]);
+      };
+    in {
       twasgood-setup = {
         wantedBy = ["multi-user.target"];
         before = ["twasgood.service"];
         script = ''
-          ${cfg.phpPackage}/bin/php artisan optimize:clear
-          ${cfg.phpPackage}/bin/php artisan optimize
+          ${phpPackage}/bin/php artisan optimize:clear
+          ${phpPackage}/bin/php artisan optimize
         '';
         serviceConfig.Type = "oneshot";
         serviceConfig.User = "${cfg.user}";
@@ -104,8 +103,8 @@ in {
         wantedBy = ["multi-user.target"];
         serviceConfig = {
           ExecStart = lib.escapeShellArgs [
-            "${cfg.phpPackage}/bin/php"
-            "${cfg.package}/artisan"
+            "${phpPackage}/bin/php"
+            "${phpPackage}/artisan"
             "octane:start"
             "--no-interaction"
             "--host"
