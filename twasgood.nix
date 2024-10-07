@@ -9,10 +9,8 @@ in {
   options.services.twasgood = {
     enable = lib.mkEnableOption "twagood";
 
-    package = lib.mkPackageOption "twasgood" {};
-
-    hostName = lib.mkOption {
-      type = lib.types.str;
+    package = lib.mkPackageOption "twasgood" {
+      default = pkgs.callPackage ./default.nix {};
     };
 
     createUser = lib.mkOption {
