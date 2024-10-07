@@ -40,7 +40,7 @@ in {
     };
 
     host = lib.mkOption {
-      type = lib.types.string;
+      type = lib.types.str;
       default = "127.0.0.1";
       description = "The address the server should bind to.";
     };
