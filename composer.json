@@ -29,6 +29,7 @@
         "laravel/breeze": "^1.19",
         "laravel/pint": "^1.0",
         "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^7.10",
         "nunomaduro/larastan": "^2.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
