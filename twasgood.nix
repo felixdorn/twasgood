@@ -96,6 +96,7 @@ in {
         script = ''
           ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear
           ${phpPackage}/bin/php ${cfg.package}/artisan optimize
+          ${phpPackage}/bin/php ${cfg.package}/artisan package:discover
         '';
         serviceConfig.Type = "oneshot";
         serviceConfig.User = "${cfg.user}";

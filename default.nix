@@ -32,10 +32,9 @@ in
       mkdir -p $out/
 
       cp -r ${composerDeps}/vendor $out/vendor
-      cp -r . $out/
 
-      #cp -r app/ routes/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
-      #rm -rf $out/resources/css $out/resources/js
+      cp -r app/ routes/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
+      rm -rf $out/resources/css $out/resources/js
 
       runHook postInstall
     '';
