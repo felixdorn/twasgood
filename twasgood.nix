@@ -11,16 +11,20 @@ in {
 
     package = lib.mkPackageOption "twasgood" {};
 
+    hostName = lib.mkOption {
+      type = lib.types.str;
+    };
+
     createUser = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Create the user specified in services.twasgood.user";
+      description = "Create the user specified in <option>services.twasgood.user</option>";
     };
 
     createGroup = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Create the group specified in services.twasgood.group";
+      description = "Create the group specified in <option>services.twasgood.group</option>";
     };
 
     user = lib.mkOption {
@@ -48,9 +52,9 @@ in {
     };
 
     workerCount = lib.mkOption {
-      type = with lib.types; attrsOf (oneOf [int string]);
-      default = "auto";
-      description = "The number of workers that should be available to handle requests";
+      type = lib.types.int;
+      default = -1;
+      description = "The number of workers that should be available to handle requests. -1 defaults to the value Laravel Octane picks, usually the number of cores";
     };
 
     home = lib.mkOption {
@@ -61,7 +65,7 @@ in {
 
     phpPackage = lib.mkPackageOption pkgs "php83" {};
 
-    configFile = lib.mkOption {
+    envFile = lib.mkOption {
       type = lib.types.str;
       description = "A path to the dotenv file which configures Laravel";
     };
@@ -112,9 +116,13 @@ in {
             "--port"
             cfg.port
             "--workers"
-            cfg.workerCount
+            (
+              if cfg.workerCount == -1
+              then "auto"
+              else cfg.workerCount
+            )
             "--env"
-            cfg.configFile
+            cfg.envFile
           ];
 
           User = "${cfg.user}";
