@@ -15,8 +15,6 @@ return [
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
-    'storage_path' => env('STORAGE_PATH', base_path('storage')),
-
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
