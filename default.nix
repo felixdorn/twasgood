@@ -3,7 +3,7 @@
   callPackage,
 }: let
   nodeDeps = (callPackage ./npm-nix/default.nix {}).nodeDependencies;
-  composerDeps = (callPackage ./composer.nix {noDev = true;});
+  composerDeps = callPackage ./composer.nix {noDev = true;};
 in
   stdenvNoCC.mkDerivation {
     pname = "twasgood";
@@ -14,25 +14,26 @@ in
     buildPhase = ''
       runHook preBuild
 
-      mkdir -p $out/
-      cp -R . $out/
-
       ln -s ${nodeDeps}/lib/node_modules ./node_modules
       export PATH=${nodeDeps}/bin:$PATH
 
       vite build
-      cp -r public/build $out/
 
-      rm -rf node_modules tests npm-nix *.nix resources/js resources/css
+      rm -rf node_modules
 
       runHook postBuild
     '';
 
     installPhase = ''
-       runHook preInstall
+      runHook preInstall
 
-      ln -s ${composerDeps}/vendor ./vendor
+      mkdir -p $out/
 
-       runHook postInstall
+      ln -s ${composerDeps}/vendor $out/vendor
+
+      cp -r app/ routes/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
+      rm -rf $out/resources/css $out/resources/js
+
+      runHook postInstall
     '';
   }
