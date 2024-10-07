@@ -51,21 +51,6 @@
         "laravel": {}
     },
     "scripts": {
-        "deploy": [
-            "git pull",
-            "@composer install --no-dev -o --prefer-dist --no-interaction --no-progress",
-            "npm ci",
-            "npm run build",
-            "@php artisan optimize:clear",
-            "@php artisan optimize",
-            "@php artisan down",
-            "bash -c \"docker exec -ti db-postgres-1 pg_dump -U postgres next_faireplusachetermoins_fr > bck-$(date +%s).sql\"",
-            "sudo supervisorctl restart next_faireplusachetermoins_fr_queue",
-            "@php artisan migrate --force",
-            "@php artisan setup",
-            "@php artisan octane:reload",
-            "@php artisan up"
-        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

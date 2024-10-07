@@ -1,6 +1,11 @@
-{composerEnv, fetchurl, fetchgit ? null, fetchhg ? null, fetchsvn ? null, noDev ? false}:
-
-let
+{
+  composerEnv,
+  fetchurl,
+  fetchgit ? null,
+  fetchhg ? null,
+  fetchsvn ? null,
+  noDev ? false,
+}: let
   packages = {
     "archtechx/enums" = {
       targetDir = "";
@@ -1706,13 +1711,14 @@ let
     };
   };
 in
-composerEnv.buildPackage {
-  inherit packages devPackages noDev;
-  name = "twasgood-twasgood";
-  src = composerEnv.filterSrc ./.;
-  executable = false;
-  symlinkDependencies = false;
-  meta = {
-    license = "proprietary";
-  };
-}
+  composerEnv.buildPackage {
+    inherit packages devPackages noDev;
+    name = "twasgood-something-else";
+    src = composerEnv.filterSrc ./.;
+    executable = false;
+    symlinkDependencies = false;
+    composerExtraArgs = "--no-scripts";
+    meta = {
+      license = "proprietary";
+    };
+  }
