@@ -36,8 +36,6 @@ class AppServiceProvider extends ServiceProvider
 
             return $request->routeIs('console.*', 'login', 'register', 'password.*', 'sanctum.*', 'logout');
         });
-
-        $this->app->useStoragePath(config('filesystems.storage_path'));
     }
 
     public function boot(): void
