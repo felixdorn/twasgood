@@ -32,9 +32,10 @@ in
       mkdir -p $out/
 
       cp -r ${composerDeps}/vendor $out/vendor
-
       cp -r composer.json app/ routes/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
-      rm -rf $out/resources/css $out/resources/js
+      cp $out/bootstrap/app.php $out/app/bootstrap.php
+
+      substituteInPlace ./**/*.php --replace 'bootstrap/app.php' 'app/bootstrap.php'
 
       runHook postInstall
     '';

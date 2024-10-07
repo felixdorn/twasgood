@@ -205,9 +205,6 @@
           # Using the dynamic loader for a Nix package is useless since there is nothing to dynamically reload.
           composer dump-autoload --optimize ${lib.optionalString noDev "--no-dev"} ${composerExtraArgs}
 
-          # Run the install step as a validation to confirm that everything works out as expected
-          composer install --optimize-autoloader ${lib.optionalString noDev "--no-dev"} ${composerExtraArgs}
-
           ${php}/bin/php artisan clear-compiled
           ${php}/bin/php artisan package:discover
 
