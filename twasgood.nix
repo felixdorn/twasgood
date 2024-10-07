@@ -94,8 +94,8 @@ in {
         wantedBy = ["multi-user.target"];
         before = ["twasgood.service"];
         script = ''
-          ${phpPackage}/bin/php artisan optimize:clear
-          ${phpPackage}/bin/php artisan optimize
+          ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear
+          ${phpPackage}/bin/php ${cfg.package}/artisan optimize
         '';
         serviceConfig.Type = "oneshot";
         serviceConfig.User = "${cfg.user}";
