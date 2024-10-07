@@ -33,7 +33,7 @@ in
 
       cp -r ${composerDeps}/vendor $out/vendor
 
-      cp -r app/ routes/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
+      cp -r composer.json app/ routes/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
       rm -rf $out/resources/css $out/resources/js
 
       runHook postInstall
