@@ -10,7 +10,7 @@ in {
     enable = lib.mkEnableOption "twagood";
 
     package = lib.mkPackageOption "twasgood" {
-      default = pkgs.callPackage ./default.nix {};
+      default = pkgs.callPackage (import ./default.nix) {};
     };
 
     createUser = lib.mkOption {
