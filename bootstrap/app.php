@@ -42,7 +42,9 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-$app->useStoragePath("/var/lib/twasgood");
+if (isset($_ENV['LARAVEL_BOOTSTRAP_PATH'])) {
+    $app->useBootstrapPath($_ENV['LARAVEL_BOOTSTRAP_PATH']);
+}
 
 /*
 |--------------------------------------------------------------------------
