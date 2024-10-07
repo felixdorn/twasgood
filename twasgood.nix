@@ -107,7 +107,7 @@ in {
         serviceConfig = {
           ExecStart = lib.escapeShellArgs [
             "${phpPackage}/bin/php"
-            "${phpPackage}/artisan"
+            "${package}/artisan"
             "octane:start"
             "--no-interaction"
             "--host"
