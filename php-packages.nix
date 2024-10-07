@@ -1713,7 +1713,7 @@
 in
   composerEnv.buildPackage {
     inherit packages devPackages noDev;
-    name = "twasgood-something-else";
+    name = "twasgood-composer-dependencies";
     src = composerEnv.filterSrc ./.;
     executable = false;
     symlinkDependencies = false;
