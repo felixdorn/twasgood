@@ -14,7 +14,14 @@ in
     buildPhase = ''
       runHook preBuild
 
-      ls -r
+      cp -r ${composerDeps}/vendor ./vendor
+
+      chmod -R +w ./vendor
+
+      find ./vendor/ -iwholename "*laravel*/*.php" -print -type f -exec sed -i -e "s/bootstrap\/app.php/app\/bootstrap.php/g" -e "s/bootstrapPath('app.php')/bootstrapPath('..\/app\/bootstrap.php')/g" {} \;
+
+      sed -i 's/bootstrap\/app.php/app\/bootstrap.php/g' artisan
+      sed -i 's/bootstrap\/app.php/app\/bootstrap.php/g' public/index.php
 
       ln -s ${nodeDeps}/lib/node_modules ./node_modules
       export PATH=${nodeDeps}/bin:$PATH
@@ -30,12 +37,8 @@ in
       runHook preInstall
 
       mkdir -p $out/
-
-      cp -r ${composerDeps}/vendor $out/vendor
-      cp -r composer.json app/ routes/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
+      cp -r composer.json app/ routes/ vendor/ resources/ bootstrap/ database/ lang/ public/ artisan config/ $out/
       cp $out/bootstrap/app.php $out/app/bootstrap.php
-
-      substituteInPlace ./**/*.php --replace 'bootstrap/app.php' 'app/bootstrap.php'
 
       runHook postInstall
     '';
