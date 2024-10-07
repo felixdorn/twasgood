@@ -94,8 +94,6 @@ in {
         wantedBy = ["multi-user.target"];
         before = ["twasgood.service"];
         script = ''
-          ln -s ${cfg.package}/boostrap/app.php ${cfg.home}/boostrap/app.php
-
           LARAVEL_STORAGE_PATH=${cfg.home}/storage LARAVEL_BOOTSTRAP_PATH=${cfg.home}/bootstrap ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
           LARAVEL_STORAGE_PATH=${cfg.home}/storage LARAVEL_BOOTSTRAP_PATH=${cfg.home}/bootstrap ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
         '';
