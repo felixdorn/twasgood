@@ -94,8 +94,8 @@ in {
         wantedBy = ["multi-user.target"];
         before = ["twasgood.service"];
         script = ''
-          ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
-          ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
+          LARAVEL_STORAGE_PATH=${cfg.home}/storage LARAVEL_BOOTSTRAP_PATH=${cfg.home}/bootstrap ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
+          LARAVEL_STORAGE_PATH=${cfg.home}/storage LARAVEL_BOOTSTRAP_PATH=${cfg.home}/bootstrap ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
         '';
         serviceConfig.Type = "oneshot";
         serviceConfig.User = "${cfg.user}";
@@ -133,6 +133,7 @@ in {
     systemd.tmpfiles.rules =
       map (dir: "d ${dir} 0700 ${cfg.user} ${cfg.group} - -") [
         "${cfg.home}"
+        "${cfg.home}/bootstrap"
         "${cfg.home}/storage"
         "${cfg.home}/storage/app/public"
         "${cfg.home}/storage/framework/cache/data"
