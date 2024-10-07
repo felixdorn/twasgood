@@ -133,7 +133,7 @@ in {
     systemd.tmpfiles.rules =
       map (dir: "d ${dir} 0700 ${cfg.user} ${cfg.group} - -") [
         "${cfg.home}"
-        "${cfg.home}/bootstrap"
+        "${cfg.home}/bootstrap/cache"
         "${cfg.home}/storage"
         "${cfg.home}/storage/app/public"
         "${cfg.home}/storage/framework/cache/data"
