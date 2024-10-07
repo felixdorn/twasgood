@@ -9,7 +9,8 @@ in {
   options.services.twasgood = {
     enable = lib.mkEnableOption "twagood";
 
-    package = lib.mkPackageOption "twasgood" {
+    package = lib.mkOption {
+      type = lib.types.package;
       default = pkgs.callPackage (import ./default.nix) {};
     };
 
