@@ -9,7 +9,10 @@ in
     pname = "twasgood";
     version = "0.1.0";
 
-    src = ./.;
+    src = builtins.path {
+      path = ./.;
+      name = "twasgood";
+    };
 
     buildPhase = ''
       runHook preBuild
@@ -18,7 +21,7 @@ in
 
       chmod -R +w ./vendor
 
-      find ./vendor/ -iwholename "*laravel*/*.php" -print -type f -exec sed -i -e "s/bootstrap\/app.php/app\/bootstrap.php/g" -e "s/bootstrapPath('app.php')/bootstrapPath('..\/app\/bootstrap.php')/g" {} \;
+      find ./vendor/ -iwholename "*laravel*/*.php" -print -type f -exec sed -i -e "s/bootstrap\/app.php/app\/bootstrap.php/g" -e "s/bootstrapPath('app.php')/bootstrapPath('${""}''${out//\//\\/}\/app\/bootstrap.php')/g" {} \;
 
       sed -i 's/bootstrap\/app.php/app\/bootstrap.php/g' artisan
       sed -i 's/bootstrap\/app.php/app\/bootstrap.php/g' public/index.php
