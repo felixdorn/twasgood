@@ -121,6 +121,7 @@ in {
             "${phpPackage}/bin/php"
             "${cfg.package}/artisan"
             "octane:start"
+            "--server=swoole"
             "--no-interaction"
             "--host"
             cfg.host
