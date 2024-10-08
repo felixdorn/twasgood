@@ -99,7 +99,7 @@ in {
         in ''
           rm -rf ${bootstrapPath}/cache
           mkdir -m 0700 ${bootstrapPath}/cache
-          chown -R ${cfg.user}:${cfg.group} ${bootstrapPath/cache
+          chown -R ${cfg.user}:${cfg.group} ${bootstrapPath}/cache
 
           LARAVEL_STORAGE_PATH=${storagePath} LARAVEL_BOOTSTRAP_PATH=${bootstrapPath} ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
           LARAVEL_STORAGE_PATH=${storagePath} LARAVEL_BOOTSTRAP_PATH=${bootstrapPath} ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
