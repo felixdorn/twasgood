@@ -25,3 +25,4 @@ yarn-error.log
 /data.ms
 .phpactor.json
 .gitignore
+storage/
