@@ -1,11 +1,15 @@
-{
-  stdenvNoCC,
-  callPackage,
-}: let
-  nodeDeps = (callPackage ./npm-nix/default.nix {}).nodeDependencies;
-  composerDeps = callPackage ./composer.nix {noDev = true;};
+{pkgs}: let
+  nodeDeps = (pkgs.callPackage ./npm-nix/default.nix {}).nodeDependencies;
+  composerDeps =
+    (import ./composer.nix {
+      noDev = true;
+      inherit pkgs;
+    })
+    .override {
+      composerExtraArgs = "--no-scripts";
+    };
 in
-  stdenvNoCC.mkDerivation {
+  pkgs.stdenvNoCC.mkDerivation {
     pname = "twasgood";
     version = "0.1.0";
 

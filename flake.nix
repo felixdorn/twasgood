@@ -25,7 +25,7 @@
       nativeBuildInputs = with pkgs; [nodejs_18 node2nix composer2nix] ++ [php php.packages.composer];
     };
 
-    packages."x86_64-linux".default = pkgs.callPackage (import ./default.nix) {};
+    packages."x86_64-linux".default = (import ./default.nix) {inherit pkgs;};
 
     nixosModules.default = import ./twasgood.nix;
   };

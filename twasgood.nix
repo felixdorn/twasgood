@@ -110,6 +110,7 @@ in {
             "LARAVEL_BOOTSTRAP_PATH=${bootstrapPath}"
             "LARAVEL_STORAGE_PATH=${storagePath}"
           ];
+          EnvironmentFile = [cfg.envFile];
         };
       };
 
@@ -133,13 +134,12 @@ in {
               then "auto"
               else cfg.workerCount
             )
-            "--env"
-            cfg.envFile
           ];
           Environment = [
             "LARAVEL_BOOTSTRAP_PATH=${bootstrapPath}"
             "LARAVEL_STORAGE_PATH=${storagePath}"
           ];
+          EnvironmentFile = [cfg.envFile];
           User = "${cfg.user}";
           Restart = "always";
         };

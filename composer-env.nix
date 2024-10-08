@@ -141,7 +141,7 @@
             ${
               if symlinkDependencies
               then ''ln -s "${dependency.src}" "$namespaceDir/$(basename "${dependency.targetDir}")"''
-              else ''cp -a "${dependency.src}" "$namespaceDir/$(basename "${dependency.targetDir}")"''
+              else ''cp -av "${dependency.src}" "$namespaceDir/$(basename "${dependency.targetDir}")"''
             }
           ''
         }
@@ -206,11 +206,7 @@
           composer dump-autoload --optimize ${lib.optionalString noDev "--no-dev"} ${composerExtraArgs}
 
           # Run the install step as a validation to confirm that everything works out as expected
-          # We need this step to generate missing files in vendor/composer
           composer install --optimize-autoloader ${lib.optionalString noDev "--no-dev"} ${composerExtraArgs}
-
-          ${php}/bin/php artisan clear-compiled
-          ${php}/bin/php artisan package:discover
 
           ${lib.optionalString executable ''
             # Reconstruct the bin/ folder if we deploy an executable project
