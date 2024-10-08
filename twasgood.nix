@@ -89,23 +89,28 @@ in {
       phpPackage = cfg.phpPackage.buildEnv {
         extensions = exts: exts.enabled ++ (with exts.all; [swoole gd exif]);
       };
+      bootstrapPath = cfg.home + "/bootstrap";
+      storagePath = cfg.home + "/storage";
     in {
       twasgood-setup = {
         wantedBy = ["multi-user.target"];
         before = ["twasgood.service"];
-        script = let
-          storagePath = cfg.home + "/storage";
-          bootstrapPath = cfg.home + "/bootstrap";
-        in ''
+        script = ''
           rm -rf ${bootstrapPath}/cache
           mkdir -m 0700 ${bootstrapPath}/cache
           chown -R ${cfg.user}:${cfg.group} ${bootstrapPath}/cache
 
-          LARAVEL_STORAGE_PATH=${storagePath} LARAVEL_BOOTSTRAP_PATH=${bootstrapPath} ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
-          LARAVEL_STORAGE_PATH=${storagePath} LARAVEL_BOOTSTRAP_PATH=${bootstrapPath} ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
+          ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
+          ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
         '';
-        serviceConfig.Type = "oneshot";
-        serviceConfig.User = "${cfg.user}";
+        serviceConfig = {
+          Type = "oneshot";
+          User = "${cfg.user}";
+          Environment = [
+            "LARAVEL_BOOTSTRAP_PATH=${bootstrapPath}"
+            "LARAVEL_STORAGE_PATH=${storagePath}"
+          ];
+        };
       };
 
       twasgood = {
@@ -130,7 +135,10 @@ in {
             "--env"
             cfg.envFile
           ];
-
+          Environment = [
+            "LARAVEL_BOOTSTRAP_PATH=${bootstrapPath}"
+            "LARAVEL_STORAGE_PATH=${storagePath}"
+          ];
           User = "${cfg.user}";
           Restart = "always";
         };
