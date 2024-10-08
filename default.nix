@@ -14,6 +14,10 @@ in
       name = "twasgood";
     };
 
+    patchPhase = "";
+
+    fixupPhase = "";
+
     buildPhase = ''
       runHook preBuild
 
