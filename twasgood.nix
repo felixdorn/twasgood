@@ -102,6 +102,8 @@ in {
 
           ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
           ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
+          ${phpPackage}/bin/php ${cfg.package}/artisan scout:delete-all-index
+          ${phpPackage}/bin/php ${cfg.package}/artisan scout:import "\App\Models\Recipe"
           ${phpPackage}/bin/php ${cfg.package}/artisan scout:index "\App\Models\Recipe"
         '';
         serviceConfig = {
