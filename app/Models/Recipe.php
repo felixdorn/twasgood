@@ -15,7 +15,10 @@ use Laravel\Scout\Searchable;
 
 class Recipe extends Model
 {
-    use HasDiagnoses, HasSlugs, Searchable, SoftDeletes;
+    use HasDiagnoses;
+    use HasSlugs;
+    use Searchable;
+    use SoftDeletes;
 
     protected $casts = [
         'uses_sterilization' => 'boolean',
@@ -33,6 +36,15 @@ class Recipe extends Model
             'content' => '{"type":"doc","content":[]}',
             'category_id' => Category::default()->id,
         ]);
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'id' => $this->getKey(),
+            'title' => $this->title,
+            'description' => $this->description,
+        ];
     }
 
     protected static function booted()

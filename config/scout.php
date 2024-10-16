@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'queue' => true,
+    'queue' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'soft_delete' => true,
+    'soft_delete' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -133,7 +133,9 @@ return [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
-            \App\Models\Recipe::class => [],
+            \App\Models\Recipe::class => [
+            ],
+
             // 'users' => [
             //     'filterableAttributes'=> ['id', 'name', 'email'],
             // ],

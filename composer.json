@@ -3,6 +3,8 @@
     "license": "proprietary",
     "require": {
         "php": "^8.2",
+        "ext-exif": "*",
+        "ext-gd": "*",
         "based/momentum-modal": "^0.2",
         "doctrine/dbal": "^3.5",
         "felixdorn/laravel-make-pivot-table": "^0.1.1",
@@ -14,14 +16,12 @@
         "laravel/framework": "^10",
         "laravel/octane": "^2",
         "laravel/sanctum": "^3.2",
-        "laravel/scout": "^10.2",
+        "laravel/scout": "^10.11",
         "laravel/tinker": "^2.7",
         "meilisearch/meilisearch-php": "^1.2",
         "sentry/sentry-laravel": "^3.0",
         "tightenco/ziggy": "^1.0",
-        "ueberdosis/tiptap-php": "^1.1",
-        "ext-gd": "*",
-        "ext-exif": "*"
+        "ueberdosis/tiptap-php": "^1.1"
     },
     "require-dev": {
         "laravel-lang/common": "^3.1",
@@ -30,7 +30,7 @@
         "laravel/pint": "^1.0",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.10",
-        "nunomaduro/larastan": "^2.0",
+        "larastan/larastan": "^2.0",
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
         "spatie/laravel-ignition": "^2"

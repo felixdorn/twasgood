@@ -102,6 +102,7 @@ in {
 
           ${phpPackage}/bin/php ${cfg.package}/artisan optimize:clear --env=${cfg.envFile}
           ${phpPackage}/bin/php ${cfg.package}/artisan optimize --env=${cfg.envFile}
+          ${phpPackage}/bin/php scout:index "\App\Models\Recipe"
         '';
         serviceConfig = {
           Type = "oneshot";
