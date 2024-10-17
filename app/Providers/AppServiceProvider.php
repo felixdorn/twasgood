@@ -27,12 +27,18 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
 
         if (config('services.imgproxy.key_file')) {
-            $key = trim(file_get_contents(base_path(config('services.imgproxy.key_file'))));
+            $keyPath = config('services.imgproxy.key_file');
+            $key = file_get_contents(
+                file_exists($keyPath) ? $keyPath : base_path($keyPath)
+            );
             config()->set('services.imgproxy.key', $key);
         }
 
         if (config('services.imgproxy.salt_file')) {
-            $salt = trim(file_get_contents(base_path(config('services.imgproxy.salt_file'))));
+            $saltPath = config('services.imgproxy.salt_file');
+            $salt = file_get_contents(
+                file_exists($saltPath) ? $saltPath : base_path($saltPath)
+            );
             config()->set('services.imgproxy.salt', $salt);
         }
 
