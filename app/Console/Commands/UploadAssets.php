@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 
-class FixAssets extends Command
+class UploadAssets extends Command
 {
     protected $signature = 'app:upload-assets {path}';
 
