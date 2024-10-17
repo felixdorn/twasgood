@@ -80,6 +80,9 @@ in {
     environment.systemPackages = [
       (
         pkgs.writeShellScriptBin "twasgood" ''
+          set -a
+          . ${cfg.envFile}
+          set +a
           LARAVEL_BOOTSTRAP_PATH=${bootstrapPath} LARAVEL_STORAGE_PATH=${storagePath} ${phpPackage}/bin/php ${cfg.package}/artisan $@
         ''
       )
