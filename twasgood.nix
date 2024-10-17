@@ -79,12 +79,9 @@ in {
   in {
     environment.systemPackages = [
       (
-        pkgs.writeShellApplication {
-          name = "twasgood";
-          text = ''
-            LARAVEL_BOOTSTRAP_PATH=${bootstrapPath} LARAVEL_STORAGE_PATH=${storagePath} ${phpPackage}/bin/php ${cfg.package}/artisan $@
-          '';
-        }
+        pkgs.writeShellScriptBin "twasgood" ''
+          LARAVEL_BOOTSTRAP_PATH=${bootstrapPath} LARAVEL_STORAGE_PATH=${storagePath} ${phpPackage}/bin/php ${cfg.package}/artisan $@
+        ''
       )
     ];
     users = {
