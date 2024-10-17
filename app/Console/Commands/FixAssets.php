@@ -9,21 +9,21 @@ use Illuminate\Support\Facades\Storage;
 
 class FixAssets extends Command
 {
-    protected $signature = 'app:fix-assets';
+    protected $signature = 'app:fix-assets {path}';
 
     public function handle(): void
     {
         foreach (Asset::all() as $asset) {
-            $exists = (Storage::exists('public/'.$asset->path));
-            if (! $exists) {
+            $base = rtrim($this->argument('path'), '/');
+            $fullPath = $base . '/' . $asset->path;
+            if (! file_exists($fullPath)) {
+                $this->warn('Not found: ' . $fullPath);
                 continue;
             }
 
-            $name = Storage::disk('s3')->putFile('', new File(Storage::path('public/'.$asset->path)));
 
+            $name = Storage::disk('s3')->putFile('', new File($fullPath));
             $asset->update(['path' => $name]);
-            dump($asset->fresh());
-            break;
         }
     }
 }
