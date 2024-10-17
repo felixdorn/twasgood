@@ -23,7 +23,8 @@ class ShowCategoriesController
                 'tags',
                 'slug',
                 'banner' => fn ($query) => $query->select(['assets.id', 'path', 'alt']),
-            ]);
+            ])
+            ->get(['id', 'title', 'description']);
 
         $recipes->each(function ($recipe) use ($orderedSeason) {
             $recipe->seasons = $recipe->seasons->sortBy(fn ($season) => $orderedSeason[Season::tryFrom($season->name)->name]);
@@ -44,7 +45,6 @@ class ShowCategoriesController
 
         return view('categories.show', [
             'category' => $category,
-            'filters' => [],
             'duration' => $durationInMilliseconds,
         ]);
     }
