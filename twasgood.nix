@@ -6,11 +6,12 @@
 }: let
   cfg = config.services.twasgood;
 
-    mkArtisan = cfg: php: pkgs.writeShellApplication {
-        name = "twasgood";
-        text = ''
-            LARAVEL_BOOTSTRAP_PATH=${cfg.bootstrapPath} LARAVEL_STORAGE_PATH=${cfg.storagePath} ${php}/bin/php ${cfg.package}/artisan $@
-        '';
+  mkArtisan = cfg: php:
+    pkgs.writeShellApplication {
+      name = "twasgood";
+      text = ''
+        LARAVEL_BOOTSTRAP_PATH=${cfg.bootstrapPath} LARAVEL_STORAGE_PATH=${cfg.storagePath} ${php}/bin/php ${cfg.package}/artisan $@
+      '';
     };
 in {
   options.services.twasgood = {
@@ -77,8 +78,14 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    systemPackages =
+  config = lib.mkIf cfg.enable (let
+    phpPackage = cfg.phpPackage.buildEnv {
+      extensions = exts: exts.enabled ++ (with exts.all; [swoole]);
+    };
+  in {
+    systemPackages = [
+      (mkArtisan cfg phpPackage)
+    ];
     users = {
       users = lib.mkIf cfg.createUser {
         twasgood = {
@@ -94,9 +101,6 @@ in {
     };
 
     systemd.services = let
-      phpPackage = cfg.phpPackage.buildEnv {
-        extensions = exts: exts.enabled ++ (with exts.all; [swoole]);
-      };
       bootstrapPath = cfg.home + "/bootstrap";
       storagePath = cfg.home + "/storage";
     in {
@@ -176,5 +180,5 @@ in {
       ++ [
         "f ${cfg.home}/storage/logs/laravel.log 0750 ${cfg.user} ${cfg.group} - -"
       ];
-  };
+  });
 }
