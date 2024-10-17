@@ -82,7 +82,7 @@ in {
         pkgs.writeShellApplication {
           name = "twasgood";
           text = ''
-            LARAVEL_BOOTSTRAP_PATH=${cfg.bootstrapPath} LARAVEL_STORAGE_PATH=${cfg.storagePath} ${php}/bin/php ${cfg.package}/artisan $@
+            LARAVEL_BOOTSTRAP_PATH=${cfg.bootstrapPath} LARAVEL_STORAGE_PATH=${cfg.storagePath} ${phpPackage}/bin/php ${cfg.package}/artisan $@
           '';
         }
       )
