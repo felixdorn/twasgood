@@ -38,4 +38,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'imgproxy' => [
+        'endpoint' => env('IMGPROXY_ENDPOINT', 'http://localhost:8080'),
+        'key' => '',
+        'salt' => '',
+        'key_file' => env('IMGPROXY_KEY_FILE', ''),
+        'salt_file' => env('IMGPROXY_SALT_FILE', ''),
+    ]
 ];

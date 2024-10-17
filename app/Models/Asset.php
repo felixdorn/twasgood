@@ -20,13 +20,13 @@ class Asset extends Model
     private function imgproxyUrl(string $processingOptions): string
     {
         $processingOptions = trim($processingOptions, '/');
-        $keyBin = pack('H*', trim(config('imgproxy.key')));
-        $saltBin = pack('H*', trim(config('imgproxy.salt')));
+        $keyBin = pack('H*', trim(config('services.imgproxy.key')));
+        $saltBin = pack('H*', trim(config('services.imgproxy.salt')));
 
         $path = sprintf('/%s/plain/s3://%s/%s', $processingOptions, config('filesystems.disks.s3.bucket'), $this->path);
         $signature = rtrim(strtr(base64_encode(hash_hmac('sha256', $saltBin.$path, $keyBin, true)), '+/', '-_'), '=');
 
-        return sprintf('%s/%s%s', config('imgproxy.endpoint'), $signature, $path);
+        return sprintf('%s/%s%s', config('services.imgproxy.endpoint'), $signature, $path);
     }
 
     public function url(): Attribute

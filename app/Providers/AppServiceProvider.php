@@ -26,14 +26,14 @@ class AppServiceProvider extends ServiceProvider
         //Model::shouldBeStrict(!app()->isProduction());
         Model::unguard();
 
-        if (config('imgproxy.key_file')) {
-            $key = trim(file_get_contents(base_path(config('imgproxy.key_file'))));
-            config()->set('imgproxy.key', $key);
+        if (config('services.imgproxy.key_file')) {
+            $key = trim(file_get_contents(base_path(config('services.imgproxy.key_file'))));
+            config()->set('services.imgproxy.key', $key);
         }
 
-        if (config('imgproxy.salt_file')) {
-            $salt = trim(file_get_contents(base_path(config('imgproxy.salt_file'))));
-            config()->set('imgproxy.salt', $salt);
+        if (config('services.imgproxy.salt_file')) {
+            $salt = trim(file_get_contents(base_path(config('services.imgproxy.salt_file'))));
+            config()->set('services.imgproxy.salt', $salt);
         }
 
         Relation::enforceMorphMap([
