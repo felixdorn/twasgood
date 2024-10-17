@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Console;
 
-use App\Enums\ActivationPeriodType;
-use App\Models\ActivationPeriod;
 use App\Models\Article;
 use App\Models\Recipe;
 use App\Models\Section;
@@ -18,7 +16,6 @@ class SectionsController
             'sections' => Section::with([
                 'recipes' => fn ($query) => $query->with('banner'),
             ])->orderBy('order')->get(),
-            'activation_period_types' => ActivationPeriodType::cases(),
         ]);
     }
 
@@ -40,20 +37,12 @@ class SectionsController
 
     public function edit(Section $section)
     {
-        $section->load('recipes', 'activationPeriods', 'article');
+        $section->load('recipes', 'article');
 
         return \inertia('Console/Sections/Edit', [
             'section' => $section,
             'recipes' => Recipe::whereNotIn('id', $section->recipes->pluck('id'))->get(),
             'articles' => Article::where('published_at', '<>', null)->get(),
-            'activation_period_types' => collect(ActivationPeriodType::cases())
-                // remove types that are already in $section->activationPeriods
-                ->filter(fn (ActivationPeriodType $type) => ! $section->activationPeriods->contains('type', $type))
-                ->map(fn (ActivationPeriodType $type) => [
-                    'id' => $type->name,
-                    'name' => $type->value,
-                    'title' => $type->title(),
-                ])->values(),
         ]);
     }
 
@@ -87,39 +76,6 @@ class SectionsController
         foreach ($request->recipes as $index => $recipeId) {
             $section->recipes()->updateExistingPivot($recipeId, ['order' => $index]);
         }
-
-        return back();
-    }
-
-    public function addActivationPeriod(Section $section, ActivationPeriodType $activationPeriodType)
-    {
-        abort_if(match ($activationPeriodType) {
-            ActivationPeriodType::CustomDay, ActivationPeriodType::CustomRange, ActivationPeriodType::SomeSeasons => true,
-            default => false,
-        }, 404);
-
-        $section->activationPeriods()->create([
-            'type' => $activationPeriodType,
-        ]);
-
-        return back();
-    }
-
-    public function addCustomDate(Request $request, Section $section)
-    {
-        $section->activationPeriods()->create([
-            'type' => ActivationPeriodType::CustomDay,
-            'data' => [
-                'date' => $request->date,
-            ],
-        ]);
-
-        return back();
-    }
-
-    public function removeActivationPeriod(ActivationPeriod $activationPeriod)
-    {
-        $activationPeriod->delete();
 
         return back();
     }

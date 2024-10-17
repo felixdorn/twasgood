@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Casts\ComputedCategoryCast;
-use App\Enums\DiagnosisType;
-use App\Models\Concerns\HasDiagnoses;
 use App\Models\Concerns\HasSlugs;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -15,15 +13,12 @@ use Laravel\Scout\Searchable;
 
 class Recipe extends Model
 {
-    use HasDiagnoses;
     use HasSlugs;
     use Searchable;
     use SoftDeletes;
 
     protected $casts = [
         'uses_sterilization' => 'boolean',
-        'computed_categories' => ComputedCategoryCast::class,
-
     ];
 
     public static function emptyWith(string $title): self
@@ -52,8 +47,8 @@ class Recipe extends Model
         static::updating(function (self $recipe) {
             $recipe->publishable = ! $recipe->mustBeDraft();
 
-            // if any field other than published_at or computed_properties is updated, we reset the published_at field
-            if ($recipe->isDirty() && ! $recipe->isDirty('published_at') && ! $recipe->isDirty('computed_categories')) {
+            // if any field other than published_at is updated, we reset the published_at field
+            if ($recipe->isDirty() && ! $recipe->isDirty('published_at')) {
                 $recipe->published_at = null;
             } else {
             }
@@ -79,36 +74,6 @@ class Recipe extends Model
     public function isAttributePlaceholder(string $attribute): bool
     {
         return $this->getAttribute($attribute) === '(vide)';
-    }
-
-    public function diagnose(): static
-    {
-        $group = Tag::where('name', 'recipe_type')->sole();
-        if ($this->tags()->where('group_id', $group->id)->count() === 0 && ! $this->diagnoses()->where('type', DiagnosisType::NoRecipeTypeTag)->exists()) {
-            $this->diagnoses()->create([
-                'type' => DiagnosisType::NoRecipeTypeTag,
-            ]);
-        }
-
-        $group = Tag::where('name', 'seasons')->sole();
-        if ($this->tags()->where('group_id', $group->id)->count() === 1 && ! $this->diagnoses()->where('type', DiagnosisType::InitialMaybeAddSeason)->exists()) {
-            $this->diagnoses()->create([
-                'type' => DiagnosisType::InitialMaybeAddSeason,
-            ]);
-        }
-
-        $group = Tag::where('name', 'hot_cold')->sole();
-
-        if (in_array(
-            $this->category->id,
-            Category::whereIn('name', ['Miam', 'Glou'])->pluck('id')->toArray()
-        ) && $this->tags()->where('group_id', $group->id)->count() === 0 && ! $this->diagnoses()->where('type', DiagnosisType::NoHotColdTag)->exists()) {
-            $this->diagnoses()->create([
-                'type' => DiagnosisType::NoHotColdTag,
-            ]);
-        }
-
-        return $this;
     }
 
     public function tags()

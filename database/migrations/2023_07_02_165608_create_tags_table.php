@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignIdFor(Tag::class, 'group_id')->nullable();
             $table->boolean('phantom')->default(false);
+            $table->boolean('only_one')->default(false);
 
             $table->softDeletes();
             $table->timestamps();

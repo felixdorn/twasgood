@@ -2,9 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\DiagnosisType;
 use App\Models\Category;
-use App\Models\Diagnosis;
 use Felix\Navigation\Item;
 use Felix\Navigation\Navigation;
 use Felix\Navigation\Section;
@@ -36,8 +34,6 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'alert' => $request->session()->get('alert'),
             ],
-
-            'tasks' => fn () => auth()->check() ? $request->user()->tasks()->where('completed_at', null)->orderBy('created_at', 'desc')->get() : [],
 
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
@@ -83,19 +79,7 @@ class HandleInertiaRequests extends Middleware
                         ])
                     )
                 )
-                ->addSection('Outils', function (Section $section) {
-                    $diagnosisCount = Diagnosis::where('resolved_at', null)->where('type', '<>', DiagnosisType::BadAssetAlt->value)->count();
-
-                    return $section
-                        ->add(($diagnosisCount > 0 ? "Diagnostic ({$diagnosisCount})" : 'Diagnostic'), fn (Item $item) => $item
-                            ->route('console.diagnoses.index')
-                            ->activeWhenRouteMatches('console.diagnoses.*')
-                            ->meta([
-                                'icon' => 'clipboard',
-                            ])
-                        );
-                }
-                )->toArray(),
+                ->toArray(),
         ]);
     }
 }

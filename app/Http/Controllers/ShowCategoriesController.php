@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\RecipeComputedCategories;
 use App\Enums\Season;
 use App\Models\Category;
 use App\Models\Recipe;
@@ -16,8 +15,6 @@ class ShowCategoriesController
 
         $start = microtime(true);
 
-        $keys = collect(RecipeComputedCategories::cases())->map(fn ($category) => $category->value)->filter(fn ($key) => $request->has($key))->values()->toArray();
-
         $recipes = Recipe::where('category_id', $category->id)
             ->whereNotNull('published_at')
             ->with([
@@ -25,16 +22,8 @@ class ShowCategoriesController
                 'seasons',
                 'tags',
                 'slug',
-                'banner' => fn ($query) => $query->select(['assets.id', 'thumbnail_path', 'alt']),
-            ])
-            ->where(function ($builder) use ($keys) {
-                foreach (RecipeComputedCategories::cases() as $computedCategory) {
-                    if ($computedCategory->shouldFilter($keys)) {
-                        $builder->whereRaw('computed_categories & ? = ?', [1 << $computedCategory->position(), $computedCategory->shouldHaveIt() ? 1 << $computedCategory->position() : 0]);
-                    }
-                }
-            })
-            ->get(['id', 'title', 'description', 'computed_categories']);
+                'banner' => fn ($query) => $query->select(['assets.id', 'path', 'alt']),
+            ]);
 
         $recipes->each(function ($recipe) use ($orderedSeason) {
             $recipe->seasons = $recipe->seasons->sortBy(fn ($season) => $orderedSeason[Season::tryFrom($season->name)->name]);
@@ -53,15 +42,9 @@ class ShowCategoriesController
 
         $category->load('slug')->setRelation('recipes', $recipes);
 
-        return inertia('Marketing/Category/Show', [
+        return view('categories.show', [
             'category' => $category,
-            'filters' => collect(RecipeComputedCategories::cases())
-                ->filter(fn ($subCategory) => (bool) ($category->computed_available_subcategories->value & 1 << $subCategory->position()))
-                ->map(fn (RecipeComputedCategories $subCategory) => [
-                    'label' => $subCategory->label(),
-                    'value' => $subCategory->value,
-                    'active' => $subCategory->shouldFilter($keys),
-                ]),
+            'filters' => [],
             'duration' => $durationInMilliseconds,
         ]);
     }

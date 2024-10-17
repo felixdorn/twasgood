@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Casts\ComputedCategoryCast;
 use App\Models\Concerns\HasSlugs;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,13 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
+    use HasFactory;
+    use HasSlugs;
+    use SoftDeletes;
     protected static ?self $defaultCategory = null;
-
-    use HasFactory, HasSlugs, SoftDeletes;
-
-    protected $casts = [
-        'computed_available_subcategories' => ComputedCategoryCast::class,
-    ];
 
     protected static function boot()
     {

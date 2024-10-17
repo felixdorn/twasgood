@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->foreignIdFor(Article::class)->nullable()->constrained()->nullOnDelete();
             $table->boolean('force_hide')->default(false);
+            $table->unsignedBigInteger('order')->default(0);
             $table->timestamps();
         });
     }

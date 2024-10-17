@@ -26,7 +26,6 @@ import {
 
 import {MagnifyingGlassIcon} from '@heroicons/vue/20/solid'
 import {Head, Link, router} from "@inertiajs/vue3";
-import Extra from "@/Layouts/Extra.vue";
 import axios from "axios";
 
 const getIcon = (name: string) => {
@@ -188,52 +187,8 @@ const search = (v: string) => {
                             </div>
                         </form>
                     </div>
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <!-- Profile dropdown -->
-                        <Menu as="div" class="relative ml-3">
-                            <div>
-                                <MenuButton
-                                    class="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
-                                    <span class="sr-only">Open user menu</span>
-
-                                    <div
-                                        class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white font-semibold text-xs">
-                                        <span>
-                                            {{ $page.props.auth.user.initials }}
-                                        </span>
-                                    </div>
-                                </MenuButton>
-                            </div>
-                            <transition enter-active-class="transition ease-out duration-100"
-                                        enter-from-class="transform opacity-0 scale-95"
-                                        enter-to-class="transform opacity-100 scale-100"
-                                        leave-active-class="transition ease-in duration-75"
-                                        leave-from-class="transform opacity-100 scale-100"
-                                        leave-to-class="transform opacity-0 scale-95">
-                                <MenuItems
-                                    class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                                        <a :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
-                                           :href="item.href">{{
-                                                item.name
-                                            }}</a>
-                                    </MenuItem>
-                                    <MenuItem v-slot="{ active }">
-                                        <form @submit.prevent="router.post(route('logout'))">
-                                            <button
-                                                :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 text-left w-full']"
-                                                type="submit">
-                                                Déconnexion
-                                            </button>
-                                        </form>
-                                    </MenuItem>
-                                </MenuItems>
-                            </transition>
-                        </Menu>
-                    </div>
                 </div>
             </div>
-
 
             <div class="w-full bg-white px-4 shadow-sm border-t top-16"
                  v-if="searchResults.length || searchQuery.length">
@@ -285,5 +240,4 @@ const search = (v: string) => {
             </main>
         </div>
     </div>
-    <Extra/>
 </template>

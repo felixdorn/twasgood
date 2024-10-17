@@ -85,18 +85,6 @@ export type Category = {
     deleted_at: string | null;
 }
 
-export type Task = {
-    id: number;
-
-    content: string;
-
-    user_id: number;
-
-    completed_at: string | null;
-    created_at: string;
-    updated_at: string;
-}
-
 export type Recipe = {
     id: number;
     category_id: number;
@@ -117,17 +105,6 @@ export type Recipe = {
     deleted_at: string | null;
 }
 
-export type Diagnosis = {
-    id: number;
-    type: string;
-
-    recipe_id: number;
-    subresource_id: number | null;
-
-    ignored_at: string | null;
-    resolved_at: string | null;
-}
-
 export type Section = {
     id: number;
 
@@ -143,9 +120,6 @@ export type Article = {
 
     title: string;
 
-    banner: string | null;
-    banner_thumbnail: string | null;
-    banner_alt: string;
     description: string;
     content: string;
 

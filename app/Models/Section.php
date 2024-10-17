@@ -18,11 +18,6 @@ class Section extends Model
         return $this->belongsToMany(Recipe::class)->withPivot('order')->orderByPivot('order');
     }
 
-    public function activationPeriods()
-    {
-        return $this->hasMany(ActivationPeriod::class);
-    }
-
     public function article()
     {
         return $this->belongsTo(Article::class);

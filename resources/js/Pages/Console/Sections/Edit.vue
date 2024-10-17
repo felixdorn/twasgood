@@ -13,10 +13,9 @@ import draggable from "vuedraggable";
 import Checkbox from "@/Components/Checkbox.vue";
 
 const props = defineProps<{
-    section: Section & { recipes: Recipe[], activation_periods: any[], article: Article },
+    section: Section & { recipes: Recipe[], article: Article },
     recipes: Recipe[],
     articles: Article[]
-    activation_period_types: any[]
 }>()
 
 const form = useForm({
@@ -58,52 +57,6 @@ const detachRecipe = (recipe: Recipe) => router.post(route('console.sections.det
     preserveScroll: true
 })
 
-/*
-
-const add_custom_range = ref(false)
-const add_custom_day = ref(false)
-const add_some_seasons = ref(false)
-
-const removeCustomPeriodForm = () => {
-    add_custom_range.value = false
-    add_custom_day.value = false
-    add_some_seasons.value = false
-}
-const addActivationPeriod = (type) => {
-    if (type.id === 'CustomRange' || type.id === 'CustomDay' || type.id === 'SomeSeasons') {
-        add_custom_range.value = type.id === 'CustomRange'
-        add_custom_day.value = type.id === 'CustomDay'
-        add_some_seasons.value = type.id === 'SomeSeasons'
-        return;
-    }
-
-    router.post(
-        route('console.sections.add-activation-period', {section: props.section.id, activationPeriodType: type.name}),
-        {preserveScroll: true}
-    )
-}
-const removeActivationPeriod = (type) => router.delete(
-    route('console.sections.remove-activation-period', {activationPeriod: type.id}),
-    {preserveScroll: true}
-)
-
-const addCustomPeriodForm = useForm({
-    custom_date: null
-})
-const addCustomPeriod = () => {
-    if (add_custom_day) {
-        router.post(
-            route('console.sections.add-custom-date', {section: props.section.id}),
-            {
-                custom_date: addCustomPeriodForm.custom_date,
-            },
-            {preserveScroll: true}
-        )
-    }
-
-    removeCustomPeriodForm()
-}
-*/
 const addRecipe = (e) => addRecipeForm.post(route('console.sections.attach', {section: props.section.id}), {
     onSuccess: () => {
         e.target.reset()
@@ -267,72 +220,6 @@ const removeAssociatedArticle = () => router.delete(route('console.sections.diss
                 </div>
 
             </div>
-
-            <!--
-            <div class="mt-12 font-medium text-gray-700 flex items-center justify-between">
-                <h2>Période d'activation</h2>
-
-                <Menu as="div" class="relative inline-block text-left">
-                    <div>
-                        <MenuButton
-                            class="inline-flex w-full justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-gray-100">
-                            Ajouter une période
-                            <ChevronDownIcon aria-hidden="true" class="-mr-1 ml-2 h-5 w-5"/>
-                        </MenuButton>
-                    </div>
-
-                    <transition leave-active-class="transition ease-in duration-75"
-                                leave-from-class="transform opacity-100 scale-100"
-                                leave-to-class="transform opacity-0 scale-95">
-                        <MenuItems
-                            class="absolute right-0 z-10 mt-2 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div class="divide-y">
-                                <MenuItem v-for="type in activation_period_types" v-slot="{ active }">
-                                    <button
-                                        :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'first:rounded-t-xl last:rounded-b-xl block w-full px-4 py-2 text-sm text-left whitespace-nowrap']"
-                                        @click="addActivationPeriod(type)">
-                                        {{ type.title }}
-                                    </button>
-                                </MenuItem>
-                            </div>
-                        </MenuItems>
-                    </transition>
-                </Menu>
-            </div>
-
-            <form @submit.prevent="addCustomPeriod" class="mt-4 bg-white border rounded-xl px-6 py-6" v-if="add_custom_day || add_custom_range || add_some_seasons">
-                <div v-if="add_custom_day">
-                    <label for="custom_date" class="text-gray-800">Ajouter une date d'activation</label>
-                    <input type="date" v-model="addCustomPeriodForm.custom_date" name="custom_date" id="custom_date" checked class="mt-2 border-gray-300 rounded-xl w-full focus:ring-1 focus:ring-brand-500 focus:border-brand-500 focus:outline-none" />
-                </div>
-
-                <div class="flex mt-6">
-                    <Button :icon="PlusCircleIcon" >
-                        Ajouter la période
-                    </Button>
-                    <SecondaryButton :icon="XMarkIcon" class="ml-4" @click="removeCustomPeriodForm">
-                        Annuler
-                    </SecondaryButton>
-                </div>
-            </form>
-
-            <div v-if="section.activation_periods.length === 0">
-                <div class="mt-4 bg-white border text-gray-700 py-4 px-6 rounded-xl">
-                    Aucune période d'activation.
-                </div>
-            </div>
-            <div v-else class="mt-8 space-y-2">
-                <div v-for="type in section.activation_periods"
-                     class="bg-white border px-6 py-2 rounded-xl flex items-center justify-between">
-                    <span>{{ type.title }}</span>
-                    <form @submit.prevent="removeActivationPeriod(type)">
-                        <button class="mt-1">
-                            <XMarkIcon class="w-5 h-5 text-gray-400 hover:text-gray-500"/>
-                        </button>
-                    </form>
-                </div>
-            </div>
-    -->
         </div>
     </Connected>
 </template>

@@ -12,9 +12,6 @@ return new class extends Migration
             $table->id();
             $table->string('title');
 
-            $table->string('banner')->nullable();
-            $table->string('banner_thumbnail')->nullable();
-            $table->string('banner_alt');
             $table->string('description');
             $table->text('content');
 

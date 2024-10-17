@@ -3,44 +3,22 @@
 use App\Http\Controllers\Console\ArticlesController;
 use App\Http\Controllers\Console\AssetsController;
 use App\Http\Controllers\Console\CategoriesController;
-use App\Http\Controllers\Console\DiagnosesController;
 use App\Http\Controllers\Console\IngredientsController;
 use App\Http\Controllers\Console\RecipesController;
 use App\Http\Controllers\Console\RecipesPrerequisiteController;
 use App\Http\Controllers\Console\SectionsController;
-use App\Http\Controllers\Console\TasksController;
 use App\Http\Controllers\Console\ToggleTagController;
 use App\Http\Controllers\OrderSectionsController;
 use App\Http\Controllers\ShowCategoriesController;
 use App\Http\Controllers\ShowRecipeController;
 use App\Http\Controllers\ShowWelcomeController;
-use App\Models\Recipe;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', ShowWelcomeController::class)->name('welcome');
-
 Route::get('/categories/{category}', ShowCategoriesController::class)->name('categories.show');
-
 Route::get('/recettes/{recipe}', ShowRecipeController::class)->name('recipes.show');
-
-Route::get('/guides/comment-steriliser-ces-bocaux', function () {
-    return inertia('Marketing/Article/Sterilization');
-})->name('sterilization-warning');
-
-Route::get('/a-propos', function () {
-    return inertia('Marketing/About');
-})->name('about-us');
+Route::view('/guides/comment-steriliser-ses-bocaux', 'articles.sterilization')->name('sterilization-warning');
+Route::view('/a-propos', 'about')->name('about-us');
 
 Route::prefix('/console')->middleware(['auth'])->group(function () {
     Route::redirect('/', '/console/recipes')->name('console.index');
@@ -66,14 +44,6 @@ Route::prefix('/console')->middleware(['auth'])->group(function () {
     // categories
     Route::name('console')->resource('categories', CategoriesController::class)->except(['show', 'delete']);
 
-    // tasks
-    Route::post('/tasks', [TasksController::class, 'store'])->name('console.tasks.store');
-    Route::post('/tasks/{task}/complete', [TasksController::class, 'complete'])->name('console.tasks.complete');
-
-    // diagnoses
-    Route::get('/diagnoses', [DiagnosesController::class, 'index'])->name('console.diagnoses.index');
-    Route::post('/diagnoses/{diagnosis}/complete', [DiagnosesController::class, 'complete'])->name('console.diagnoses.complete');
-
     Route::put('/order-sections', OrderSectionsController::class)->name('console.order-sections');
 
     // sections
@@ -85,9 +55,7 @@ Route::prefix('/console')->middleware(['auth'])->group(function () {
     Route::post('/sections/{section}/attach', [SectionsController::class, 'attach'])->name('console.sections.attach');
     Route::post('/sections/{section}/detach/{recipe}', [SectionsController::class, 'detach'])->name('console.sections.detach');
     Route::post('/sections/{section}/order', [SectionsController::class, 'order'])->name('console.sections.order');
-    Route::post('/sections/{section}/add-activation-period/{activationPeriodType}', [SectionsController::class, 'addActivationPeriod'])->name('console.sections.add-activation-period');
     Route::post('/sections/{section}/add-custom-date', [SectionsController::class, 'addCustomDate'])->name('console.sections.add-custom-date');
-    Route::delete('/sections/remove-activation-period/{activationPeriod}', [SectionsController::class, 'removeActivationPeriod'])->name('console.sections.remove-activation-period');
     Route::post('/sections/{section}/associate-article/{article}', [SectionsController::class, 'associateArticle'])->name('console.sections.associate-article');
     Route::delete('/sections/{section}/dissociate-article', [SectionsController::class, 'dissociateArticle'])->name('console.sections.dissociate-article');
 

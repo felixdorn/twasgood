@@ -19,11 +19,11 @@ class ShowRecipeController
 
         $recipe->setRelation('prerequisites', $prerequisites);
 
-        return inertia('Marketing/Recipe/Show', [
+        return view('recipes.show', [
             'recipe' => $recipe->load([
                 'category',
-                'banner' => fn ($query) => $query->select(['assets.id', 'small_path', 'alt']),
-                'illustrations' => fn ($query) => $query->select(['assets.id', 'small_path', 'alt', 'resource_id', 'resource_type', 'order'])->orderBy('order', 'asc'),
+                'banner' => fn ($query) => $query->select(['assets.id', 'path', 'alt']),
+                'illustrations' => fn ($query) => $query->select(['assets.id', 'path', 'alt', 'resource_id', 'resource_type', 'order'])->orderBy('order', 'asc'),
             ]),
         ]);
     }
