@@ -5,6 +5,13 @@
   ...
 }: let
   cfg = config.services.twasgood;
+
+    mkArtisan = cfg: php: pkgs.writeShellApplication {
+        name = "twasgood";
+        text = ''
+            LARAVEL_BOOTSTRAP_PATH=${cfg.bootstrapPath} LARAVEL_STORAGE_PATH=${cfg.storagePath} ${php}/bin/php ${cfg.package}/artisan $@
+        '';
+    };
 in {
   options.services.twasgood = {
     enable = lib.mkEnableOption "twagood";
@@ -71,6 +78,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    systemPackages =
     users = {
       users = lib.mkIf cfg.createUser {
         twasgood = {
@@ -87,7 +95,7 @@ in {
 
     systemd.services = let
       phpPackage = cfg.phpPackage.buildEnv {
-        extensions = exts: exts.enabled ++ (with exts.all; [swoole gd exif]);
+        extensions = exts: exts.enabled ++ (with exts.all; [swoole]);
       };
       bootstrapPath = cfg.home + "/bootstrap";
       storagePath = cfg.home + "/storage";
