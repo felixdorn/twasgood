@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\ComputedCategoryCast;
 use App\Models\Concerns\HasSlugs;
+use App\Services\TiptapRenderer;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -131,5 +132,12 @@ class Recipe extends Model
     public function publish()
     {
         $this->update(['published_at' => now()]);
+    }
+
+    public function html(): Attribute
+    {
+        return new Attribute(
+            fn () => TiptapRenderer::process($this->content)
+        );
     }
 }

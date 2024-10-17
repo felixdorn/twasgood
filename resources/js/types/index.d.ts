@@ -1,15 +1,11 @@
 export const enum Season {
-    Spring = 'spring',
-    Summer = 'summer',
-    Autumn = 'autumn',
-    Winter = 'winter',
-    All = 'all',
+    Spring = "spring",
+    Summer = "summer",
+    Autumn = "autumn",
+    Winter = "winter",
+    All = "all",
 }
 
-export const
-
-
-    export
 type Prerequisite = {
     id: number;
 
@@ -22,15 +18,15 @@ type Prerequisite = {
 
     recipe_id: number;
 
-    type: 'recipe' | 'ingredient'; // computed-
-    prerequisite_type: 'recipe' | 'ingredient';
+    type: "recipe" | "ingredient"; // computed-
+    prerequisite_type: "recipe" | "ingredient";
     prerequisite_id: number;
 
     created_at: string;
     updated_at: string;
 
     prerequisite: Recipe | Ingredient;
-}
+};
 
 export type Asset = {
     id: number;
@@ -43,7 +39,7 @@ export type Asset = {
 
     created_at: string;
     updated_at: string;
-}
+};
 
 export type Ingredient = {
     id: number;
@@ -57,7 +53,7 @@ export type Ingredient = {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-}
+};
 
 export type Tag = {
     id: number;
@@ -70,7 +66,7 @@ export type Tag = {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-}
+};
 
 export type Category = {
     id: number;
@@ -83,7 +79,7 @@ export type Category = {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
-}
+};
 
 export type Recipe = {
     id: number;
@@ -103,7 +99,7 @@ export type Recipe = {
     updated_at: string;
     published_at: string | null;
     deleted_at: string | null;
-}
+};
 
 export type Section = {
     id: number;
@@ -113,7 +109,7 @@ export type Section = {
     force_hide: boolean;
 
     article_id: number;
-}
+};
 
 export type Article = {
     id: number;
@@ -127,7 +123,7 @@ export type Article = {
     updated_at: string;
     published_at: string | null;
     deleted_at: string | null;
-}
+};
 
 export type Slug = {
     id: number;
@@ -138,9 +134,11 @@ export type Slug = {
 
     created_at: string;
     updated_at: string;
-}
+};
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type PageProps<
+    T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
     auth: {
         user: User;
     };
