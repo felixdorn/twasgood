@@ -18,7 +18,6 @@ import Button from "@/Components/Button.vue";
 import ImageUploader from "@/Components/ImageUploader.vue";
 import RichText from "@/Components/RichText.vue";
 import {debounce} from "@/Components/editor/util";
-import Extra from "@/Layouts/Extra.vue";
 import InlineModal from "@/Components/InlineModal.vue";
 import Textarea from "@/Components/Textarea.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
@@ -174,5 +173,4 @@ const update = async (property: keyof Article, event: InputEvent | any, retries:
             Fermer
         </SecondaryButton>
     </InlineModal>
-    <Extra/>
 </template>

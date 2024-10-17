@@ -41,7 +41,6 @@ import { debounce, throttle } from "@/Components/editor/util";
 import Textarea from "@/Components/Textarea.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import draggable from "vuedraggable";
-import Extra from "@/Layouts/Extra.vue";
 import { useSync, StatusIndicator } from "@/sync";
 
 const props = defineProps<{
@@ -497,5 +496,4 @@ const toggleTag = async (event) => {
             Fermer
         </SecondaryButton>
     </InlineModal>
-    <Extra />
 </template>
