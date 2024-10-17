@@ -9,11 +9,15 @@ use Illuminate\Support\Facades\Storage;
 
 class FixAssets extends Command
 {
-    protected $signature = 'app:fix-assets {path}';
+    protected $signature = 'app:upload-assets {path}';
 
     public function handle(): void
     {
         foreach (Asset::all() as $asset) {
+            if (empty($asset->path)) {
+                continue;
+            }
+
             $base = rtrim($this->argument('path'), '/');
             $fullPath = $base . '/' . $asset->path;
             if (! file_exists($fullPath)) {
