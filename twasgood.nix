@@ -83,7 +83,7 @@ in {
       extensions = exts: exts.enabled ++ (with exts.all; [swoole]);
     };
   in {
-    systemPackages = [
+    environment.systemPackages = [
       (mkArtisan cfg phpPackage)
     ];
     users = {
