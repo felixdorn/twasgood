@@ -21,7 +21,7 @@
             </li>
             @endforeach
             <li class="bg-gray-50 rounded-b-xl px-4 py-2.5 mt-[4px]">
-                <a id="show-all-results" class="hover:underline" href="{{ route('search', ["query" => $query]) }}">
+                <a id="show-all-results" class="underline lg:no-underline lg:hover:underline" href="{{ route('search', ["query" => $query]) }}">
                     Afficher tous les résultats &rarr;
                 </a>
             </li>

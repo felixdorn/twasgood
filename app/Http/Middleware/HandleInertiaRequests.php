@@ -36,16 +36,20 @@ class HandleInertiaRequests extends Middleware
             ],
 
             'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
+                return array_merge((new Ziggy())->toArray(), [
                     'location' => $request->url(),
                 ]);
             },
 
             'categories' => fn () => Category::where('hidden', false)->with(['slug' => fn ($query) => $query->select(['slug', 'slugs.created_at'])])->get(),
 
-            'navigation' => (new Navigation)
-                ->addSection('Contenu', fn (Section $section) => $section
-                    ->add('Articles', fn (Item $item) => $item
+            'navigation' => (new Navigation())
+                ->addSection(
+                    'Contenu',
+                    fn (Section $section) => $section
+                    ->add(
+                        'Articles',
+                        fn (Item $item) => $item
                         ->route('console.articles.index')
                         ->activeWhenRouteMatches('console.articles.*')
                         ->meta([
@@ -58,7 +62,9 @@ class HandleInertiaRequests extends Middleware
                         ->meta([
                             'icon' => 'newspaper',
                         ]))
-                    ->add('Parties', fn (Item $item) => $item
+                    ->add(
+                        'Parties',
+                        fn (Item $item) => $item
                         ->route('console.sections.index')
                         ->activeWhenRouteMatches('console.sections.*')
                         ->meta([
@@ -71,7 +77,9 @@ class HandleInertiaRequests extends Middleware
                         ->meta([
                             'icon' => 'cart',
                         ]))
-                    ->add('Catégories', fn (Item $item) => $item
+                    ->add(
+                        'Catégories',
+                        fn (Item $item) => $item
                         ->route('console.categories.index')
                         ->activeWhenRouteMatches('console.categories.*')
                         ->meta([

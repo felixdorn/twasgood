@@ -3,15 +3,15 @@
         <meta name="description" content="Des recettes et des guides pour réduire son empreinte écologique"/>
     </x-slot:head>
 
-    <div class="mt-8 lg:max-w-7xl mx-auto px-4 lg:px-8 xl:px-0">
+    <div class="mt-4 lg:mt-8 lg:max-w-7xl mx-auto px-4 lg:px-8 xl:px-0">
         <h1 class="text-4xl lg:text-5xl text-emerald-700 font-bold leading-snug">
             Des recettes et des guides pour réduire <br class="hidden lg:block"> son empreinte écologique
         </h1>
 
-        <div class="w-full py-8 space-y-16">
+        <div class="w-full  pt-2 pb-8 lg:py-8 space-y-16">
             @foreach ($sections as $section)
             <section>
-                <h2 class="text-3xl font-semibold">{{ $section->title }}</h2>
+                <h2 class="text-2xl lg:text-3xl font-semibold">{{ $section->title }}</h2>
                 <p class="max-w-[65ch] text-gray-900 text-lg mt-1">{{ $section->description }}</p>
 
                 <ul class="flex space-x-6 mt-4 flex-nowrap overflow-x-scroll overflow-y-visible -mb-1 pb-1">

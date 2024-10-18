@@ -1,4 +1,4 @@
-<x-layouts.default>
+<x-layouts.default title="Chercher des recettes">
     <div class="w-full py-8 max-w-7xl px-8 xl:px-0  mx-auto">
         <h1 class="font-semibold w-fit text-4xl">
             Résultats pour « {{ $query }} »

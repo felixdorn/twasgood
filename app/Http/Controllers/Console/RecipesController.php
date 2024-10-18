@@ -80,7 +80,8 @@ class RecipesController
 
     public function create()
     {
-        return Inertia::modal('Console/Recipe/Create')->baseRoute('console.recipes.index');
+        return view('console.recipes.create');
+        //return Inertia::modal('Console/Recipe/Create')->baseRoute('console.recipes.index');
     }
 
     public function publish(Recipe $recipe)

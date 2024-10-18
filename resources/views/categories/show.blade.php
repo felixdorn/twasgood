@@ -6,7 +6,7 @@
 
         <p v-if="category.description" class="max-w-prose text-lg text-gray-700 mt-3">{{ $category->description }}</p>
 
-        <div class="columns-3 gap-x-8 mt-4">
+        <div class="sm:columns-2 lg:columns-3 gap-x-8 mt-4">
             @foreach ($category->recipes as $recipe)
             <a href="{{ route('recipes.show', $recipe->slug->slug) }}"
                 class="flex flex-col rounded-xl shadow-lg max-w-lg w-full bg-white break-inside-avoid mb-8">
