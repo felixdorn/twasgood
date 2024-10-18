@@ -1,3 +1,4 @@
+@props(['title'])
 <!DOCTYPE html>
 <html lang="fr"
     class="h-full">
@@ -5,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>Faire Plus Acheter Moins</title>
+        <title>{!! $title !!} - Faire + Acheter -</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
