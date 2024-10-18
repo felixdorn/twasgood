@@ -50,10 +50,10 @@ const tabs = [
 
         <Tab :tabs="tabs" class="mt-4 sm:mt-0" />
 
-        <masonry-wall v-if="articles.length > 0" :gap="16" :items="articles" :min-columns="3" class="mt-6 w-full -m-4">
-            <template #default="{ item, index }: { item: Article; index: number }">
+        <div v-if="articles.length > 0" :gap="16" :items="articles" :min-columns="3" class="mt-6 w-full -m-4 gap-x-4">
                 <Link :href="route('console.articles.edit', { article: item.id })"
-                    class="group block border rounded-xl bg-white h-fit">
+                v-for="item in articles"
+                    class="group block border rounded-xl bg-white h-fit break-inside-avoid max-w-lg">
                 <img v-if="
                     item.banner &&
                     item.banner.path !== 'uploads/thumbnails/'
@@ -78,8 +78,7 @@ const tabs = [
                     </p>
                 </div>
                 </Link>
-            </template>
-        </masonry-wall>
+        </div>
         <EmptyState v-else :action-href="route('console.articles.create')" :action-icon="DocumentPlusIcon"
             :icon="DocumentMagnifyingGlassIcon" action-title="Nouveau brouillon" class="text-center mt-6"
             description="Vos articles s'afficheront ici une fois publiées. Commencez par créer un brouillon."

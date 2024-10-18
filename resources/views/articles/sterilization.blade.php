@@ -1,5 +1,5 @@
 <x-layouts.default title="Comment stériliser ses bocaux - Guide">
-    <div class="w-full py-8 container mx-auto mt-6 px-8 lg:px-0">
+    <div class="w-full py-8 max-w-7xl mx-auto mt-6 px-8 lg:px-0">
       <img
           alt="Photo de la fondatrice du site"
           class="rounded-xl w-full h-auto lg:w-[900px] lg:h-[507px] object-top object-cover mx-auto"

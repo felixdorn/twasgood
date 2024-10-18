@@ -1,11 +1,9 @@
-import "./bootstrap";
+import "./../bootstrap";
 import { createApp, DefineComponent, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "./routes.m";
 import { modal } from "momentum-modal";
-import VueClickAwayPlugin from "vue3-click-away";
-import MasonryWall from "@yeger/vue-masonry-wall";
 
 createInertiaApp({
     title: (title) => `${title} - Faire + Acheter -`,
@@ -24,11 +22,7 @@ createInertiaApp({
                     ),
             })
             .use(plugin)
-            .use(ZiggyVue, Ziggy)
-            .use(MasonryWall)
-            .use(VueClickAwayPlugin);
-
-        app.config.globalProperties.$isClient = true;
+            .use(ZiggyVue, Ziggy);
 
         return app.mount(el);
     },

@@ -13,7 +13,7 @@
         <meta content="{{ $recipe->description }}" name="description"/>
     </x-slot:head>
 
-    <div class="w-full pt-8 container px-8 lg:px-0 lg:mx-auto lg:mt-6">
+    <div class="w-full pt-8 max-w-7xl px-8 lg:px-0 lg:mx-auto lg:mt-6">
         <div class="flex flex-col-reverse">
             <h1 class="font-semibold text-3xl lg:text-6xl my-12 text-center">
                 {{ $recipe->title }}
@@ -102,7 +102,7 @@
                     <p>
                         <a href="{{ route('sterilization-warning') }}"
                             class="text-amber-900 font-medium underline text-base lg:text-lg">
-                            En savoir plus sur la stérilisation &rarr;
+                            Comment bien stériliser ses bocaux &rarr;
                         </a>
                     </p>
 

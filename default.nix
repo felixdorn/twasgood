@@ -1,5 +1,5 @@
 {pkgs}: let
-  nodeDeps = (pkgs.callPackage ./npm-nix/default.nix {}).nodeDependencies;
+  nodeDeps = (pkgs.callPackage ./node.nix {}).nodeDependencies;
   composerDeps =
     (import ./composer.nix {
       noDev = true;

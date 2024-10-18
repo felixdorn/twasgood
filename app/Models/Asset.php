@@ -42,4 +42,9 @@ class Asset extends Model
     {
         return $this->imgproxyUrl('width:907/height:507');
     }
+
+    public function pixel(): string
+    {
+        return $this->imgproxyUrl('width:48/height:48');
+    }
 }

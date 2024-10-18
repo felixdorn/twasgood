@@ -37,11 +37,11 @@ const tabs = [IngredientType.Vegan, IngredientType.Vegetarian, IngredientType.Me
         </template>
 
         <Tab :tabs="tabs"/>
-        <masonry-wall v-if="ingredients.length > 0" :gap="16" :items="ingredients" class="mt-2">
-            <template #default="{ item }">
+        <div v-if="ingredients.length > 0" class="mt-2 gap-x-4 columns-1 lg:columns-3 xl:columns-6">
                 <Link
-                    :href="route('console.ingredients.edit', { ingredient: item.id, })"
-                    class="group block border rounded-xl bg-white py-4 px-6"
+                    v-for="item in ingredients"
+                    :href="route('console.ingredients.edit', { ingredient: item.id })"
+                    class="break-inside-avoid group block border rounded-xl bg-white py-4 px-6 mb-4"
                 >
                     <h3 class="md:flex items-center justify-between">
                         <span class="text-lg group-hover:underline">{{ item.name }}</span>
@@ -71,8 +71,8 @@ const tabs = [IngredientType.Vegan, IngredientType.Vegetarian, IngredientType.Me
                         </li>
                     </ul>
                 </Link>
-            </template>
-        </masonry-wall>
+
+        </div>
         <EmptyState
             v-else
             :action-href="route('console.ingredients.create')"

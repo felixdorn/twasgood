@@ -1,15 +1,11 @@
-export const debounce = (cb: () => void, timeout: number) => {
-    if (!window) {
-        return
-    }
-    const timeoutId = window.setTimeout(() => {
-    }, 0);
-    for (let id = timeoutId; id >= 0; id -= 1) {
-        window.clearTimeout(id);
-    }
-
-    setTimeout(cb, timeout);
-};
+export function debounce<T extends Function>(cb: T, wait: number) {
+    let h = 0;
+    let callable = (...args: any) => {
+        clearTimeout(h);
+        h = setTimeout(() => cb(...args), wait);
+    };
+    return <T>(<any>callable);
+}
 
 export const throttle = (cb: () => void, timeout: number) => {
     let lastTime = 0;
@@ -20,4 +16,4 @@ export const throttle = (cb: () => void, timeout: number) => {
             lastTime = now;
         }
     };
-}
+};

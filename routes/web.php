@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\SearchRecipes;
 use App\Http\Controllers\Console\ArticlesController;
 use App\Http\Controllers\Console\AssetsController;
 use App\Http\Controllers\Console\CategoriesController;
@@ -11,14 +12,33 @@ use App\Http\Controllers\Console\ToggleTagController;
 use App\Http\Controllers\OrderSectionsController;
 use App\Http\Controllers\ShowCategoriesController;
 use App\Http\Controllers\ShowRecipeController;
+use App\Http\Controllers\ShowSearchResultsController;
 use App\Http\Controllers\ShowWelcomeController;
+use App\Models\Recipe;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', ShowWelcomeController::class)->name('welcome');
 Route::get('/categories/{category}', ShowCategoriesController::class)->name('categories.show');
 Route::get('/recettes/{recipe}', ShowRecipeController::class)->name('recipes.show');
+Route::get('/search', ShowSearchResultsController::class)->name('search');
 Route::view('/guides/comment-steriliser-ses-bocaux', 'articles.sterilization')->name('sterilization-warning');
 Route::view('/a-propos', 'about')->name('about-us');
+
+Route::prefix('/partials')->group(function () {
+    Route::get('/preview-search-results', function (Request $request) {
+        $request->validate([
+            'query' => ['nullable', 'string', 'max:1024'],
+        ]);
+
+        // DO THE QUERY STRING THING
+        $query = $request->get('query');
+        $recipes = (new SearchRecipes())($query);
+
+        return view('partials.search-results', compact('query', 'recipes'));
+    })->name('partials.preview-search-results');
+});
 
 Route::prefix('/console')->middleware(['auth'])->group(function () {
     Route::redirect('/', '/console/recipes')->name('console.index');

@@ -50,10 +50,10 @@ const tabs = [
 
         <Tab :tabs="tabs" class="mt-4 sm:mt-0" />
 
-        <masonry-wall v-if="recipes.length > 0" :gap="16" :items="recipes" :min-columns="3" class="mt-6 w-full -m-4">
-            <template #default="{ item, index }: { item: Recipe; index: number }">
+        <div v-if="recipes.length > 0" :gap="16" :items="recipes" :min-columns="3" class="mt-6 w-full -m-4 columns-3 xl:columns-4 gap-x-4">
                 <Link :href="route('console.recipes.edit', { recipe: item.id })"
-                    class="group block border rounded-xl bg-white h-fit">
+                v-for="item in recipes"
+                    class="group block border rounded-xl bg-white h-fit break-inside-avoid mb-4">
                 <img v-if="item.banner?.url" loading="lazy" :src="item.banner.url" class="rounded-t-xl" height="507"
                     width="907" />
                 <div v-else
@@ -76,8 +76,7 @@ const tabs = [
                     </p>
                 </div>
                 </Link>
-            </template>
-        </masonry-wall>
+        </div>
         <EmptyState v-else :action-href="route('console.recipes.create')" :action-icon="DocumentPlusIcon"
             :icon="DocumentMagnifyingGlassIcon" action-title="Nouveau brouillon" class="text-center mt-6"
             description="Vos recettes s'afficheront ici une fois publiées. Commencez par créer un brouillon."
