@@ -10,29 +10,27 @@ use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Enum;
 
-use function inertia;
-
 class IngredientsController
 {
     public function index(Request $request)
     {
         $request->validate([
-            'active' => ['nullable', new Enum(IngredientType::class)],
+            'state' => ['nullable', new Enum(IngredientType::class)],
         ]);
-        $active = $request->get('active') ?? IngredientType::Vegan;
+        $state = $request->get('state') ?? IngredientType::Vegan->value;
 
-        return inertia('Console/Ingredient/Index', [
+        return view('backend.ingredients.index', [
+            'state' => $state,
             'ingredients' => Ingredient::query()
-                ->where('type', $active)
+                ->where('type', $state)
                 ->latest('updated_at')
                 ->get(),
-            'active_tab' => $active,
         ]);
     }
 
     public function edit(Ingredient $ingredient)
     {
-        return inertia('Console/Ingredient/Edit', [
+        return view('backend.ingredients.edit', [
             'ingredient' => $ingredient->load([
                 'prerequisites' => fn ($query) => $query->with([
                     'recipe' => fn ($query) => $query->select(['id', 'title']),
@@ -45,21 +43,27 @@ class IngredientsController
 
     public function store(StoreIngredientRequest $request)
     {
-        $ingredient = Ingredient::create($request->validated());
+        $ingredient = Ingredient::create(array_merge($request->validated(), [
+            'contains_gluten' => $request->get('contains_gluten') === 'on',
+            'contains_dairy' => $request->get('contains_dairy') === 'on'
+        ]));
 
-        return to_route('console.ingredients.index', ['active' => $ingredient->type->value]);
+        return to_route('console.ingredients.index', ['state' => $ingredient->type->value]);
     }
 
     public function create()
     {
-        return inertia('Console/Ingredient/Create');
+        return view('backend.ingredients.create');
     }
 
     public function update(UpdateIngredientRequest $request, Ingredient $ingredient)
     {
-        $ingredient->update($request->validated());
+        $ingredient->update(array_merge($request->validated(), [
+            'contains_gluten' => $request->get('contains_gluten') === 'on',
+            'contains_dairy' => $request->get('contains_dairy') === 'on'
+        ]));
 
-        return to_route('console.ingredients.index', ['active' => $ingredient->type->value]);
+        return to_route('console.ingredients.index', ['state' => $ingredient->type->value]);
     }
 
     public function transfer(Request $request, Ingredient $ingredient)
@@ -83,6 +87,13 @@ class IngredientsController
 
         $ingredient->delete();
 
-        return to_route('console.ingredients.index', ['active' => $ingredient->type->value]);
+        return to_route('console.ingredients.index', ['state' => $ingredient->type->value]);
+    }
+
+    public function destroy(Ingredient $ingredient)
+    {
+        $ingredient->delete();
+
+        return route('console.ingredients.index', ['state' => $ingredient->type->value]);
     }
 }

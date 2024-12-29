@@ -32,7 +32,7 @@ class ShowCategoriesController
                 $recipe->closest_season = Season::tryFrom($recipe->seasons->first()->name)->name;
             } catch (\Throwable $th) {
                 report($th);
-                // todo: do not allow recipes without a seasonx
+                // todo: do not allow recipes without a season
                 $recipe->closest_season = Season::All->name;
             }
         });
@@ -43,7 +43,7 @@ class ShowCategoriesController
 
         $category->load('slug')->setRelation('recipes', $recipes);
 
-        return view('categories.show', [
+        return view('frontend.categories.show', [
             'category' => $category,
             'duration' => $durationInMilliseconds,
         ]);

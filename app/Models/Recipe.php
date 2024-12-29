@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use App\Casts\ComputedCategoryCast;
 use App\Models\Concerns\HasSlugs;
 use App\Services\TiptapRenderer;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -43,7 +45,7 @@ class Recipe extends Model
         ];
     }
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::updating(function (self $recipe) {
             $recipe->publishable = ! $recipe->mustBeDraft();
@@ -77,7 +79,7 @@ class Recipe extends Model
         return $this->getAttribute($attribute) === '(vide)';
     }
 
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
@@ -94,22 +96,22 @@ class Recipe extends Model
         });
     }
 
-    public function seasons()
+    public function seasons(): BelongsToMany
     {
         return $this->tags()->where('group_id', Tag::where('name', 'seasons')->sole()->id);
     }
 
-    public function banner()
+    public function banner(): HasOneThrough
     {
         return $this->hasOneThrough(Asset::class, Recipe::class, 'id', 'resource_id', 'id')->where('group', 'banner:unique')->where('resource_type', 'recipe');
     }
 
-    public function illustrations()
+    public function illustrations(): MorphMany
     {
         return $this->assets()->where('group', 'illustrations')->orderBy('order');
     }
 
-    public function assets()
+    public function assets(): MorphMany
     {
         return $this->morphMany(Asset::class, 'resource');
     }
@@ -119,17 +121,17 @@ class Recipe extends Model
         return $this->hasMany(Prerequisite::class);
     }
 
-    public function slugs()
+    public function slugs(): MorphMany
     {
         return $this->morphMany(Slug::class, 'sluggable');
     }
 
-    public function types()
+    public function types(): BelongsToMany
     {
         return $this->tags()->where('group_id', Tag::where('name', 'recipe_type')->sole()->id);
     }
 
-    public function publish()
+    public function publish(): void
     {
         $this->update(['published_at' => now()]);
     }

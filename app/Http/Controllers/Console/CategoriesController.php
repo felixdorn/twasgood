@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Console;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
-use DB;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CategoriesController
 {
     public function index()
     {
-        return inertia('Console/Category/Index', [
+        return view('backend.categories.index', [
             'categories' => Category::query()
-                ->addSelect(['id', 'name', DB::raw("(CASE WHEN name <> 'Sans catégorie' THEN true ELSE false END) as deletable")])
-                ->orderBy('updated_at', 'desc')
+                ->addSelect(['id', 'name'])
                 ->withCount('recipes')
+                ->orderBy('updated_at', 'desc')
                 ->get(),
         ]);
     }
@@ -29,20 +29,31 @@ class CategoriesController
 
     public function create()
     {
-        return Inertia::modal('Console/Category/Create')->baseRoute('console.categories.index');
+        return view('backend.categories.create');
     }
 
     public function edit(Category $category)
     {
-        return Inertia::modal('Console/Category/Edit', [
+        return view('backend.categories.edit', [
             'category' => $category->load('slugs'),
-        ])->baseRoute('console.categories.index');
+        ]);
     }
 
-    public function update(StoreCategoryRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
-        $category->update($request->validated());
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+        ]);
 
-        return to_route('console.categories.index');
+        $category->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'subtitle' => $request->subtitle,
+            'hidden' => $request->get('hidden', false) === 'on'
+        ]);
+
+        return back();
     }
 }

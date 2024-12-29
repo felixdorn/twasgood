@@ -32,7 +32,7 @@ class SectionsController
 
     public function create()
     {
-        return Inertia::modal('Console/Sections/Create')->baseRoute('console.sections.index');
+        return view('backend.sections.create');
     }
 
     public function edit(Section $section)

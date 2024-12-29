@@ -17,7 +17,7 @@ class ArticlesController
 
         $state = $request->get('state', 'published');
 
-        return inertia('Console/Article/Index', [
+        return view('backend.articles.index', [
             'articles' => Article::query()
                 ->with('banner')
                 ->when($state === 'unpublished', fn ($query) => $query->where('published_at', null))
@@ -33,7 +33,7 @@ class ArticlesController
 
     public function create()
     {
-        return Inertia::modal('Console/Article/Create')->baseRoute('console.articles.index');
+        return view('backend.articles.create');
     }
 
     public function store(Request $request)
@@ -47,7 +47,9 @@ class ArticlesController
         return to_route('console.articles.edit', $article);
     }
 
-    public function show(Article $article) {}
+    public function show(Article $article)
+    {
+    }
 
     public function edit(Article $article)
     {

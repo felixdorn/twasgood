@@ -13,8 +13,6 @@ class StoreIngredientRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', 'unique:ingredients,name'],
             'type' => ['required', (new Enum(IngredientType::class))],
-            'contains_gluten' => ['boolean'],
-            'contains_dairy' => ['boolean'],
         ];
     }
 }

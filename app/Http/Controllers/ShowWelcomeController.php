@@ -16,7 +16,7 @@ class ShowWelcomeController
             ->orderBy('order')
             ->get();
 
-        return view('welcome', [
+        return view('frontend.welcome', [
             'sections' => $sections,
         ]);
     }

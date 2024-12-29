@@ -56,16 +56,6 @@ class AppServiceProvider extends ServiceProvider
 
         ]);
 
-        Facades\View::composer('*', function (View $view) {
-            $view->with(
-                'categories',
-                Category::query()
-                    ->where('hidden', false)
-                    ->with(['slug' => fn ($query) => $query->select(['slug', 'slugs.created_at'])])
-                    ->get()
-            );
-        });
-
         app()->setLocale('fr');
     }
 }

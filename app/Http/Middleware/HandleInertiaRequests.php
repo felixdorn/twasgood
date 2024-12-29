@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
                 ]);
             },
 
-            'categories' => fn () => Category::where('hidden', false)->with(['slug' => fn ($query) => $query->select(['slug', 'slugs.created_at'])])->get(),
+            'categories' => fn () => Category::where('hidden', false)->with('slug')->get(),
 
             'navigation' => (new Navigation())
                 ->addSection(

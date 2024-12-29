@@ -8,20 +8,30 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\Tag;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
-class RecipesController
+class RecipesController implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('novue', only: ['index', 'create', 'delete'])
+        ];
+    }
+
     public function index(Request $request)
     {
         abort_unless(in_array($request->state, [null, 'published', 'unpublished']), 404);
 
         $state = $request->get('state', 'published');
 
-        return inertia('Console/Recipe/Index', [
+        return view('backend.recipes.index', [
             'recipes' => Recipe::query()
                 ->with('banner')
                 ->when($state === 'unpublished', fn ($query) => $query->where('published_at', null))
@@ -80,8 +90,7 @@ class RecipesController
 
     public function create()
     {
-        return view('console.recipes.create');
-        //return Inertia::modal('Console/Recipe/Create')->baseRoute('console.recipes.index');
+        return view('backend.recipes.create');
     }
 
     public function publish(Recipe $recipe)
@@ -97,8 +106,23 @@ class RecipesController
         return to_route('console.recipes.index', ['state' => 'published']);
     }
 
-    public function redirectToIndex(Model $model)
+    public function delete(Recipe $recipe)
     {
-        return to_route('console.recipes.index', ['state' => $model->state]);
+        return view('backend.recipes.delete', ['recipe' => $recipe]);
+    }
+
+    public function destroy(Request $request, Recipe $recipe)
+    {
+        $request->validate([
+            'title' => ['required', 'string']
+        ]);
+
+        if (Str::slug($request->title) !== Str::slug($recipe->title)) {
+            throw ValidationException::withMessages(['title' => 'Le titre de la recette ne correspond pas à celui dans notre base de données.']);
+        }
+
+        $recipe->delete();
+
+        return to_route('console.recipes.index', ['state' => $recipe->state]);
     }
 }
