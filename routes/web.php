@@ -72,9 +72,8 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     Route::post('/sections/{section}/attach', [SectionsController::class, 'attach'])->name('sections.attach');
     Route::post('/sections/{section}/detach/{recipe}', [SectionsController::class, 'detach'])->name('sections.detach');
     Route::post('/sections/{section}/order', [SectionsController::class, 'order'])->name('sections.order');
-    Route::post('/sections/{section}/add-custom-date', [SectionsController::class, 'addCustomDate'])->name('sections.add-custom-date');
-    Route::post('/sections/{section}/associate-article/{article}', [SectionsController::class, 'associateArticle'])->name('sections.associate-article');
-    Route::delete('/sections/{section}/dissociate-article', [SectionsController::class, 'dissociateArticle'])->name('sections.dissociate-article');
+    Route::post('/sections/{section}/toggle', [SectionsController::class, 'toggle'])->name('sections.toggle');
+
 
     // articles
     Route::get('/articles', [ArticlesController::class, 'index'])->name('articles.index');

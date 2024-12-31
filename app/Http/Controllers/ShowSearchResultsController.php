@@ -21,6 +21,6 @@ class ShowSearchResultsController
 
         $recipes = (new SearchRecipes())($query);
 
-        return view('search', compact('query', 'recipes'));
+        return view('frontend.search', compact('query', 'recipes'));
     }
 }

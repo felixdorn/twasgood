@@ -3,7 +3,7 @@ COPY package.json pnpm-lock.yaml /build/
 WORKDIR /build
 RUN npm install -g pnpm@9.15.1 && pnpm install
 COPY . .
-RUN pnpm run build
+RUN rm -rf public/hot && pnpm run build
 
 FROM php:8.3-alpine
 
@@ -17,8 +17,7 @@ COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 WORKDIR  /app
 
-COPY . .
-COPY --from=build /build/public /app/public/
+COPY --from=build /build /app
 
 RUN composer install --no-dev --no-interaction --no-ansi && php artisan octane:install --server=roadrunner
 

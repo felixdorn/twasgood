@@ -15,21 +15,24 @@
                     </svg>
                     <div class="flex flex-col">
                         <div class="flex items-center space-x-2">
-                            <button class="p-1 -m-1 hover:bg-gray-100 group rounded-lg transition">
-                                @if (!$section->force_hide)
-                                    <svg class="size-4 text-brand-600 group-hover:text-brand-700"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M1.2 12a11 11 0 0 1 21.6 0 11 11 0 0 1-21.6 0ZM12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
-                                    </svg>
-                                @else
-                                    <svg class="size-4 text-gray-700 group-hover:text-brand-600"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M4.5 6 1.4 2.7l1.4-1.4 19.8 19.8-1.4 1.4-3.3-3.3A11 11 0 0 1 1.2 12a11 11 0 0 1 3.3-6Zm10.3 10.2-1.5-1.5a3 3 0 0 1-4-4L7.8 9.2a5 5 0 0 0 7 7ZM8 3.8A11 11 0 0 1 22.8 12a11 11 0 0 1-2 4.6L17 12.7l.1-.7a5 5 0 0 0-5.7-5L8 3.9Z" />
-                                    </svg>
-                                @endif
-                            </button>
+                            <form action="{{ route('console.sections.toggle', $section) }}" method="post">
+                                @csrf
+                                <button type="submit" class="p-1 -m-1 hover:bg-gray-100 group rounded-lg transition">
+                                    @if (!$section->force_hide)
+                                        <svg class="size-4 text-brand-600 group-hover:text-brand-700"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M1.2 12a11 11 0 0 1 21.6 0 11 11 0 0 1-21.6 0ZM12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+                                        </svg>
+                                    @else
+                                        <svg class="size-4 text-gray-700 group-hover:text-brand-600"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M4.5 6 1.4 2.7l1.4-1.4 19.8 19.8-1.4 1.4-3.3-3.3A11 11 0 0 1 1.2 12a11 11 0 0 1 3.3-6Zm10.3 10.2-1.5-1.5a3 3 0 0 1-4-4L7.8 9.2a5 5 0 0 0 7 7ZM8 3.8A11 11 0 0 1 22.8 12a11 11 0 0 1-2 4.6L17 12.7l.1-.7a5 5 0 0 0-5.7-5L8 3.9Z" />
+                                        </svg>
+                                    @endif
+                                </button>
+                            </form>
                             <h3
                                 class="text-xl font-bold bg-transparent border-none shadow-none leading-none p-0 rounded-md inline-block">
                                 {{ $section->title }}</h3>
@@ -45,14 +48,21 @@
                                 @foreach ($section->recipes as $recipe)
                                     <li class="w-72 border">
                                         <div class="relative">
-                                            <span
-                                                class="absolute top-0 right-0 bg-white size-8 flex items-center justify-center z-50 block">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                                    class="size-5 text-gray-700" viewBox="0 0 24 24">
-                                                    <path
-                                                        d="m12 10.6 5-5 1.4 1.5-5 4.9 5 5-1.5 1.4-4.9-5-5 5L5.6 17l5-5-5-5L7 5.7l5 5Z" />
-                                                </svg>
-                                            </span>
+                                            <form
+                                                action="{{ route('console.sections.detach', ['section' => $section, 'recipe' => $recipe]) }}"
+                                                method="post">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="absolute
+                                                top-0 right-0 bg-white size-8 flex items-center justify-center z-50
+                                                block">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                        class="size-5 text-gray-700" viewBox="0 0 24 24">
+                                                        <path
+                                                            d="m12 10.6 5-5 1.4 1.5-5 4.9 5 5-1.5 1.4-4.9-5-5 5L5.6 17l5-5-5-5L7 5.7l5 5Z" />
+                                                    </svg>
+                                                </button>
+                                            </form>
 
                                             <img loading="lazy" src="{{ $recipe->banner->small() }}"
                                                 alt="{{ $recipe->banner->alt }}"

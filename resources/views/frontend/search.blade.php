@@ -4,22 +4,22 @@
             Résultats pour « {{ $query }} »
         </h1>
 
-        <div class="columns-3 gap-x-8 mt-4">
-            @foreach ($recipes as $recipe)
-            <a href="{{ route('recipes.show', $recipe->slug->slug) }}"
-                class="flex flex-col rounded-xl shadow-lg max-w-lg w-full bg-white break-inside-avoid mb-8">
-                <img
-                    loading="lazy"
-                    src="{{ $recipe->banner->small() }}"
-                    alt="{{ $recipe->banner->alt }}"
-                    class="w-full rounded-t-xl"
-                />
-                <div class="flex flex-col flex-1 px-6 py-4">
-                    <h2 class="text-xl font-semibold">{{ $recipe->title }}</h2>
-                    <p class="text-gray-500 mt-1">{{ $recipe->description }}</p>
-                </div>
-            </a>
-            @endforeach
-        </div>
+        @if (count($recipes) > 0)
+            <div class="columns-3 gap-x-8 mt-4">
+                @foreach ($recipes as $recipe)
+                    <a href="{{ route('recipes.show', $recipe->slug->slug) }}"
+                        class="flex flex-col rounded-xl shadow-lg max-w-lg w-full bg-white break-inside-avoid mb-8">
+                        <img loading="lazy" src="{{ $recipe->banner->small() }}" alt="{{ $recipe->banner->alt }}"
+                            class="w-full rounded-t-xl" />
+                        <div class="flex flex-col flex-1 px-6 py-4">
+                            <h2 class="text-xl font-semibold">{{ $recipe->title }}</h2>
+                            <p class="text-gray-500 mt-1">{{ $recipe->description }}</p>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <p class="text-lg mt-2.5">Aucun résultat.</p>
+        @endif
     </div>
 </x-frontend-layout>

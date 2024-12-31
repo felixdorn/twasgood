@@ -62,17 +62,6 @@ const sectionRecipes = computed({
     },
 });
 
-const detachRecipe = (recipe: Recipe) =>
-    router.post(
-        route("console.sections.detach", {
-            section: props.section.id,
-            recipe: recipe.id,
-        }),
-        {
-            preserveScroll: true,
-        },
-    );
-
 const addRecipe = (e) =>
     addRecipeForm.post(
         route("console.sections.attach", { section: props.section.id }),
@@ -80,32 +69,6 @@ const addRecipe = (e) =>
             onSuccess: () => {
                 e.target.reset();
             },
-        },
-    );
-const associateArticle = (e) =>
-    router.post(
-        route("console.sections.associate-article", {
-            section: props.section.id,
-            article: associatedArticle.value.id,
-        }),
-        {
-            preserveScroll: true,
-
-            onSuccess: () => {
-                associatedArticle.value = null;
-                e.target.reset();
-            },
-        },
-    );
-const associatedArticle = ref(null);
-
-const removeAssociatedArticle = () =>
-    router.delete(
-        route("console.sections.dissociate-article", {
-            section: props.section.id,
-        }),
-        {
-            preserveScroll: true,
         },
     );
 </script>
@@ -211,8 +174,8 @@ const removeAssociatedArticle = () =>
 
                     <form v-if="articles.length" @submit.prevent="associateArticle">
                         <ModelSearch v-model="associatedArticle" :label="section.article_id
-                                ? `Changer d'article`
-                                : 'Article'
+                            ? `Changer d'article`
+                            : 'Article'
                             " :models="articles" placeholder="5 recettes pleines de fraîcheur" required
                             search-property="title" />
 

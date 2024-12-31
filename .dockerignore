@@ -2,6 +2,7 @@ vendor
 node_modules
 .direnv
 .env
+public/hot
 Dockerfile
 tests
 .git

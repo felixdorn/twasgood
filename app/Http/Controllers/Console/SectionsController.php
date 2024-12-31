@@ -86,15 +86,6 @@ class SectionsController
         return back();
     }
 
-    public function associateArticle(Section $section, Article $article)
-    {
-        $section->update([
-            'article_id' => $article->id,
-        ]);
-
-        return back();
-    }
-
     public function update(Request $request, Section $section)
     {
         $request->validate([
@@ -112,11 +103,9 @@ class SectionsController
         return to_route('console.sections.index');
     }
 
-    public function dissociateArticle(Section $section)
+    public function toggle(Section $section)
     {
-        $section->update([
-            'article_id' => null,
-        ]);
+        $section->update(['force_hide' => !$section->force_hide]);
 
         return back();
     }
