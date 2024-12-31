@@ -34,7 +34,7 @@ defineEmits<{
                         enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
                         leave-to="opacity-0 scale-95">
                         <DialogPanel :class="width ? width : 'max-w-lg'"
-                            class="p-6 w-full text-left align-middle bg-white rounded-2xl shadow-xl transition-all transform">
+                            class="p-6 w-full text-left align-middle bg-white shadow-xl transition-all transform">
                             <div class="flex justify-between items-center">
                                 <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
                                     <slot name="title" />

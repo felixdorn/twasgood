@@ -47,15 +47,6 @@ class HandleInertiaRequests extends Middleware
                 ->addSection(
                     'Contenu',
                     fn (Section $section) => $section
-                    ->add(
-                        'Articles',
-                        fn (Item $item) => $item
-                        ->route('console.articles.index')
-                        ->activeWhenRouteMatches('console.articles.*')
-                        ->meta([
-                            'icon' => 'view-columns',
-                        ])
-                    )
                     ->add('Recettes', fn (Item $item) => $item
                         ->route('console.recipes.index')
                         ->activeWhenRouteMatches('console.recipes.*')

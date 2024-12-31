@@ -93,12 +93,6 @@
                             Parties
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('console.articles.index') }}"
-                            class="text-gray-700 whitespace-nowrap hover:underline focus:underline block text-lg">
-                            Articles
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>

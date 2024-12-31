@@ -266,80 +266,128 @@ const storeNewPrerequisite = async () => {
 };
 </script>
 <template>
-
     <Head :title="recipe.title" />
-    <header :class="status === StatusIndicator.Error
-            ? 'bg-red-100 text-red-700 border-red-100'
-            : 'text-gray-500 border-gray-300'
-        " class="fixed top-0 left-0 z-30 w-full bg-white border-b">
+    <header
+        :class="
+            status === StatusIndicator.Error
+                ? 'bg-red-100 text-red-700 border-red-100'
+                : 'text-gray-500 border-gray-300'
+        "
+        class="fixed top-0 left-0 z-30 w-full bg-white border-b"
+    >
         <div class="flex justify-between items-center py-2 px-6 w-full">
-            <a :href="route('console.recipes.index', {
-                state: recipe.published_at
-                    ? 'published'
-                    : 'unpublished',
-            })
-                ">
+            <a
+                :href="
+                    route('console.recipes.index', {
+                        state: recipe.published_at
+                            ? 'published'
+                            : 'unpublished',
+                    })
+                "
+            >
                 <ArrowLeftIcon class="w-6 h-6" />
             </a>
             <div class="flex space-x-2">
-                <ArrowPathIcon v-if="status === StatusIndicator.Updating"
-                    class="w-6 h-6 text-yellow-500 animate-spin" />
-                <CheckCircleIcon v-else-if="status === StatusIndicator.Updated" class="w-6 h-6 text-green-500" />
+                <ArrowPathIcon
+                    v-if="status === StatusIndicator.Updating"
+                    class="w-6 h-6 text-yellow-500 animate-spin"
+                />
+                <CheckCircleIcon
+                    v-else-if="status === StatusIndicator.Updated"
+                    class="w-6 h-6 text-green-500"
+                />
                 <XMarkIcon v-else class="w-6 h-6 text-red-500" />
-                <h4 class="ml-4 w-full font-bold md:ml-0 md:w-auto font-display">
+                <h4
+                    class="ml-4 w-full font-bold md:ml-0 md:w-auto font-display"
+                >
                     {{ recipe.title }}
                 </h4>
             </div>
 
-            <Button :disabled="!recipe.publishable" @click="router.post(route('console.recipes.publish'))">
+            <Button
+                :disabled="!recipe.publishable"
+                @click="router.post(route('console.recipes.publish'))"
+            >
                 Publier
             </Button>
         </div>
 
-        <div v-if="Object.values(errors).length" class="py-4 px-7 font-bold text-white bg-red-500">
+        <div
+            v-if="Object.values(errors).length"
+            class="py-4 px-7 font-bold text-white bg-red-500"
+        >
             Ce document n'est pas valide: la version à l'écran ne correspond pas
             à celle sauvegardée.
         </div>
 
         <div class="divide-y">
-            <div v-for="(error, n) in Object.values(errors)" class="py-2 px-7 font-semibold text-red-500 bg-white">
+            <div
+                v-for="(error, n) in Object.values(errors)"
+                class="py-2 px-7 font-semibold text-red-500 bg-white"
+            >
                 Erreur #{{ n + 1 }}: {{ error }}
             </div>
         </div>
     </header>
     <div class="px-4 mx-auto mt-20 mb-8 max-w-7xl sm:px-6 lg:px-8">
-        <ImageUploader :error="errors['banner']" :value="recipe.banner?.url"
-            class="bg-gray-50 border border-b-0 h-[36rem]" @input="
+        <ImageUploader
+            :error="errors['banner']"
+            :value="recipe.banner?.url"
+            class="bg-gray-50 border border-b-0 h-[36rem]"
+            @input="
                 sync.syncAsset($event, {
                     group: 'banner:unique',
                     asset: recipe.banner,
                     onSuccess: (asset: Asset) => (props.recipe.banner = asset),
                 })
-                " />
-        <Input :value.="recipe.banner?.alt" class="-mt-0.5 rounded-t-none" first hide-label
-            label="Légende de la bannière" placeholder="Légende de la bannière" required type="text" @input="
+            "
+        />
+        <Input
+            :value.="recipe.banner?.alt"
+            class="-mt-0.5 rounded-t-none"
+            first
+            hide-label
+            label="Légende de la bannière"
+            placeholder="Légende de la bannière"
+            required
+            type="text"
+            @input="
                 sync.syncAsset($event, {
                     group: 'banner:unique',
                     asset: props.recipe.banner,
                 })
-                " />
+            "
+        />
 
-        <input v-model="recipe.title"
+        <input
+            v-model="recipe.title"
             class="mt-4 w-full text-5xl font-bold text-center bg-transparent border-none shadow-none md:mt-5 focus:border-none focus:ring-0 focus:outline-none"
-            placeholder="Titre" required type="text" @input="update('title', $event)" />
+            placeholder="Titre"
+            required
+            type="text"
+            @input="update('title', $event)"
+        />
 
-        <div class="flex flex-col-reverse mt-4 md:grid md:grid-cols-3 md:gap-x-4">
+        <div
+            class="flex flex-col-reverse mt-4 md:grid md:grid-cols-3 md:gap-x-4"
+        >
             <div>
                 <div class="-mt-1">
                     <h4 class="font-bold">Saisons</h4>
                     <ul class="flex flex-wrap gap-y-2 gap-x-4 mt-1">
-                        <li v-for="tag in seasonTags"
+                        <li
+                            v-for="tag in seasonTags"
                             class="inline-flex justify-between items-center py-1 px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-xl cursor-pointer"
-                            @click="toggleTag">
-                            <input :checked="recipe.tags.find((t) => t.id === tag.id)
-                                " :value="tag.id"
+                            @click="toggleTag"
+                        >
+                            <input
+                                :checked="
+                                    recipe.tags.find((t) => t.id === tag.id)
+                                "
+                                :value="tag.id"
                                 class="w-4 h-4 rounded-xl border-gray-300 pointer-events-none text-brand-600 focus:ring-brand-500"
-                                type="checkbox" />
+                                type="checkbox"
+                            />
                             <span class="ml-2 select-none">{{
                                 {
                                     all: "Toutes saisons",
@@ -355,13 +403,19 @@ const storeNewPrerequisite = async () => {
                 <div class="mt-4">
                     <h4 class="font-bold">Tags</h4>
                     <ul class="flex flex-wrap gap-y-2 gap-x-4 mt-1">
-                        <li v-for="tag in typeTags"
+                        <li
+                            v-for="tag in typeTags"
                             class="inline-flex justify-between items-center py-1 px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-xl cursor-pointer"
-                            @click="toggleTag">
-                            <input :checked="recipe.tags.find((t) => t.id === tag.id)
-                                " :value="tag.id"
+                            @click="toggleTag"
+                        >
+                            <input
+                                :checked="
+                                    recipe.tags.find((t) => t.id === tag.id)
+                                "
+                                :value="tag.id"
                                 class="w-4 h-4 rounded-xl border-gray-300 pointer-events-none text-brand-600 focus:ring-brand-500"
-                                type="checkbox" />
+                                type="checkbox"
+                            />
                             <span class="ml-2 select-none">{{ tag.name }}</span>
                         </li>
                     </ul>
@@ -370,45 +424,70 @@ const storeNewPrerequisite = async () => {
                 <section class="mt-4">
                     <header class="flex justify-between">
                         <h5 class="font-semibold">Prérequis</h5>
-                        <button @click="showAddPrerequisisteModal = true" class="underline hover:text-gray-800">
+                        <button
+                            @click="showAddPrerequisisteModal = true"
+                            class="underline hover:text-gray-800"
+                        >
                             Ajouter un prérequis
                         </button>
                     </header>
-                    <draggable v-model="prerequisites" ghost-class="bg-gray-100" item-key="order" tag="ul"
-                        class="mt-1 border divide-y">
+                    <draggable
+                        v-model="prerequisites"
+                        ghost-class="bg-gray-100"
+                        item-key="order"
+                        tag="ul"
+                        class="mt-1 border divide-y"
+                    >
                         <template #item="{ element }">
-                            <li class="flex justify-between py-2.5 px-4 hover:bg-gray-50 cursor-grab" :key="element.id">
+                            <li
+                                class="flex justify-between py-2.5 px-4 hover:bg-gray-50 cursor-grab"
+                                :key="element.id"
+                            >
                                 <div class="w-full">
-                                    <div class="flex justify-between items-center text-lg">
-                                        <component :is="element.type === 'recipe'
-                                                ? Link
-                                                : 'p'
-                                            " :class="{
+                                    <div
+                                        class="flex justify-between items-center text-lg"
+                                    >
+                                        <component
+                                            :is="
+                                                element.type === 'recipe'
+                                                    ? Link
+                                                    : 'p'
+                                            "
+                                            :class="{
                                                 underline:
                                                     element.type === 'recipe',
                                                 'font-bold': true,
-                                            }" :href="element.type === 'recipe'
+                                            }"
+                                            :href="
+                                                element.type === 'recipe'
                                                     ? route(
-                                                        'console.recipes.edit',
-                                                        element.id,
-                                                    )
+                                                          'console.recipes.edit',
+                                                          element.id,
+                                                      )
                                                     : undefined
-                                                " class="font-semibold">
+                                            "
+                                            class="font-semibold"
+                                        >
                                             {{
                                                 element.prerequisite[
-                                                element.type === "recipe"
-                                                    ? "title"
-                                                    : "name"
+                                                    element.type === "recipe"
+                                                        ? "title"
+                                                        : "name"
                                                 ]
                                             }}
 
-                                            <span v-if="element.details" class="font-normal text-gray-700">
+                                            <span
+                                                v-if="element.details"
+                                                class="font-normal text-gray-700"
+                                            >
                                                 {{ " " + element.details }}
                                             </span>
                                         </component>
 
-                                        <div v-if="element.optional"
-                                            class="inline-block mr-0.5 text-base text-gray-500">
+                                        <div
+                                            v-if="element.optional"
+                                            class="inline-block mr-0.5 text-base text-gray-500"
+                                        >
                                             <span>Optionnel</span>
                                         </div>
                                     </div>
@@ -417,13 +496,21 @@ const storeNewPrerequisite = async () => {
                                         {{ element.quantity }}
                                     </p>
                                     <div class="flex mt-1 space-x-4 text-sm">
-                                        <button @click="updatePrerequisite(element)" class="text-gray-500 underline">
+                                        <button
+                                            @click="updatePrerequisite(element)"
+                                            class="text-gray-500 underline"
+                                        >
                                             Éditer
                                         </button>
-                                        <form @submit.prevent="
-                                            removePrerequisite(element)
-                                            ">
-                                            <button class="text-gray-500 underline" type="submit">
+                                        <form
+                                            @submit.prevent="
+                                                removePrerequisite(element)
+                                            "
+                                        >
+                                            <button
+                                                class="text-gray-500 underline"
+                                                type="submit"
+                                            >
                                                 Supprimer
                                             </button>
                                         </form>
@@ -432,59 +519,90 @@ const storeNewPrerequisite = async () => {
                             </li>
                         </template>
                     </draggable>
-                    <div v-if="recipe.prerequisites.length === 0" class="py-4 px-4 border-t">
-                        <span class="text-gray-700">Cette recette n'a pas de prérequis.</span>
+                    <div
+                        v-if="recipe.prerequisites.length === 0"
+                        class="py-4 px-4 border-t"
+                    >
+                        <span class="text-gray-700"
+                            >Cette recette n'a pas de prérequis.</span
+                        >
                     </div>
                 </section>
 
                 <div class="mt-6">
                     <header class="flex justify-between">
                         <h5 class="font-semibold">Illustrations</h5>
-                        <button @click="
-                            sync.createAsset({
-                                group: 'illustrations',
-                                onSuccess: (asset: Asset) =>
-                                    illustrations.push(asset),
-                            })
-                            " class="underline hover:text-gray-800">
+                        <button
+                            @click="
+                                sync.createAsset({
+                                    group: 'illustrations',
+                                    onSuccess: (asset: Asset) =>
+                                        illustrations.push(asset),
+                                })
+                            "
+                            class="underline hover:text-gray-800"
+                        >
                             Ajouter une illustration
                         </button>
                     </header>
-                    <draggable v-model="illustrations" class="mt-2 space-y-4" ghost-class="opacity-50" item-key="order"
-                        tag="ul">
-                        <template #item="{
-                            element,
-                            index,
-                        }: {
-                            element: Asset;
-                            index: number;
-                        }">
+                    <draggable
+                        v-model="illustrations"
+                        class="mt-2 space-y-4"
+                        ghost-class="opacity-50"
+                        item-key="order"
+                        tag="ul"
+                    >
+                        <template
+                            #item="{
+                                element,
+                                index,
+                            }: {
+                                element: Asset;
+                                index: number;
+                            }"
+                        >
                             <li class="relative">
-                                <ImageUploader :value="element.path" height="h-[12rem]"
-                                    class="object-cover object-center w-full bg-gray-50 border" @change="
+                                <ImageUploader
+                                    :value="element.path"
+                                    height="h-[12rem]"
+                                    class="object-cover object-center w-full bg-gray-50 border"
+                                    @change="
                                         sync.syncAsset($event, {
                                             asset: element,
                                             onSuccess: (asset: Asset) =>
                                                 (illustrations[index] = asset),
                                         })
-                                        " />
-                                <Input :label="`Légende de l'image ${index + 1}`"
-                                    :placeholder="`Légende de l'image ${index + 1}`" :value="element.alt"
-                                    class="-mt-0.5 rounded-t-none" first hide-label required type="text" @change="
+                                    "
+                                />
+                                <Input
+                                    :label="`Légende de l'image ${index + 1}`"
+                                    :placeholder="`Légende de l'image ${index + 1}`"
+                                    :value="element.alt"
+                                    class="-mt-0.5 rounded-t-none"
+                                    first
+                                    hide-label
+                                    required
+                                    type="text"
+                                    @change="
                                         sync.syncAsset($event, {
                                             asset: element,
                                             onSuccess: (asset: Asset) =>
                                                 (illustrations[index] = asset),
                                         })
-                                        " />
+                                    "
+                                />
 
-                                <form @submit.prevent="
-                                    sync.removeAsset(element, {
-                                        onSuccess: () =>
-                                            illustrations.splice(index, 1),
-                                    })
-                                    ">
-                                    <button class="absolute top-4 right-4 p-2 text-gray-500 bg-white rounded-xl">
+                                <form
+                                    @submit.prevent="
+                                        sync.removeAsset(element, {
+                                            onSuccess: () =>
+                                                illustrations.splice(index, 1),
+                                        })
+                                    "
+                                >
+                                    <button
+                                        class="absolute top-4 right-4 p-2 text-gray-500 bg-white rounded-xl"
+                                    >
                                         <TrashIcon class="w-4 h-4" />
                                     </button>
                                 </form>
@@ -492,98 +610,186 @@ const storeNewPrerequisite = async () => {
                         </template>
                     </draggable>
                     <div v-if="illustrations.length === 0">
-                        <p class="py-2 px-4 mt-1 text-gray-700 rounded-xl border">
+                        <p
+                            class="py-2 px-4 mt-1 text-gray-700 rounded-xl border"
+                        >
                             Aucune illustration.
                         </p>
                     </div>
                 </div>
 
                 <div class="mt-6">
-                    <ModelSearch first v-model="recipe.category" :models="categories" label="Catégorie"
-                        searchProperty="name" @change="update('category_id', $event.id)" />
+                    <ModelSearch
+                        first
+                        v-model="recipe.category"
+                        :models="categories"
+                        label="Catégorie"
+                        searchProperty="name"
+                        @change="update('category_id', $event.id)"
+                    />
                 </div>
 
                 <div class="space-y-6">
-                    <Input v-model="recipe.short_title" label="Titre court" type="text"
-                        @input="update('short_title', $event)" />
+                    <Input
+                        v-model="recipe.short_title"
+                        label="Titre court"
+                        type="text"
+                        @input="update('short_title', $event)"
+                    />
 
-                    <Textarea v-model="recipe.description" label="Accroche" name="description" @input="
-                        debounce(() => update('description', $event), 200)
-                        " />
+                    <Textarea
+                        v-model="recipe.description"
+                        label="Accroche"
+                        name="description"
+                        @input="update('description', $event)"
+                    />
 
                     <div>
-                        <Checkbox :checked="recipe.uses_sterilization" label="Cet article a une étape de stérilisation"
-                            name="uses_sterilization" @input="
+                        <Checkbox
+                            :checked="recipe.uses_sterilization"
+                            label="Cet recette a une étape de stérilisation"
+                            name="uses_sterilization"
+                            @input="
                                 update(
                                     'uses_sterilization',
                                     $event.target.checked,
                                 )
-                                " />
+                            "
+                        />
                     </div>
                 </div>
                 <div class="mt-6">
-                    <a :href="route('console.recipes.delete', {
-                        recipe: recipe.id,
-                    })
-                        " class="text-gray-700 underline">
+                    <a
+                        :href="
+                            route('console.recipes.delete', {
+                                recipe: recipe.id,
+                            })
+                        "
+                        class="text-gray-700 underline"
+                    >
                         Supprimer
                     </a>
                 </div>
             </div>
             <div class="col-span-2">
                 <header
-                    class="py-3 px-4 bg-gray-50 rounded-xl rounded-b-none border md:flex md:justify-between md:items-center md:py-2">
+                    class="py-3 px-4 bg-gray-50 rounded-xl rounded-b-none border md:flex md:justify-between md:items-center md:py-2"
+                >
                     <h5 class="w-full font-semibold">Préparation</h5>
-                    <Input v-model="recipe.time_to_prepare" class="mt-1 w-full md:mt-0" first hide-label
-                        placeholder="(vide)" @input="update('time_to_prepare', e)" />
+                    <Input
+                        v-model="recipe.time_to_prepare"
+                        class="mt-1 w-full md:mt-0"
+                        first
+                        hide-label
+                        placeholder="(vide)"
+                        @input="update('time_to_prepare', e)"
+                    />
                 </header>
-                <RichText :content="JSON.parse(recipe.content)" :recipes="recipes" buttonsClass="border-b border-x"
-                    class="rounded-xl rounded-t-none border-b border-x" @change="update('content', $event)" />
+                <RichText
+                    :content="JSON.parse(recipe.content)"
+                    :recipes="recipes"
+                    buttonsClass="border-b border-x"
+                    class="rounded-xl rounded-t-none border-b border-x"
+                    @change="update('content', $event)"
+                />
             </div>
         </div>
     </div>
 
-    <InlineModal :show="showAddPrerequisisteModal" @close="showAddPrerequisisteModal = false">
+    <InlineModal
+        :show="showAddPrerequisisteModal"
+        @close="showAddPrerequisisteModal = false"
+    >
         <template #title> Ajouter un prérequis </template>
         <form @submit.prevent="storeNewPrerequisite">
             <div class="flex space-x-4">
                 <div class="flex items-center mt-4">
-                    <input v-model="newPrerequisiteType" id="ingredient" value="ingredient" name="type" type="radio"
-                        class="border-gray-300 checked:bg-brand-600 checked:hover:bg-brand-700 focus:ring-brand-500 focus:checked:bg-brand-600" />
-                    <label for="ingredient" class="block ml-1.5 -mt-px select-none">Ingrédient</label>
+                    <input
+                        v-model="newPrerequisiteType"
+                        id="ingredient"
+                        value="ingredient"
+                        name="type"
+                        type="radio"
+                        class="border-gray-300 checked:bg-brand-600 checked:hover:bg-brand-700 focus:ring-brand-500 focus:checked:bg-brand-600"
+                    />
+                    <label
+                        for="ingredient"
+                        class="block ml-1.5 -mt-px select-none"
+                        >Ingrédient</label
+                    >
                 </div>
                 <div class="flex items-center mt-4">
-                    <input v-model="newPrerequisiteType" id="recipe" value="recipe" name="type" type="radio"
-                        class="border-gray-300 checked:bg-brand-600 checked:hover:bg-brand-700 focus:ring-brand-500 focus:checked:bg-brand-600" />
-                    <label for="recipe" class="block ml-1.5 -mt-px select-none">Recette</label>
+                    <input
+                        v-model="newPrerequisiteType"
+                        id="recipe"
+                        value="recipe"
+                        name="type"
+                        type="radio"
+                        class="border-gray-300 checked:bg-brand-600 checked:hover:bg-brand-700 focus:ring-brand-500 focus:checked:bg-brand-600"
+                    />
+                    <label for="recipe" class="block ml-1.5 -mt-px select-none"
+                        >Recette</label
+                    >
                 </div>
             </div>
             <div v-if="newPrerequisiteType === 'ingredient'">
-                <ModelSearch v-model="selectedPrerequisite" :models="ingredients" label="Ingrédient"
-                    search-property="name" />
+                <ModelSearch
+                    v-model="selectedPrerequisite"
+                    :models="ingredients"
+                    label="Ingrédient"
+                    search-property="name"
+                />
                 <p class="mt-2 text-sm text-gray-700">
                     Vous ne trouvez pas votre ingrédient ?
-                    <a :href="route('console.ingredients.create')" class="underline" target="_blank">
-                        Ajoutez-le</a>.
+                    <a
+                        :href="route('console.ingredients.create')"
+                        class="underline"
+                        target="_blank"
+                    >
+                        Ajoutez-le</a
+                    >.
                 </p>
             </div>
             <div v-else>
-                <ModelSearch v-if="newPrerequisiteType === 'recipe'" v-model="selectedPrerequisite" :models="recipes"
-                    label="Recette" search-property="title" />
+                <ModelSearch
+                    v-if="newPrerequisiteType === 'recipe'"
+                    v-model="selectedPrerequisite"
+                    :models="recipes"
+                    label="Recette"
+                    search-property="title"
+                />
                 <p class="mt-2 text-sm text-gray-700">
                     Vous ne trouvez pas la recette ?
-                    <a :href="route('console.recipes.create')" class="underline" target="_blank">
-                        Ajoutez-la</a>.
+                    <a
+                        :href="route('console.recipes.create')"
+                        class="underline"
+                        target="_blank"
+                    >
+                        Ajoutez-la</a
+                    >.
                 </p>
             </div>
             <div v-if="selectedPrerequisite !== null">
-                <Input v-model="newPrerequisiteForm.details" :required="false" label="Détails" placeholder="(émincé)" />
+                <Input
+                    v-model="newPrerequisiteForm.details"
+                    :required="false"
+                    label="Détails"
+                    placeholder="(émincé)"
+                />
 
-                <Input v-model="newPrerequisiteForm.quantity" label="Quantité" placeholder="1 kilo" />
+                <Input
+                    v-model="newPrerequisiteForm.quantity"
+                    label="Quantité"
+                    placeholder="1 kilo"
+                />
 
                 <div class="mt-6 mb-7">
-                    <Checkbox v-model="newPrerequisiteForm.optional" :checked="newPrerequisiteForm.optional === 1"
-                        label="Le prérequis est optionnel" name="optional" />
+                    <Checkbox
+                        v-model="newPrerequisiteForm.optional"
+                        :checked="newPrerequisiteForm.optional === 1"
+                        label="Le prérequis est optionnel"
+                        name="optional"
+                    />
                 </div>
 
                 <Button class="mt-4" type="submit"> Ajouter </Button>
@@ -591,36 +797,63 @@ const storeNewPrerequisite = async () => {
         </form>
     </InlineModal>
 
-    <InlineModal :show="showPrerequisiteModal" @close="showPrerequisiteModal = false">
+    <InlineModal
+        :show="showPrerequisiteModal"
+        @close="showPrerequisiteModal = false"
+    >
         <template #title>Éditer un prérequis</template>
         <form @submit.prevent="updatePrerequisiteInEdition">
-            <Input v-model="prerequisiteEditForm.details" :required="false" label="Détails" placeholder="Détails" />
+            <Input
+                v-model="prerequisiteEditForm.details"
+                :required="false"
+                label="Détails"
+                placeholder="Détails"
+            />
 
-            <Input v-model="prerequisiteEditForm.quantity" label="Quantité" placeholder="Quantité" required />
+            <Input
+                v-model="prerequisiteEditForm.quantity"
+                label="Quantité"
+                placeholder="Quantité"
+                required
+            />
 
-            <Checkbox :checked="prerequisiteEditForm.optional" label="Optionnel" name="optional"
-                @input="prerequisiteEditForm.optional = $event.target.checked" />
+            <Checkbox
+                :checked="prerequisiteEditForm.optional"
+                label="Optionnel"
+                name="optional"
+                @input="prerequisiteEditForm.optional = $event.target.checked"
+            />
             <p class="pt-4 mt-6 font-semibold border-t text-brand-500">
                 Aperçu
             </p>
 
             <div class="py-2 px-4 mt-1 rounded-xl border">
                 <p class="font-semibold">
-                    <span :class="{
-                        underline: prerequisiteEditForm.type === 'recipe',
-                    }" class="mr-1">{{
+                    <span
+                        :class="{
+                            underline: prerequisiteEditForm.type === 'recipe',
+                        }"
+                        class="mr-1"
+                        >{{
                             prerequisiteEditForm.prerequisite[
-                            prerequisiteEditForm.type === "recipe"
-                                ? "title"
-                                : "name"
+                                prerequisiteEditForm.type === "recipe"
+                                    ? "title"
+                                    : "name"
                             ]
-                        }}</span>
+                        }}</span
+                    >
 
-                    <span v-if="prerequisiteEditForm.details" class="font-normal text-gray-700">
+                    <span
+                        v-if="prerequisiteEditForm.details"
+                        class="font-normal text-gray-700"
+                    >
                         {{ prerequisiteEditForm.details }}
                     </span>
                 </p>
-                <p v-if="prerequisiteEditForm.quantity" class="mt-1 text-gray-700">
+                <p
+                    v-if="prerequisiteEditForm.quantity"
+                    class="mt-1 text-gray-700"
+                >
                     {{ prerequisiteEditForm.quantity }}
                 </p>
             </div>

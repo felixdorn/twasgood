@@ -1,7 +1,6 @@
 <?php
 
 use App\Actions\SearchRecipes;
-use App\Http\Controllers\Console\ArticlesController;
 use App\Http\Controllers\Console\AssetsController;
 use App\Http\Controllers\Console\CategoriesController;
 use App\Http\Controllers\Console\IngredientsController;
@@ -64,20 +63,11 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     Route::put('/order-sections', OrderSectionsController::class)->name('order-sections');
 
     // sections
-    Route::resource('sections', SectionsController::class)->except(['show', 'delete']);
+    Route::resource('sections', SectionsController::class)->except(['show', 'delete', 'edit']);
     Route::post('/sections/{section}/attach', [SectionsController::class, 'attach'])->name('sections.attach');
     Route::post('/sections/{section}/detach/{recipe}', [SectionsController::class, 'detach'])->name('sections.detach');
     Route::post('/sections/{section}/order', [SectionsController::class, 'order'])->name('sections.order');
     Route::post('/sections/{section}/toggle', [SectionsController::class, 'toggle'])->name('sections.toggle');
-
-
-    // articles
-    Route::get('/articles', [ArticlesController::class, 'index'])->name('articles.index');
-    Route::get('/articles/create', [ArticlesController::class, 'create'])->name('articles.create');
-    Route::post('/articles', [ArticlesController::class, 'store'])->name('articles.store');
-    Route::get('/articles/{article}/edit', [ArticlesController::class, 'edit'])->name('articles.edit');
-    Route::patch('/articles/{article}', [ArticlesController::class, 'update'])->name('articles.update');
-    Route::post('/articles/{article}/publish', [ArticlesController::class, 'publish'])->name('articles.publish');
 
     // assets
     Route::post('/assets/upload', [AssetsController::class, 'upload'])->name('assets.upload');

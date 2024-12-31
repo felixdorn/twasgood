@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Console;
 
-use App\Models\Article;
 use App\Models\Recipe;
 use App\Models\Section;
 use Illuminate\Http\Request;
@@ -30,6 +29,7 @@ class SectionsController
             'sections' => Section::with([
                 'recipes' => fn ($query) => $query->with('banner'),
             ])->orderBy('order')->get()->groupBy('force_hide')->sortKeys(),
+            'recipes' => Recipe::whereNotNull('published_at')->get(['id', 'title']),
             'state' => $state,
         ]);
     }
@@ -53,24 +53,15 @@ class SectionsController
         return view('backend.sections.create');
     }
 
-    public function edit(Section $section)
-    {
-        $section->load('recipes', 'article');
-
-        return \inertia('Console/Sections/Edit', [
-            'section' => $section,
-            'recipes' => Recipe::whereNotIn('id', $section->recipes->pluck('id'))->get(),
-            'articles' => Article::where('published_at', '<>', null)->get(),
-        ]);
-    }
-
     public function attach(Request $request, Section $section)
     {
-        $request->validate([
-            'recipe' => ['required', 'exists:recipes,id'],
+        $request->validateWithBag('section-' . $section->id, [
+            'title' => ['required', 'string', 'exists:recipes,title'],
         ]);
 
-        $section->recipes()->attach($request->recipe);
+        $recipe = Recipe::where('title', $request->title)->sole();
+
+        $section->recipes()->attach($recipe);
 
         return back();
     }
@@ -122,7 +113,8 @@ class SectionsController
         return back();
     }
 
-    public function destroy(Section $section) {
+    public function destroy(Section $section)
+    {
         $section->delete();
 
         return back();

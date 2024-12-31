@@ -26,7 +26,7 @@ const value = ref(props.modelValue)
                 :id="name"
                 :aria-label="hideLabel ? label : null"
                 :name="name"
-                class="rounded-xl  focus:ring-brand-500 focus:border-brand-500 block w-full focus:outline-none resize-none sm:text-sm border-gray-300 py-2 border"
+                class="focus:ring-brand-500 focus:border-brand-500 block w-full focus:outline-none resize-none sm:text-sm border-gray-300 py-2 border"
                 v-bind="$attrs"
                 @input="$emit('update:modelValue', $event.target.value); value = $event.target.value"
             >{{ modelValue }}</textarea>

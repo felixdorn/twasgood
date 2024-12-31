@@ -10,7 +10,7 @@ import {
 } from "@heroicons/vue/24/outline";
 import Button from "@/Console/Components/Button.vue";
 import ModelSearch from "@/Console/Components/ModelSearch.vue";
-import { Article, Recipe, Section } from "@/Console/types";
+import { Recipe, Section } from "@/Console/types";
 import { Link, router, useForm } from "@inertiajs/vue3";
 import { PencilIcon } from "@heroicons/vue/24/solid";
 import SecondaryButton from "@/Console/Components/SecondaryButton.vue";
@@ -19,9 +19,8 @@ import draggable from "vuedraggable";
 import Checkbox from "@/Console/Components/Checkbox.vue";
 
 const props = defineProps<{
-    section: Section & { recipes: Recipe[]; article: Article };
+    section: Section & { recipes: Recipe[];};
     recipes: Recipe[];
-    articles: Article[];
 }>();
 
 const form = useForm({
@@ -130,79 +129,6 @@ const addRecipe = (e) =>
                         </li>
                     </template>
                 </draggable>
-            </div>
-
-            <hr class="my-8" />
-
-            <div class="mt-4 text-gray-700">
-                <div>
-                    <h3 class="text-lg font-medium">
-                        {{
-                            section.article_id
-                                ? `Changer l'article associé`
-                                : "Associer un article"
-                        }}
-                        à la section
-                    </h3>
-
-                    <div v-if="section.article_id" class="mt-2">
-                        <h4 class="font-medium">
-                            Article actuellement associé
-                        </h4>
-                        <Link :href="route('console.articles.edit', {
-                            article: section.article_id,
-                        })
-                            " class="flex justify-between items-center mt-2 w-full bg-white rounded-xl border group">
-                        <div class="py-2.5 pl-6">
-                            <span class="text-lg font-bold group-hover:underline">
-                                {{ section.article.title }}
-                            </span>
-
-                            <p class="truncate">
-                                {{ section.article.description }}
-                            </p>
-                        </div>
-
-                        <div class="flex items-center pr-6">
-                            <button class="p-2 -m-2 text-gray-400 rounded-xl hover:bg-gray-50 isolate"
-                                @click.prevent="removeAssociatedArticle">
-                                <XMarkIcon class="w-5 h-5" />
-                            </button>
-                        </div>
-                        </Link>
-                    </div>
-
-                    <form v-if="articles.length" @submit.prevent="associateArticle">
-                        <ModelSearch v-model="associatedArticle" :label="section.article_id
-                            ? `Changer d'article`
-                            : 'Article'
-                            " :models="articles" placeholder="5 recettes pleines de fraîcheur" required
-                            search-property="title" />
-
-                        <Button class="mt-4" type="submit">
-                            Associer l'article
-                        </Button>
-                    </form>
-                    <div v-else class="py-4 px-6 mt-2 bg-white rounded-xl">
-                        <p class="mt-1 text-gray-500">
-                            Il semblerait qu'il n'y ait pas encore d'articles
-                            publiés.<br />
-
-                            <span class="flex mt-2 space-x-4">
-                                <Link :href="route('console.articles.create')" class="underline text-brand-700">Créer un
-                                article
-                                </Link>
-
-                                <Link :href="route('console.articles.index', {
-                                    state: 'unpublished',
-                                })
-                                    " class="text-gray-700 underline">
-                                Voir les articles non publiés
-                                </Link>
-                            </span>
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
     </Connected>

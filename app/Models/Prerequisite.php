@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\PrerequisiteDisplayMode;
 use App\Enums\PrerequisiteType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -20,7 +19,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $order
- * @property-read mixed $display_mode
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $prerequisite
  * @property-read \App\Models\Recipe $recipe
  * @property-read mixed $type
@@ -66,16 +64,5 @@ class Prerequisite extends Pivot
     public function recipe()
     {
         return $this->belongsTo(Recipe::class);
-    }
-
-    public function displayMode(): Attribute
-    {
-        return new Attribute(function () {
-            if (preg_match('/^[1-9][0-9]*$/', $this->quantity)) {
-                return PrerequisiteDisplayMode::QuantityNameThenDetails;
-            }
-
-            return PrerequisiteDisplayMode::NameDetailsThenQuantity;
-        });
     }
 }

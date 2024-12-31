@@ -107,22 +107,6 @@ export type Section = {
     title: string;
     description: string;
     force_hide: boolean;
-
-    article_id: number;
-};
-
-export type Article = {
-    id: number;
-
-    title: string;
-
-    description: string;
-    content: string;
-
-    created_at: string;
-    updated_at: string;
-    published_at: string | null;
-    deleted_at: string | null;
 };
 
 export type Slug = {

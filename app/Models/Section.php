@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $order
- * @property-read \App\Models\Article|null $article
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Recipe> $recipes
  * @property-read int|null $recipes_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section newModelQuery()
@@ -43,10 +42,5 @@ class Section extends Model
     public function recipes()
     {
         return $this->belongsToMany(Recipe::class)->withPivot('order')->orderByPivot('order');
-    }
-
-    public function article()
-    {
-        return $this->belongsTo(Article::class);
     }
 }

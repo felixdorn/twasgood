@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Article;
 use App\Models\Asset;
 use App\Models\Category;
 use App\Models\Ingredient;
@@ -43,7 +42,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Relation::enforceMorphMap([
-            'article' => Article::class,
             'asset' => Asset::class,
             'category' => Category::class,
             'ingredient' => Ingredient::class,

@@ -45,7 +45,7 @@
                             @method('DELETE')
 
                             <button onclick="return confirm('Êtes-vous sûr·e de vouloir supprimer cette partie?')"
-                                class="opacity-0 pointer-events-none group-hover:pointer-events-auto focus:opacity-100 group-hover:opacity-100 transition text-gray-500 hover:text-gray-700 p-1 -mx-1 -mb-0.5 block hover:bg-gray-200 rounded-lg">
+                                class="opacity-0 pointer-events-none group-hover:pointer-events-auto focus:opacity-100 group-hover:opacity-100 transition text-gray-500 hover:text-gray-700 p-1 -mx-1 block -mb-px hover:bg-gray-200 rounded-lg">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="size-4"
                                     viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
@@ -64,7 +64,8 @@
                         </div>
 
                         @if (count($section->recipes) > 0)
-                            <details class="mt-2 group/recipes" @if ($focus === $section->id) open @endif>
+                            <details class="mt-2 group/recipes"
+                                @if ($focus === $section->id) open @else open @endif>
                                 <summary class="list-none">
                                     <span class="group-open/recipes:hidden underline">Afficher les recettes</span>
                                     <span class="hidden group-open/recipes:inline-block underline">Cacher les
@@ -108,6 +109,23 @@
                                         </li>
                                     @endforeach
                                 </ul>
+
+                                <div>
+                                    <h3 class="font-semibold mt-4">Ajouter une recette</h3>
+                                    <form class="max-w-lg mt-1 flex"
+                                        action="{{ route('console.sections.attach', $section) }}" method="post">
+                                        @csrf
+                                        <x-input aria-label="Titre de la recette" first id="title_{{ $recipe->id }}"
+                                            name="title" list="recipes"
+                                            placeholder="Commencez à taper le titre d'une recette..." />
+                                        <x-button class="ml-4">Ajouter</x-button>
+                                    </form>
+                                    @error('title', 'section-' . $section->id)
+                                        <p class="text-red-600 mt-1">
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
+                                </div>
                             </details>
                         @else
                             <div class="text-gray-700 mt-2">
@@ -119,4 +137,10 @@
             @endforeach
         @endforeach
     </div>
+
+    <datalist id="recipes">
+        @foreach ($recipes as $recipe)
+            <option value="{{ $recipe->title }}"></option>
+        @endforeach
+    </datalist>
 </x-backend-layout>
