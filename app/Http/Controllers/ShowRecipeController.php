@@ -19,7 +19,7 @@ class ShowRecipeController
 
         $recipe->setRelation('prerequisites', $prerequisites);
 
-        return view('recipes.show', [
+        return view('frontend.recipes.show', [
             'recipe' => $recipe->load([
                 'category',
                 'banner' => fn ($query) => $query->select(['assets.id', 'path', 'alt']),

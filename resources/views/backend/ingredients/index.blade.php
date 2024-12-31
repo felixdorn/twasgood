@@ -13,38 +13,36 @@
     </x-tabs>
 
     @if (count($ingredients) > 0)
-        <div class="gap-x-4 mt-4 columns-1 lg:columns-3 xl:columns-6">
-            @foreach ($ingredients as $ingredient)
-                <a href="{{ route('console.ingredients.edit', ['ingredient' => $ingredient]) }}"
-                    class="block py-4 px-6 mb-4 bg-white rounded-xl border break-inside-avoid group">
-                    <h3 class="justify-between items-center md:flex">
-                        <span class="text-lg group-hover:underline">{{ $ingredient->name }}</span>
-                        <span class="block text-gray-500 md:inline"> </span>
-                    </h3>
+        <nav class="max-h-screen overflow-y-auto" aria-label="Directory">
+            @foreach ($ingredients as $letter => $group)
+                <div class="relative">
+                    <div
+                        class="sticky top-0 z-50 border-y border-t-gray-100 bg-gray-50 px-3 py-1.5 font-semibold text-gray-900">
+                        <h3>{{ $letter }}</h3>
+                    </div>
+                    <ul role="list" class="divide-y divide-gray-100">
+                        @foreach ($group as $ingredient)
+                            <li>
+                                <a class="w-full flex items-center px-3 py-1.5 hover:bg-gray-50"
+                                    href="{{ route('console.ingredients.edit', ['ingredient' => $ingredient]) }}">
+                                    <span class="underline font-semibold text-gray-900">{{ $ingredient->name }}</span>
 
-                    @if ($ingredient->contains_gluten || $ingredient->contains_dairy)
-                        <ul class="flex mt-1.5 space-x-2">
-                            @if ($ingredient->contains_gluten)
-                                <li>
-                                    <span
-                                        class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-purple-800 bg-purple-100 rounded-full">
-                                        Gluten
-                                    </span>
-                                </li>
-                            @endif
-                            @if ($ingredient->contains_dairy)
-                                <li>
-                                    <span
-                                        class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-pink-800 bg-pink-100 rounded-full">
-                                        Lactose
-                                    </span>
-                                </li>
-                            @endif
-                        </ul>
-                    @endif
-                </a>
+
+                                    @if ($ingredient->contains_gluten)
+                                        <span
+                                            class="ml-2 inline-flex items-center rounded-full bg-lime-100 px-1.5 py-0.5 text-xs font-medium text-lime-700">Gluten</span>
+                                    @endif
+                                    @if ($ingredient->contains_dairy)
+                                        <span
+                                            class="ml-2 inline-flex items-center rounded-full bg-pink-100 px-1.5 py-0.5 text-xs font-medium text-pink-700">Lactose</span>
+                                    @endif
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             @endforeach
-        </div>
+        </nav>
     @else
         <div class="mt-4 bg-white rounded-xl">
             Aucun ingrédient.

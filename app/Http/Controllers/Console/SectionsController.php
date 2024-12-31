@@ -6,16 +6,22 @@ use App\Models\Article;
 use App\Models\Recipe;
 use App\Models\Section;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class SectionsController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return inertia('Console/Sections/Index', [
+        abort_unless(in_array($request->state, [null, 'visible', 'hidden']), 404);
+
+        $state = $request->get('state', 'visible');
+
+        // TODO: Take hidden_at (if null but force_hide is true, set hidden_at to 1900 and update the section)
+
+        return view('backend.sections.index', [
             'sections' => Section::with([
                 'recipes' => fn ($query) => $query->with('banner'),
-            ])->orderBy('order')->get(),
+            ])->orderBy('order')->get()->groupBy('force_hide')->sortKeys(),
+            'state' => $state,
         ]);
     }
 

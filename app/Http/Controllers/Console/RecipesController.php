@@ -16,15 +16,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
-class RecipesController implements HasMiddleware
+class RecipesController
 {
-    public static function middleware(): array
-    {
-        return [
-            new Middleware('novue', only: ['index', 'create', 'delete'])
-        ];
-    }
-
     public function index(Request $request)
     {
         abort_unless(in_array($request->state, [null, 'published', 'unpublished']), 404);
@@ -103,7 +96,7 @@ class RecipesController implements HasMiddleware
 
         $recipe->publish();
 
-        return to_route('console.recipes.index', ['state' => 'published']);
+        return Inertia::location(route('console.recipes.index', ['state' => 'published']));
     }
 
     public function delete(Recipe $recipe)
@@ -123,6 +116,6 @@ class RecipesController implements HasMiddleware
 
         $recipe->delete();
 
-        return to_route('console.recipes.index', ['state' => $recipe->state]);
+        return Inertia::location(route('console.recipes.index', ['state' => $recipe->state]));
     }
 }

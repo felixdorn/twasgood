@@ -26,3 +26,7 @@ yarn-error.log
 .phpactor.json
 .gitignore
 imgproxy.*
+rr
+.rr.yaml
+imgproxy-enc-key
+imgproxy-salt-key

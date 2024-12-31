@@ -79,6 +79,6 @@ class ArticlesController
         $article->published_at = now();
         $article->save();
 
-        return to_route('console.articles.index', ['state' => 'published']);
+        return Inertia::location(route('console.articles.index', ['state' => 'published']));
     }
 }

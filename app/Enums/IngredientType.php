@@ -9,7 +9,8 @@ enum IngredientType: string
     case Vegan = 'vegan';
     case Other = 'other';
 
-    public function label(): string {
+    public function label(): string
+    {
         return match ($this) {
             self::Meat => "Carné",
             self::Vegetarian => "Végétarien",

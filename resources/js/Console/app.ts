@@ -5,7 +5,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "./routes.m";
 
 createInertiaApp({
-    title: (title) => `${title} - Faire + Acheter -`,
+    title: (title) => `${title} - Faire plus, acheter moins.`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,

@@ -23,6 +23,7 @@
         pkgs.nodejs_23
         pkgs.pnpm
         pkgs.meilisearch
+        pkgs.postgresql_16
       ];
     };
   };

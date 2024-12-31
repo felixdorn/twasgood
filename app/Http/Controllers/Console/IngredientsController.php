@@ -23,8 +23,10 @@ class IngredientsController
             'state' => $state,
             'ingredients' => Ingredient::query()
                 ->where('type', $state)
-                ->latest('updated_at')
-                ->get(),
+                ->orderBy('name')
+                ->get()->groupBy(function ($ingredient) {
+                    return $ingredient->name[0];
+                }),
         ]);
     }
 

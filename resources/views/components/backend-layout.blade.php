@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{!! $title !!} - Faire + Acheter -</title>
+    <title>{!! $title !!} - Faire plus, acheter moins.</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -23,7 +23,7 @@
             <div class="flex items-center justify-between max-w-7xl mx-auto relative">
                 <div class="flex items-center space-x-4  w-full lg:border-none border-white/50 ">
                     <a class="font-bold text-emerald-700 hover:underline whitespace-nowrap text-lg" href="/">
-                        <span>Console d'administration</span>
+                        <span>Back-office</span>
                     </a>
                 </div>
                 <ul class="w-full flex flex-row-reverse lg:flex-row lg:justify-end items-center space-x-4 lg:space-x-6">
@@ -106,7 +106,7 @@
 
     <main>
         <div class="py-6 px-4 lg:px-8">
-            <div class="mx-auto {{ $width ?? 'max-w-7xl' }} flex justify-between center">
+            <div class="mx-auto {{ $width ?? 'max-w-7xl' }} flex justify-between items-center">
                 <h1 class="text-2xl font-semibold text-gray-900">
                     {{ $title }}
                 </h1>

@@ -16,7 +16,7 @@
                 <a href="{{ route('console.articles.edit', $article) }}"
                     class="block mb-4 bg-white rounded-xl border group h-fit break-inside-avoid">
                     @if ($article->banner)
-                        <img loading="lazy" src="{{ $recipe->banner->url }}" class="rounded-t-xl" height="507"
+                        <img loading="lazy" src="{{ $article->banner->url }}" class="rounded-t-xl" height="507"
                             width="907" />
                     @else
                         <div
@@ -38,6 +38,10 @@
                     </div>
                 </a>
             @endforeach
+        </div>
+    @else
+        <div class="mt-4 bg-white rounded-xl">
+            Aucun article.
         </div>
     @endif
 </x-backend-layout>

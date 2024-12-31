@@ -20,12 +20,26 @@ trait HasSlugs
         });
     }
 
+    public function shouldGenerateSlug(): bool
+    {
+        return true;
+    }
+
     public function generateSlug(): Slug
     {
+        if (!$this->shouldGenerateSlug()) {
+            return $this->slug;
+        }
+
         $newSlug = Str::slug($this->getSluggableValue());
 
         if ($this->slug && $this->slug->slug === $newSlug) {
             return $this->slug;
+        }
+
+        $alreadyAssignedToRecipe = Slug::where('sluggable_type', $this->getMorphClass())->where('sluggable_id', $this->id)->where('slug', $newSlug)->first();
+        if ($alreadyAssignedToRecipe !== null) {
+            return $alreadyAssignedToRecipe;
         }
 
         return $this->slugs()->create([

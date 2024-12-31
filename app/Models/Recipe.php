@@ -59,6 +59,11 @@ class Recipe extends Model
 
     }
 
+    public function shouldGenerateSlugs(): bool
+    {
+        return ! $this->mustBeDraft();
+    }
+
     public function mustBeDraft(): bool
     {
         if ($this->category_id === Category::default()->id) {

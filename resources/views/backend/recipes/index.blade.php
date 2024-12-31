@@ -11,14 +11,13 @@
             <x-tab-item :active="$state === 'unpublished'" value="unpublished">Brouillons ({{ $unpublished_count }})</x-tab-item>
         </x-tabs>
 
-
         @if (count($recipes) > 0)
             <div class="sm:columns-2 lg:columns-3 xl:columns-4 mt-4">
                 @foreach ($recipes as $recipe)
                     <a href="{{ route('console.recipes.edit', $recipe) }}"
                         class="block mb-4 bg-white rounded-xl border group h-fit break-inside-avoid">
                         @if ($recipe->banner)
-                            <img loading="lazy" src=" $recipe->banner->url" class="rounded-t-xl" height="507"
+                            <img loading="lazy" src="{{ $recipe->banner->url }}" class="rounded-t-xl" height="507"
                                 width="907" />
                         @else
                             <div v-else

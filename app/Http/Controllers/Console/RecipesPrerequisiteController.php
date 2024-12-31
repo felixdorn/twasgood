@@ -36,22 +36,6 @@ class RecipesPrerequisiteController
         return to_route('console.recipes.edit', $recipe->id);
     }
 
-    public function create(Recipe $recipe)
-    {
-        return Inertia::modal('Console/Recipe/Components/CreatePrerequisite', [
-            'recipe' => $recipe,
-            'ingredients' => Ingredient::get(['id', 'name']),
-            'recipes' => Recipe::get(['id', 'title']),
-        ])->baseRoute('console.recipes.edit', $recipe->id);
-    }
-
-    public function edit(Recipe $recipe, Prerequisite $prerequisite)
-    {
-        return Inertia::modal('Console/Recipe/Components/EditPrerequisite', [
-            'prerequisite' => $prerequisite->load('prerequisite'),
-        ])->baseRoute('console.recipes.edit', $recipe->id);
-    }
-
     public function destroy(Prerequisite $prerequisite)
     {
         $prerequisite->delete();
@@ -90,6 +74,6 @@ class RecipesPrerequisiteController
             'optional' => $data['optional'] ?? false,
         ]);
 
-        return to_route('console.recipes.edit', $prerequisite->recipe_id);
+        return $prerequisite->fresh();
     }
 }

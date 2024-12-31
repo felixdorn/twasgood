@@ -31,8 +31,7 @@
                     <div class="flex items-center h-5">
                         <input id="gluten" aria-describedby="gluten-description"
                             class="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
-                            @if ($ingredient->contains_gluten) checked @endif
-                            name="contains_gluten" type="checkbox" />
+                            @if ($ingredient->contains_gluten) checked @endif name="contains_gluten" type="checkbox" />
                     </div>
                     <div class="ml-3">
                         <label class="font-medium text-gray-700 -mt-0.5 block" for="gluten">Contient du gluten</label>
