@@ -30,3 +30,4 @@ rr
 .rr.yaml
 imgproxy-enc-key
 imgproxy-salt-key
+_ide_helper.php

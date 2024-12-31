@@ -13,11 +13,20 @@ class SectionsController
     {
         abort_unless(in_array($request->state, [null, 'visible', 'hidden']), 404);
 
+        $focus = $request->get('focus');
+
+        if (Section::find($focus) === null) {
+            $focus = null;
+        } else {
+            $focus = (int) $focus;
+        }
+
         $state = $request->get('state', 'visible');
 
         // TODO: Take hidden_at (if null but force_hide is true, set hidden_at to 1900 and update the section)
 
         return view('backend.sections.index', [
+            'focus' => $focus,
             'sections' => Section::with([
                 'recipes' => fn ($query) => $query->with('banner'),
             ])->orderBy('order')->get()->groupBy('force_hide')->sortKeys(),
@@ -27,13 +36,16 @@ class SectionsController
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255']
         ]);
 
-        $section = Section::create(['title' => $request->title]);
+        $section = Section::create(array_merge($data, [
+            'force_hide' => true,
+        ]));
 
-        return to_route('console.sections.edit', ['section' => $section->id]);
+        return to_route('console.sections.index', ['focus' => $section->id]);
     }
 
     public function create()
@@ -106,6 +118,12 @@ class SectionsController
     public function toggle(Section $section)
     {
         $section->update(['force_hide' => !$section->force_hide]);
+
+        return back();
+    }
+
+    public function destroy(Section $section) {
+        $section->delete();
 
         return back();
     }

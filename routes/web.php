@@ -64,11 +64,7 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     Route::put('/order-sections', OrderSectionsController::class)->name('order-sections');
 
     // sections
-    Route::get('/sections', [SectionsController::class, 'index'])->name('sections.index');
-    Route::get('/sections/create', [SectionsController::class, 'create'])->name('sections.create');
-    Route::post('/sections', [SectionsController::class, 'store'])->name('sections.store');
-    Route::get('/sections/{section}/edit', [SectionsController::class, 'edit'])->name('sections.edit');
-    Route::post('/sections/{section}', [SectionsController::class, 'update'])->name('sections.update');
+    Route::resource('sections', SectionsController::class)->except(['show', 'delete']);
     Route::post('/sections/{section}/attach', [SectionsController::class, 'attach'])->name('sections.attach');
     Route::post('/sections/{section}/detach/{recipe}', [SectionsController::class, 'detach'])->name('sections.detach');
     Route::post('/sections/{section}/order', [SectionsController::class, 'order'])->name('sections.order');

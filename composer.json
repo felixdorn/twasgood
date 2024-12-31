@@ -21,6 +21,7 @@
         "ueberdosis/tiptap-php": "^1.1"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.4",
         "fakerphp/faker": "^1.9.1",
         "larastan/larastan": "^2.0",
         "laravel/breeze": "^2.3",
