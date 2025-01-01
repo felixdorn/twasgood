@@ -306,7 +306,11 @@ const storeNewPrerequisite = async () => {
 
             <Button
                 :disabled="!recipe.publishable"
-                @click="router.post(route('console.recipes.publish'))"
+                @click="
+                    router.post(
+                        route('console.recipes.publish', { recipe: recipe.id }),
+                    )
+                "
             >
                 Publier
             </Button>
