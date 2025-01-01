@@ -1,4 +1,4 @@
-@props(['section', 'recipe'])
+@props(['section', 'recipe', 'open'])
 <div {{ $attributes->class('flex flex-col py-4 justify-between') }}>
     <div>
         <form class="relative w-fit" action="{{ route('console.sections.update', $section) }}" method="post">
@@ -39,16 +39,17 @@
     </div>
 
     @if (count($section->recipes) > 0)
-        <details class="mt-2 group/recipes">
+        <details class="mt-2 group/recipes"  @if ($open) open @endif>
             <summary class="list-none">
                 <span class="group-open/recipes:hidden underline">Afficher les recettes</span>
                 <span class="hidden group-open/recipes:inline-block underline">
                     Cacher les recettes
                 </span>
             </summary>
-            <ul class="mt-2 grid lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-3 gap-4">
+            <ul class="mt-2 grid lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-3 gap-4" data-sortable
+                data-sortable-href="{{ route('console.sections.order', $section) }}">
                 @foreach ($section->recipes as $recipe)
-                    <li class="w-72 border">
+                    <li class="w-72 border" data-sort-value="{{ $recipe->id }}">
                         <form method="post"
                             action="{{ route('console.sections.detach', ['section' => $section, 'recipe' => $recipe]) }}"
                             class="relative">
@@ -68,8 +69,8 @@
 
                         <h3 class="font-medium truncate p-2 flex">
                             <x-icons.drag class="w-5 h-auto text-gray-700" />
-                            <span class="ml-2">
-                                {{ $recipe->title }}
+                            <span class="ml-2 ">
+                                {{ Str::limit($recipe->title, 32) }}
                             </span>
                         </h3>
                     </li>

@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             config()->set('services.imgproxy.key', $key);
         }
 
-        $saltFile  = config('services.imgproxy.salt_file', null) ;
+        $saltFile = config('services.imgproxy.salt_file', null);
         if (is_string($saltFile)) {
             $salt = file_get_contents(
                 file_exists($saltFile) ? $saltFile : base_path($saltFile)

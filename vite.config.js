@@ -9,7 +9,7 @@ export default defineConfig({
                 "resources/js/app.ts",
                 "resources/js/Console/app.ts",
                 "resources/css/app.css",
-                "resources/js/enhancement/sort.js",
+                "resources/js/pages/section-index.ts",
             ],
             refresh: true,
         }),

@@ -128,7 +128,7 @@ class Recipe extends Model
 
         foreach ($this->attributes as $attribute => $value) {
             // We don't use short title anymore!
-            if ($attribute === "short_title") {
+            if ($attribute === 'short_title') {
                 continue;
             }
 

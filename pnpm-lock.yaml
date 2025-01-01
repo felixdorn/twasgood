@@ -47,9 +47,6 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9
-      htmx.org:
-        specifier: 2.0.4
-        version: 2.0.4
       laravel-vite-plugin:
         specifier: ^0.7.8
         version: 0.7.8(vite@4.5.5)
@@ -774,9 +771,6 @@ packages:
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
-
-  htmx.org@2.0.4:
-    resolution: {integrity: sha512-HLxMCdfXDOJirs3vBZl/ZLoY+c7PfM4Ahr2Ad4YXh6d22T5ltbTXFFkpx9Tgb2vvmWFMbIc3LqN2ToNkZJvyYQ==}
 
   is-binary-path@2.1.0:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
@@ -1980,8 +1974,6 @@ snapshots:
       function-bind: 1.1.2
 
   he@1.2.0: {}
-
-  htmx.org@2.0.4: {}
 
   is-binary-path@2.1.0:
     dependencies:

@@ -12,8 +12,6 @@ class SectionsController
 {
     public function index(Request $request): View
     {
-        abort_unless(in_array($request->state, [null, 'visible', 'hidden']), 404);
-
         $focus = $request->get('focus');
 
         if (Section::find($focus) === null) {
@@ -21,8 +19,6 @@ class SectionsController
         } else {
             $focus = (int) $focus;
         }
-
-        $state = $request->get('state', 'visible');
 
         // TODO: Take hidden_at (if null but force_hide is true, set hidden_at to 1900 and update the section)
         $sections = Section::with(['recipes' => fn ($query) => $query->with('banner')])
@@ -34,7 +30,6 @@ class SectionsController
             'visible_sections' => $sections->where('force_hide', false),
             'hidden_sections' => $sections->where('force_hide', true),
             'recipes' => Recipe::whereNotNull('published_at')->get(['id', 'title']),
-            'state' => $state,
         ]);
     }
 
@@ -67,26 +62,26 @@ class SectionsController
 
         $section->recipes()->attach($recipe);
 
-        return back();
+        return redirect()->route('console.sections.index', ['focus' => $section->id]);
     }
 
     public function detach(Section $section, Recipe $recipe): RedirectResponse
     {
         $section->recipes()->detach($recipe);
 
-        return back();
+        return redirect()->route('console.sections.index', ['focus' => $section->id]);
     }
 
     public function order(Request $request, Section $section): RedirectResponse
     {
         $request->validate([
-            'recipes' => ['required', 'array', 'exists:recipes,id'],
+            'items' => ['required', 'array', 'exists:recipes,id'],
         ]);
 
         // load section's recipes with pivot data
         $section->load('recipes');
 
-        foreach ($request->recipes as $index => $recipeId) {
+        foreach ($request->items as $index => $recipeId) {
             $section->recipes()->updateExistingPivot($recipeId, ['order' => $index]);
         }
 
@@ -95,7 +90,7 @@ class SectionsController
 
     public function update(Request $request, Section $section): RedirectResponse
     {
-        $data = $request->validateWithBag('section-' . $section->id, [
+        $data = $request->validateWithBag('section-'.$section->id, [
             'title' => ['string', 'max:255'],
             'description' => ['string', 'max:255'],
         ]);

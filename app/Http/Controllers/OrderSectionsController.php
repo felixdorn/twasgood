@@ -11,13 +11,13 @@ class OrderSectionsController
     public function __invoke(Request $request)
     {
         $request->validate([
-            'sections' => ['required', 'array', 'exists:recipes,id'],
+            'items' => ['required', 'array', 'exists:sections,id'],
         ]);
 
         DB::transaction(function () use ($request) {
-            Section::whereNotIn('id', $request->sections)->update(['force_hide' => true, 'order' => 0]);
+            Section::whereNotIn('id', $request->items)->update(['force_hide' => true, 'order' => 0]);
 
-            foreach ($request->sections as $index => $sectionId) {
+            foreach ($request->items as $index => $sectionId) {
                 Section::where('id', $sectionId)->sole()->update(['order' => $index + 1]);
             }
         });

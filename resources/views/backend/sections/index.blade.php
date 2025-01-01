@@ -5,16 +5,10 @@
         </a>
     </x-slot:header>
 
-    <x-slot:head>
-        @vite(['resources/js/enhancement/sort.js'])
-    </x-slot:head>
-
     <h2 class="text-xl mt-6">Visibles sur la page d'acceuil</h2>
-    <div class="sortable mt-2">
+    <div class="mt-2" data-sortable data-sortable-href="{{ route('console.order-sections') }}">
         @foreach ($visible_sections as $section)
-            <section class="even:bg-gray-50 first:border-t border-b group">
-                <input type="hidden" name="sections[]" value="{{ $section->id }}" />
-
+            <section class="even:bg-gray-50 first:border-t border-b group" data-sort-value="{{ $section->id }}">
                 <div class="flex">
                     <div class="flex flex-col items-center justify-between border-r border-gray-100 py-4 px-2">
                         <div class="flex flex-col items-center">
@@ -60,4 +54,5 @@
             <option value="{{ $recipe->title }}"></option>
         @endforeach
     </datalist>
+    @vite(['resources/js/pages/section-index.ts'])
 </x-backend-layout>
