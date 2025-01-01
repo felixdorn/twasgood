@@ -19,7 +19,6 @@
         "@vitejs/plugin-vue": "^4.6.2",
         "autoprefixer": "^10.4.20",
         "axios": "^1.7.9",
-        "htmx.org": "2.0.4",
         "laravel-vite-plugin": "^0.7.8",
         "postcss": "^8.4.49",
         "sortablejs": "^1.15.6",
