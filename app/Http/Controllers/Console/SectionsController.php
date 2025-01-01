@@ -62,14 +62,15 @@ class SectionsController
 
         $section->recipes()->attach($recipe);
 
-        return redirect()->route('console.sections.index', ['focus' => $section->id]);
+        return to_route('console.sections.index', ['focus' => $section->id]);
     }
 
     public function detach(Section $section, Recipe $recipe): RedirectResponse
     {
         $section->recipes()->detach($recipe);
 
-        return redirect()->route('console.sections.index', ['focus' => $section->id]);
+        # TODO: We should move this to flash, and use back() instead of to_route('...') for the others.
+        return to_route('console.sections.index', ['focus' => $section->id]);
     }
 
     public function order(Request $request, Section $section): RedirectResponse
@@ -85,7 +86,7 @@ class SectionsController
             $section->recipes()->updateExistingPivot($recipeId, ['order' => $index]);
         }
 
-        return back();
+        return response(201);
     }
 
     public function update(Request $request, Section $section): RedirectResponse
@@ -97,20 +98,20 @@ class SectionsController
 
         $section->update($data);
 
-        return back();
+        return to_route('console.sections.index');
     }
 
     public function toggle(Section $section): RedirectResponse
     {
         $section->update(['force_hide' => ! $section->force_hide]);
 
-        return back();
+        return to_route('console.sections.index');
     }
 
     public function destroy(Section $section): RedirectResponse
     {
         $section->delete();
 
-        return back();
+        return to_route('console.sections.index');
     }
 }
