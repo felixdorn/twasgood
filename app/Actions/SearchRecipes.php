@@ -17,11 +17,11 @@ class SearchRecipes
         $recipes = Recipe::search($query)
             ->query(
                 fn (Builder $builder) => $builder
-                ->with([
-                    'slug',
-                    'banner' => fn ($builder) => $builder->select('path', 'alt')
-                ])
-                ->select('id', 'title', 'description')
+                    ->with([
+                        'slug',
+                        'banner' => fn ($builder) => $builder->select('path', 'alt'),
+                    ])
+                    ->select('id', 'title', 'description')
             )
             ->take($limit)->get();
 

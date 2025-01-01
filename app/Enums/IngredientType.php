@@ -12,10 +12,10 @@ enum IngredientType: string
     public function label(): string
     {
         return match ($this) {
-            self::Meat => "Carné",
-            self::Vegetarian => "Végétarien",
-            self::Vegan => "Végétal",
-            self::Other => "Autre"
+            self::Meat => 'Carné',
+            self::Vegetarian => 'Végétarien',
+            self::Vegan => 'Végétal',
+            self::Other => 'Autre'
         };
     }
 }

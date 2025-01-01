@@ -14,9 +14,9 @@ class FrontendLayout extends Component
     public function __construct()
     {
         $this->categories = Category::query()
-                    ->where('hidden', false)
-                    ->with(['slug'])
-                    ->get();
+            ->where('hidden', false)
+            ->with(['slug'])
+            ->get();
     }
 
     public function render(): View|Closure|string

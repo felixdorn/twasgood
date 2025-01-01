@@ -9,10 +9,7 @@ use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
@@ -107,7 +104,7 @@ class RecipesController
     public function destroy(Request $request, Recipe $recipe)
     {
         $request->validate([
-            'title' => ['required', 'string']
+            'title' => ['required', 'string'],
         ]);
 
         if (Str::slug($request->title) !== Str::slug($recipe->title)) {

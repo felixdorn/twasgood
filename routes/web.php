@@ -31,7 +31,7 @@ Route::prefix('/partials')->group(function () {
 
         // DO THE QUERY STRING THING
         $query = $request->get('query');
-        $recipes = (new SearchRecipes())($query);
+        $recipes = (new SearchRecipes)($query);
 
         return view('partials.search-results', compact('query', 'recipes'));
     })->name('partials.preview-search-results');
@@ -75,7 +75,7 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     Route::delete('/assets/{asset}', [AssetsController::class, 'destroy'])->name('assets.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 // legacy routes
 Route::get('/categories-{category}', function ($category) {

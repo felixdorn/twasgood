@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sections', function (Blueprint $table) {
-                $table->dateTimeTz('hidden_at')->nullable();
+            $table->dateTimeTz('hidden_at')->nullable();
         });
     }
 

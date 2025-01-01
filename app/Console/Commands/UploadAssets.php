@@ -19,12 +19,12 @@ class UploadAssets extends Command
             }
 
             $base = rtrim($this->argument('path'), '/');
-            $fullPath = $base . '/' . $asset->path;
+            $fullPath = $base.'/'.$asset->path;
             if (! file_exists($fullPath)) {
-                $this->warn('Not found: ' . $fullPath);
+                $this->warn('Not found: '.$fullPath);
+
                 continue;
             }
-
 
             $name = Storage::disk('s3')->putFile('', new File($fullPath));
             $asset->update(['path' => $name]);

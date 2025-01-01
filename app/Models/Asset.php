@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
  * @property int $id
  * @property string|null $path
  * @property string|null $alt
@@ -23,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $small_path
  * @property-read Model|\Eloquent|null $resource
  * @property-read mixed $url
+ *
  * @method static \Database\Factories\AssetFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset newQuery()
@@ -39,6 +38,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset whereSmallPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset whereThumbnailPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Asset extends Model

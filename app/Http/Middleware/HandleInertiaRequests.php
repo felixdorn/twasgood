@@ -2,10 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Category;
-use Felix\Navigation\Item;
-use Felix\Navigation\Navigation;
-use Felix\Navigation\Section;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -36,7 +32,7 @@ class HandleInertiaRequests extends Middleware
             ],
 
             'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy())->toArray(), [
+                return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
             },

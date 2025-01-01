@@ -27,7 +27,7 @@ trait HasSlugs
 
     public function generateSlug(): Slug
     {
-        if (!$this->shouldGenerateSlug()) {
+        if (! $this->shouldGenerateSlug()) {
             return $this->slug;
         }
 
@@ -47,7 +47,7 @@ trait HasSlugs
         ]);
     }
 
-    public function slug()//: Attribute
+    public function slug()// : Attribute
     {
         return $this
             ->hasOneThrough(Slug::class, static::class, 'id', 'sluggable_id')

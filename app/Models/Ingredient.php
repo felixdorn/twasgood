@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property IngredientType $type
@@ -25,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Slug|null $slug
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Slug> $slugs
  * @property-read int|null $slugs_count
+ *
  * @method static \Database\Factories\IngredientFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient newQuery()
@@ -40,6 +39,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Ingredient extends Model

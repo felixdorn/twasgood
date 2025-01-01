@@ -47,7 +47,7 @@ class IngredientsController
     {
         $ingredient = Ingredient::create(array_merge($request->validated(), [
             'contains_gluten' => $request->get('contains_gluten') === 'on',
-            'contains_dairy' => $request->get('contains_dairy') === 'on'
+            'contains_dairy' => $request->get('contains_dairy') === 'on',
         ]));
 
         return to_route('console.ingredients.index', ['state' => $ingredient->type->value]);
@@ -62,7 +62,7 @@ class IngredientsController
     {
         $ingredient->update(array_merge($request->validated(), [
             'contains_gluten' => $request->get('contains_gluten') === 'on',
-            'contains_dairy' => $request->get('contains_dairy') === 'on'
+            'contains_dairy' => $request->get('contains_dairy') === 'on',
         ]));
 
         return to_route('console.ingredients.index', ['state' => $ingredient->type->value]);

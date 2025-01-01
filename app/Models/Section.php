@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
  * @property int $id
  * @property string $title
  * @property string|null $description
@@ -18,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $order
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Recipe> $recipes
  * @property-read int|null $recipes_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section query()
@@ -29,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Section extends Model

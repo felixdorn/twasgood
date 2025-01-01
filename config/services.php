@@ -44,5 +44,5 @@ return [
         'salt' => '',
         'key_file' => env('IMGPROXY_KEY_FILE', ''),
         'salt_file' => env('IMGPROXY_SALT_FILE', ''),
-    ]
+    ],
 ];

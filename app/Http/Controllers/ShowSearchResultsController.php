@@ -10,7 +10,7 @@ class ShowSearchResultsController
     public function __invoke(Request $request)
     {
         $request->validate([
-            'query' => ['nullable', 'string', 'max:1024']
+            'query' => ['nullable', 'string', 'max:1024'],
         ]);
 
         $query = $request->get('query');
@@ -19,7 +19,7 @@ class ShowSearchResultsController
             return to_route('welcome');
         }
 
-        $recipes = (new SearchRecipes())($query);
+        $recipes = (new SearchRecipes)($query);
 
         return view('frontend.search', compact('query', 'recipes'));
     }

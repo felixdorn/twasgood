@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Console;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class CategoriesController
 {
@@ -51,7 +50,7 @@ class CategoriesController
             'name' => $request->name,
             'description' => $request->description,
             'subtitle' => $request->subtitle,
-            'hidden' => $request->get('hidden', false) === 'on'
+            'hidden' => $request->get('hidden', false) === 'on',
         ]);
 
         return back();

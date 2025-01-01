@@ -40,7 +40,7 @@ class SectionsController
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255']
+            'description' => ['required', 'string', 'max:255'],
         ]);
 
         $section = Section::create(array_merge($data, [
@@ -57,7 +57,7 @@ class SectionsController
 
     public function attach(Request $request, Section $section)
     {
-        $request->validateWithBag('section-' . $section->id, [
+        $request->validateWithBag('section-'.$section->id, [
             'title' => ['required', 'string', 'exists:recipes,title'],
         ]);
 
@@ -110,7 +110,7 @@ class SectionsController
 
     public function toggle(Section $section)
     {
-        $section->update(['force_hide' => !$section->force_hide]);
+        $section->update(['force_hide' => ! $section->force_hide]);
 
         return back();
     }

@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
 /**
- * 
- *
  * @property int $id
  * @property int $category_id
  * @property string $title
@@ -50,6 +48,7 @@ use Laravel\Scout\Searchable;
  * @property-read int|null $tags_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $types
  * @property-read int|null $types_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe onlyTrashed()
@@ -70,6 +69,7 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUsesSterilization($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Recipe extends Model

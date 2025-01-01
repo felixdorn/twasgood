@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Console;
 
 use App\Enums\PrerequisiteType;
-use App\Models\Ingredient;
 use App\Models\Prerequisite;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class RecipesPrerequisiteController
 {
