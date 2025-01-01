@@ -25,7 +25,7 @@
                                 class="object-top object-cover rounded-t-xl h-60 w-full bg-gray-100"/>
 
                             <div class="p-4 bg-white rounded-b-xl">
-                                <h3 class="text-xl font-medium truncate underline">{{ $recipe->short_title }}</h3>
+                                <h3 class="text-xl font-medium truncate underline">{{ $recipe->title }}</h3>
                                 <p class="text-gray-700 truncate">{{ $recipe->description }}</p>
                             </div>
                         </a>

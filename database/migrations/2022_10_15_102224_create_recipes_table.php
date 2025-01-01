@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     public function up()
     {
         Schema::create('recipes', function (Blueprint $table) {
@@ -14,7 +13,6 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
 
             $table->string('title');
-            $table->string('short_title');
             $table->string('description');
             $table->string('time_to_prepare')->nullable();
             $table->boolean('uses_sterilization')->default(false);

@@ -630,13 +630,6 @@ const storeNewPrerequisite = async () => {
                 </div>
 
                 <div class="space-y-6">
-                    <Input
-                        v-model="recipe.short_title"
-                        label="Titre court"
-                        type="text"
-                        @input="update('short_title', $event)"
-                    />
-
                     <Textarea
                         v-model="recipe.description"
                         label="Accroche"

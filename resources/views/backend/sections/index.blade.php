@@ -22,34 +22,35 @@
                                 <x-icons.drag class="size-6" />
                             </button>
 
-                            <button type="submit"
-                                class="p-1 -mx-1 mt-2 hover:bg-gray-200 group/toggle rounded-lg transition">
-                                @if (!$section->force_hide)
-                                    <x-icons.open-eye class="size-4 text-brand-600 group-hover/toggle:text-brand-700" />
-                                @else
-                                    <x-icons.closed-eye
-                                        class="size-4 text-gray-700 group-hover/toggle:text-brand-600" />
-                                @endif
-                            </button>
+                            <form action="{{ route('console.sections.toggle', $section) }}" method="post">
+                                @csrf
+                                <button type="submit"
+                                    class="p-1 -mx-1 mt-2 hover:bg-gray-200 group/toggle rounded-lg transition">
+                                    @if (!$section->force_hide)
+                                        <x-icons.open-eye
+                                            class="size-4 text-brand-600 group-hover/toggle:text-brand-700" />
+                                    @else
+                                        <x-icons.closed-eye
+                                            class="size-4 text-gray-700 group-hover/toggle:text-brand-600" />
+                                    @endif
+                                </button>
+                            </form>
                         </div>
 
-                        <button type="submit" method="post"
-                            onclick="return confirm('Êtes-vous sûr·e de vouloir supprimer cette partie?')"
-                            class="mt-4 opacity-0 pointer-events-none group-hover:pointer-events-auto focus:opacity-100 group-hover:opacity-100 transition text-gray-500 hover:text-gray-700 p-1 -mx-1 block -mb-px hover:bg-gray-200 rounded-lg">
-                            <x-icons.trash class="size-4" />
-                        </button>
+                        <form action="{{ route('console.sections.destroy', $section) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" method="post"
+                                onclick="return confirm('Êtes-vous sûr·e de vouloir supprimer cette partie?')"
+                                class="mt-4 opacity-0 pointer-events-none group-hover:pointer-events-auto focus:opacity-100 group-hover:opacity-100 transition text-gray-500 hover:text-gray-700 p-1 -mx-1 block -mb-px hover:bg-gray-200 rounded-lg">
+                                <x-icons.trash class="size-4" />
+                            </button>
+                        </form>
                     </div>
 
                     <x-section-editor :section="$section" :open="$focus === $section->id" class="px-4" />
                 </div>
             </section>
-        @endforeach
-    </div>
-
-    <h2 class="text-xl mt-6">Parties en réserve</h2>
-    <div class="mt-2">
-        @foreach ($hidden_sections as $section)
-            <x-section-editor :section="$section" :open="$focus === $section->id" />
         @endforeach
     </div>
 

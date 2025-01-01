@@ -49,7 +49,10 @@
             <ul class="mt-2 grid lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-3 gap-4">
                 @foreach ($section->recipes as $recipe)
                     <li class="w-72 border">
-                        <div class="relative">
+                        <form method="post"
+                            action="{{ route('console.sections.detach', ['section' => $section, 'recipe' => $recipe]) }}"
+                            class="relative">
+                            @csrf
                             <button type="submit"
                                 formaction="{{ route('console.sections.detach', ['section' => $section, 'recipe' => $recipe]) }}"
                                 method="post"
@@ -61,12 +64,12 @@
 
                             <img loading="lazy" src="{{ $recipe->banner->small() }}" alt="{{ $recipe->banner->alt }}"
                                 class="object-center object-cover w-72 h-36  bg-gray-100" />
-                        </div>
+                        </form>
 
                         <h3 class="font-medium truncate p-2 flex">
                             <x-icons.drag class="w-5 h-auto text-gray-700" />
                             <span class="ml-2">
-                                {{ $recipe->short_title }}
+                                {{ $recipe->title }}
                             </span>
                         </h3>
                     </li>

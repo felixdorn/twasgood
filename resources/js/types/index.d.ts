@@ -86,7 +86,6 @@ export type Recipe = {
     category_id: number;
 
     title: string;
-    short_title: string;
     season: Season;
     description: string;
     time_to_prepare: string;

@@ -12,7 +12,6 @@ class UpdateRecipeRequest extends FormRequest
     {
         return [
             'title' => ['string', 'max:255'],
-            'short_title' => ['string', 'max:40'],
             'description' => ['string', 'max:255'],
             'time_to_prepare' => ['nullable', 'string', 'max:255'],
             'season' => [new Enum(Season::class)],

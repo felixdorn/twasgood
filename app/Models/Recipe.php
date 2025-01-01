@@ -18,7 +18,6 @@ use Laravel\Scout\Searchable;
  * @property int $id
  * @property int $category_id
  * @property string $title
- * @property string $short_title
  * @property string $description
  * @property string|null $time_to_prepare
  * @property string $content
@@ -86,7 +85,6 @@ class Recipe extends Model
     {
         return self::create([
             'title' => $title,
-            'short_title' => '(vide)',
             'description' => '(vide)',
             'time_to_prepare' => '(vide)',
             'content' => '{"type":"doc","content":[]}',
@@ -129,6 +127,11 @@ class Recipe extends Model
         }
 
         foreach ($this->attributes as $attribute => $value) {
+            // We don't use short title anymore!
+            if ($attribute === "short_title") {
+                continue;
+            }
+
             if ($this->isAttributePlaceholder($attribute)) {
                 return true;
             }
