@@ -5,7 +5,7 @@ RUN npm install -g pnpm@9.15.1 && pnpm install
 COPY . .
 RUN rm -rf public/hot && pnpm run build
 
-FROM php:8.3-alpine
+FROM php:8.4-alpine
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 

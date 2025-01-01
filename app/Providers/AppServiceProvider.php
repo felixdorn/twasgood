@@ -22,18 +22,19 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict(! app()->isProduction());
         Model::unguard();
 
-        if (config('services.imgproxy.key_file')) {
-            $keyPath = config('services.imgproxy.key_file');
+        $keyFile = config('services.imgproxy.key_file', null);
+        if (is_string($keyFile)) {
             $key = file_get_contents(
-                file_exists($keyPath) ? $keyPath : base_path($keyPath)
+                file_exists($keyFile) ? $keyFile : base_path($keyFile)
             );
+
             config()->set('services.imgproxy.key', $key);
         }
 
-        if (config('services.imgproxy.salt_file')) {
-            $saltPath = config('services.imgproxy.salt_file');
+        $saltFile  = config('services.imgproxy.salt_file', null) ;
+        if (is_string($saltFile)) {
             $salt = file_get_contents(
-                file_exists($saltPath) ? $saltPath : base_path($saltPath)
+                file_exists($saltFile) ? $saltFile : base_path($saltFile)
             );
             config()->set('services.imgproxy.salt', $salt);
         }
