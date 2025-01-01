@@ -25,7 +25,7 @@
                     <li class="flex-1">
 
                         <a class="underline whitespace-nowrap" href="/">
-                            <span class="font-bold text-xl text-brand-600 underline">Faire + Acheter -</span>
+                            <span class="font-bold text-xl text-brand-700 underline">Faire + Acheter -</span>
                         </a>
                     </li>
                     <li class="order-last lg:order-none col-span-full lg:col-span-1 mt-2 lg:mt-0 lg:w-full lg:max-w-md">
