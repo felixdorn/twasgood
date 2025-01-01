@@ -23,12 +23,14 @@ class SectionsController
         $state = $request->get('state', 'visible');
 
         // TODO: Take hidden_at (if null but force_hide is true, set hidden_at to 1900 and update the section)
+        $sections = Section::with(['recipes' => fn ($query) => $query->with('banner')])
+            ->orderBy('order')
+            ->get();
 
         return view('backend.sections.index', [
             'focus' => $focus,
-            'sections' => Section::with([
-                'recipes' => fn ($query) => $query->with('banner'),
-            ])->orderBy('order')->get()->groupBy('force_hide')->sortKeys(),
+            'visible_sections' => $sections->where('force_hide', false),
+            'hidden_sections' => $sections->where('force_hide', true),
             'recipes' => Recipe::whereNotNull('published_at')->get(['id', 'title']),
             'state' => $state,
         ]);

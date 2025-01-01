@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Section;
+use DB;
 use Illuminate\Http\Request;
 
 class OrderSectionsController
@@ -13,12 +14,14 @@ class OrderSectionsController
             'sections' => ['required', 'array', 'exists:recipes,id'],
         ]);
 
-        $sections = Section::findMany($request->sections);
+        DB::transaction(function () use ($request) {
+            Section::whereNotIn('id', $request->sections)->update(['force_hide' => true, 'order' => 0]);
 
-        foreach ($request->sections as $index => $sectionId) {
-            $sections->where('id', $sectionId)->first()->update(['order' => $index + 1]);
-        }
+            foreach ($request->sections as $index => $sectionId) {
+                Section::where('id', $sectionId)->sole()->update(['order' => $index + 1]);
+            }
+        });
 
-        return back();
+        return response(204);
     }
 }

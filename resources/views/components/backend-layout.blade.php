@@ -22,7 +22,7 @@
         <nav class="w-full py-3 px-4 lg:px-8">
             <div class="flex items-center justify-between max-w-7xl mx-auto relative">
                 <div class="flex items-center space-x-4  w-full lg:border-none border-white/50 ">
-                    <a class="font-bold text-emerald-700 hover:underline whitespace-nowrap text-lg" href="/">
+                    <a class="font-bold text-emerald-700 underline whitespace-nowrap text-lg" href="/">
                         <span>Back-office</span>
                     </a>
                 </div>
@@ -71,25 +71,25 @@
                 <ul class="flex w-full overflow-x-scroll space-x-4 text-white font-semibold">
                     <li>
                         <a href="{{ route('console.recipes.index') }}"
-                            class="text-gray-700 whitespace-nowrap hover:underline focus:underline block text-lg">
+                            class="text-gray-700 whitespace-nowrap underline block text-lg">
                             Recettes
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('console.ingredients.index') }}"
-                            class="text-gray-700 whitespace-nowrap hover:underline focus:underline block text-lg">
+                            class="text-gray-700 whitespace-nowrap underline block text-lg">
                             Ingredients
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('console.categories.index') }}"
-                            class="text-gray-700 whitespace-nowrap hover:underline focus:underline block text-lg">
+                            class="text-gray-700 whitespace-nowrap underline block text-lg">
                             Catégories
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('console.sections.index') }}"
-                            class="text-gray-700 whitespace-nowrap hover:underline focus:underline block text-lg">
+                            class="text-gray-700 whitespace-nowrap underline block text-lg">
                             Parties
                         </a>
                     </li>

@@ -60,7 +60,7 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     // categories
     Route::resource('categories', CategoriesController::class)->except(['show', 'delete']);
 
-    Route::put('/order-sections', OrderSectionsController::class)->name('order-sections');
+    Route::post('/order-sections', OrderSectionsController::class)->name('order-sections');
 
     // sections
     Route::resource('sections', SectionsController::class)->except(['show', 'delete', 'edit']);

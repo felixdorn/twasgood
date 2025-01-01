@@ -11,7 +11,7 @@
                 <li>
                     <a href="{{ route('console.categories.edit', $category) }}"
                         class="group flex flex-col border rounded-xl bg-white py-4 px-6">
-                        <span class="text-lg group-hover:underline">{{ $category->name }}</span>
+                        <span class="text-lg underline">{{ $category->name }}</span>
                         <span class="text-gray-500">{{ $category->recipes_count }} au total</span>
                     </a>
                 </li>

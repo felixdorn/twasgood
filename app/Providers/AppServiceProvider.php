@@ -13,16 +13,13 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\View;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-
-        //Model::shouldBeStrict(!app()->isProduction());
+        Model::shouldBeStrict(!app()->isProduction());
         Model::unguard();
 
         if (config('services.imgproxy.key_file')) {
@@ -51,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
             'slug' => Slug::class,
             'tag' => Tag::class,
             'user' => User::class,
-
         ]);
 
         app()->setLocale('fr');

@@ -40,45 +40,6 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
-
-            'categories' => fn () => Category::where('hidden', false)->with('slug')->get(),
-
-            'navigation' => (new Navigation())
-                ->addSection(
-                    'Contenu',
-                    fn (Section $section) => $section
-                    ->add('Recettes', fn (Item $item) => $item
-                        ->route('console.recipes.index')
-                        ->activeWhenRouteMatches('console.recipes.*')
-                        ->meta([
-                            'icon' => 'newspaper',
-                        ]))
-                    ->add(
-                        'Parties',
-                        fn (Item $item) => $item
-                        ->route('console.sections.index')
-                        ->activeWhenRouteMatches('console.sections.*')
-                        ->meta([
-                            'icon' => 'queue-list',
-                        ])
-                    )
-                    ->add('Ingrédients', fn (Item $item) => $item
-                        ->route('console.ingredients.index')
-                        ->activeWhenRouteMatches('console.ingredients.*')
-                        ->meta([
-                            'icon' => 'cart',
-                        ]))
-                    ->add(
-                        'Catégories',
-                        fn (Item $item) => $item
-                        ->route('console.categories.index')
-                        ->activeWhenRouteMatches('console.categories.*')
-                        ->meta([
-                            'icon' => 'tag',
-                        ])
-                    )
-                )
-                ->toArray(),
         ]);
     }
 }

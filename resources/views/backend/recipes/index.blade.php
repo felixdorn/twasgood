@@ -28,7 +28,7 @@
 
                         <div class="py-3 px-5">
                             <h3 class="justify-between items-center md:flex">
-                                <span class="text-lg group-hover:underline">{{ $recipe->title }}</span>
+                                <span class="text-lg underline">{{ $recipe->title }}</span>
                             </h3>
 
                             @if ($recipe->description)

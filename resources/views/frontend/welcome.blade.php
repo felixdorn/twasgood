@@ -12,7 +12,7 @@
             @foreach ($sections as $section)
             <section>
                 <h2 class="text-2xl lg:text-3xl font-semibold">{{ $section->title }}</h2>
-                <p class="max-w-[65ch] text-gray-900 text-lg mt-1">{{ $section->description }}</p>
+                <p class="max-w-[65ch] text-gray-900 text-lg mt-1 text-balance">{{ $section->description }}</p>
 
                 <ul class="flex space-x-6 mt-4 flex-nowrap overflow-x-scroll overflow-y-visible -mb-1 pb-1">
                     @foreach ($section->recipes as $k => $recipe)
@@ -25,7 +25,7 @@
                                 class="object-top object-cover rounded-t-xl h-60 w-full bg-gray-100"/>
 
                             <div class="p-4 bg-white rounded-b-xl">
-                                <h3 class="text-xl font-medium truncate">{{ $recipe->short_title }}</h3>
+                                <h3 class="text-xl font-medium truncate underline">{{ $recipe->short_title }}</h3>
                                 <p class="text-gray-700 truncate">{{ $recipe->description }}</p>
                             </div>
                         </a>
