@@ -1,38 +1,56 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 
-import {ref} from "vue";
+const props = withDefaults(
+    defineProps<{
+        name: string;
+        label: string;
+        first?: boolean;
+        hideLabel?: boolean;
+        errors?: Record<string, string>;
+        modelValue?: string;
+    }>(),
+    {
+        first: false,
+        hideLabel: false,
+        errors: null,
+    },
+);
 
-const props = withDefaults(defineProps<{
-    name: string,
-    label: string,
-    first?: boolean,
-    hideLabel?: boolean,
-    errors?: Record<string, string>,
-    modelValue?: string,
-}>(), {
-    first: false,
-    hideLabel: false,
-    errors: null,
-})
-
-const value = ref(props.modelValue)
-
+const value = ref(props.modelValue);
 </script>
 <template>
-    <div :class="{'mt-4': !first}">
-        <label v-if="!hideLabel" :for="name" class="block font-medium text-gray-700">{{ label }}</label>
-        <div :class="{ 'mt-1': !hideLabel }" class="relative shadow-sm grow-wrap" :data-replicated-value="value">
+    <div :class="{ 'mt-4': !first }">
+        <label
+            v-if="!hideLabel"
+            :for="name"
+            class="block font-medium text-gray-700"
+            >{{ label }}</label
+        >
+        <div
+            :class="{ 'mt-1': !hideLabel }"
+            class="relative shadow-sm grow-wrap"
+            :data-replicated-value="value"
+        >
             <textarea
                 :id="name"
                 :aria-label="hideLabel ? label : null"
                 :name="name"
                 class="focus:ring-brand-500 focus:border-brand-500 block w-full focus:outline-none resize-none sm:text-sm border-gray-300 py-2 border"
                 v-bind="$attrs"
-                @input="$emit('update:modelValue', $event.target.value); value = $event.target.value"
-            >{{ modelValue }}</textarea>
+                @input="
+                    $emit('update:modelValue', $event.target.value);
+                    value = $event.target.value;
+                "
+                >{{ modelValue }}</textarea
+            >
         </div>
-        <p v-if="(errors ?? $page.props.errors)[name]" class="mt-2 font-semibold text-sm text-red-600">
-            {{ (errors ?? $page.props.errors)[name] }}</p>
+        <p
+            v-if="(errors ?? $page.props.errors)[name]"
+            class="mt-2 font-semibold text-sm text-red-600"
+        >
+            {{ (errors ?? $page.props.errors)[name] }}
+        </p>
     </div>
 </template>
 <style>

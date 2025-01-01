@@ -19,15 +19,31 @@
     visibility: hidden;
 }
 
-.grow-wrap>input {
+.grow-wrap:has(> textarea) {
+    white-space: pre-wrap;
+}
+
+.grow-wrap>input,
+.grow-wrap>textarea {
     /* Firefox shows scrollbar on growth, you can hide like this. */
     overflow: hidden;
 }
 
+.grow-wrap>textarea {
+    resize: none;
+}
+
+.grow-wrap>textarea,
+.grow-wrap:has(> textarea)::after {
+    @apply border px-2 py-px border-gray-100 bg-transparent;
+    max-width: 65ch;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
 .grow-wrap>input,
-.grow-wrap::after {
+.grow-wrap:has(> input)::after {
     /* Identical styling required!! */
-    @apply px-2 py-px bg-transparent font-bold border;
+    @apply px-2 py-px bg-transparent font-bold border border-gray-100;
     font: inherit;
 
     /* Place on top of each other */

@@ -6,15 +6,36 @@
             @method('PUT')
             <div class="grow-wrap font-bold">
                 <input aria-label="Titre de la section" name="title"
-                    class="px-2 py-px border border-gray-100 font-bold w-full bg-transparent peer focus:outline-none focus:border-brand-600  focus:ring-0 focus:shadow"
+                    class=" w-full bg-transparent peer focus:outline-none focus:border-brand-600  focus:ring-0 focus:shadow"
                     value="{{ $section->title }}" />
                 <button
                     class="bg-white text-brand-700 border px-2 py-px absolute -right-2 pointer-events-none focus:pointer-events-auto peer-focus:pointer-events-auto translate-x-full focus:outline-none focus:border-brand-600 focus:opacity-100 transition peer-focus:opacity-100 opacity-0">
                     Mettre à jour
                 </button>
             </div>
+            @error('title', 'section-' . $section->id)
+                <p class="text-red-600 mt-1">
+                    {{ $message }}
+                </p>
+            @enderror
         </form>
-        <p class="max-w-[65ch] text-gray-900 mt-1.5">{{ $section->description }}</p>
+        <form action="{{ route('console.sections.update', $section) }}" method="post" class="relative mt-1.5">
+            @csrf
+            @method('PUT')
+            <div class="grow-wrap">
+                <textarea name="description" aria-label="Description"
+                    class="max-w-[65ch] w-full text-gray-900 focus:outline-none peer focus:border-brand-600 focus:ring-0">{{ $section->description }}</textarea>
+                <button
+                    class="bg-white w-fit text-brand-700 border px-2 py-px absolute -right-2 translate-x-full whitespace-nowrap pointer-events-none focus:pointer-events-auto peer-focus:pointer-events-auto focus:outline-none focus:border-brand-600 focus:opacity-100 transition peer-focus:opacity-100 opacity-0 font-bold">
+                    Mettre à jour
+                </button>
+            </div>
+            @error('description', 'section-' . $section->id)
+                <p class="text-red-600 mt-1">
+                    {{ $message }}
+                </p>
+            @enderror
+        </form>
     </div>
 
     @if (count($section->recipes) > 0)
@@ -61,7 +82,7 @@
                         autocomplete="off" list="recipes" placeholder="Commencez à taper le titre d'une recette..." />
                     <x-button class="ml-4">Ajouter</x-button>
                 </form>
-                @error('title', 'section-' . $section->id)
+                @error('title', 'section-attach' . $section->id)
                     <p class="text-red-600 mt-1">
                         {{ $message }}
                     </p>

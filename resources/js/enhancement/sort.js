@@ -1,13 +1,15 @@
 import htmx from "htmx.org";
 import Sortable from "sortablejs";
 
-document.querySelectorAll('.grow-wrap > input').forEach(el => {
-    el.parentNode.dataset.replicatedValue = el.value
+document
+    .querySelectorAll(".grow-wrap > input, .grow-wrap > textarea")
+    .forEach((el) => {
+        el.parentNode.dataset.replicatedValue = el.value;
 
-    el.addEventListener('input', _ => {
-        el.parentNode.dataset.replicatedValue = el.value
-    })
-})
+        el.addEventListener("input", (_) => {
+            el.parentNode.dataset.replicatedValue = el.value;
+        });
+    });
 
 htmx.onLoad(function (content) {
     var sortables = content.querySelectorAll(".sortable");

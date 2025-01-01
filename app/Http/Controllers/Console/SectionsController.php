@@ -59,7 +59,7 @@ class SectionsController
 
     public function attach(Request $request, Section $section): RedirectResponse
     {
-        $request->validateWithBag('section-'.$section->id, [
+        $request->validateWithBag('section-attach-'.$section->id, [
             'title' => ['required', 'string', 'exists:recipes,title'],
         ]);
 
@@ -95,10 +95,9 @@ class SectionsController
 
     public function update(Request $request, Section $section): RedirectResponse
     {
-        $data = $request->validate([
+        $data = $request->validateWithBag('section-' . $section->id, [
             'title' => ['string', 'max:255'],
             'description' => ['string', 'max:255'],
-            'force_hide' => ['boolean'],
         ]);
 
         $section->update($data);
