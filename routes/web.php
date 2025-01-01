@@ -60,14 +60,13 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     // categories
     Route::resource('categories', CategoriesController::class)->except(['show', 'delete']);
 
-    Route::post('/order-sections', OrderSectionsController::class)->name('order-sections');
-
     // sections
     Route::resource('sections', SectionsController::class)->except(['show', 'delete', 'edit']);
     Route::post('/sections/{section}/attach', [SectionsController::class, 'attach'])->name('sections.attach');
     Route::post('/sections/{section}/detach/{recipe}', [SectionsController::class, 'detach'])->name('sections.detach');
     Route::post('/sections/{section}/order', [SectionsController::class, 'order'])->name('sections.order');
     Route::post('/sections/{section}/toggle', [SectionsController::class, 'toggle'])->name('sections.toggle');
+    Route::post('/order-sections', OrderSectionsController::class)->name('order-sections');
 
     // assets
     Route::post('/assets/upload', [AssetsController::class, 'upload'])->name('assets.upload');

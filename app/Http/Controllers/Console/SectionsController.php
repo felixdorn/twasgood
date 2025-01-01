@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Console;
 
 use App\Models\Recipe;
 use App\Models\Section;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class SectionsController
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         abort_unless(in_array($request->state, [null, 'visible', 'hidden']), 404);
 
@@ -36,7 +38,7 @@ class SectionsController
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -50,12 +52,12 @@ class SectionsController
         return to_route('console.sections.index', ['focus' => $section->id]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('backend.sections.create');
     }
 
-    public function attach(Request $request, Section $section)
+    public function attach(Request $request, Section $section): RedirectResponse
     {
         $request->validateWithBag('section-'.$section->id, [
             'title' => ['required', 'string', 'exists:recipes,title'],
@@ -68,14 +70,14 @@ class SectionsController
         return back();
     }
 
-    public function detach(Section $section, Recipe $recipe)
+    public function detach(Section $section, Recipe $recipe): RedirectResponse
     {
         $section->recipes()->detach($recipe);
 
         return back();
     }
 
-    public function order(Request $request, Section $section)
+    public function order(Request $request, Section $section): RedirectResponse
     {
         $request->validate([
             'recipes' => ['required', 'array', 'exists:recipes,id'],
@@ -91,31 +93,27 @@ class SectionsController
         return back();
     }
 
-    public function update(Request $request, Section $section)
+    public function update(Request $request, Section $section): RedirectResponse
     {
-        $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:255'],
-            'force_hide' => ['nullable', 'boolean'],
+        $data = $request->validate([
+            'title' => ['string', 'max:255'],
+            'description' => ['string', 'max:255'],
+            'force_hide' => ['boolean'],
         ]);
 
-        $section->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'force_hide' => $request->force_hide,
-        ]);
+        $section->update($data);
 
-        return to_route('console.sections.index');
+        return back();
     }
 
-    public function toggle(Section $section)
+    public function toggle(Section $section): RedirectResponse
     {
         $section->update(['force_hide' => ! $section->force_hide]);
 
         return back();
     }
 
-    public function destroy(Section $section)
+    public function destroy(Section $section): RedirectResponse
     {
         $section->delete();
 

@@ -27,7 +27,7 @@
 .grow-wrap>input,
 .grow-wrap::after {
     /* Identical styling required!! */
-    @apply pl-0 pr-2 bg-transparent;
+    @apply px-2 py-px bg-transparent font-bold border;
     font: inherit;
 
     /* Place on top of each other */

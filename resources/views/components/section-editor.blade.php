@@ -1,15 +1,18 @@
 @props(['section', 'recipe'])
 <div {{ $attributes->class('flex flex-col py-4 justify-between') }}>
     <div>
-        <form class="flex">
+        <form class="relative w-fit" action="{{ route('console.sections.update', $section) }}" method="post">
             @csrf
+            @method('PUT')
             <div class="grow-wrap font-bold">
-                <input class="pr-2 py-0 pl-0 border-0 font-bold w-full bg-transparent focus:ring-brand-600"
+                <input aria-label="Titre de la section" name="title"
+                    class="px-2 py-px border border-gray-100 font-bold w-full bg-transparent peer focus:outline-none focus:border-brand-600  focus:ring-0 focus:shadow"
                     value="{{ $section->title }}" />
+                <button
+                    class="bg-white text-brand-700 border px-2 py-px absolute -right-2 pointer-events-none focus:pointer-events-auto peer-focus:pointer-events-auto translate-x-full focus:outline-none focus:border-brand-600 focus:opacity-100 transition peer-focus:opacity-100 opacity-0">
+                    Mettre à jour
+                </button>
             </div>
-            <button class="bg-white border ml-2 px-2">
-                Valider
-            </button>
         </form>
         <p class="max-w-[65ch] text-gray-900 mt-1.5">{{ $section->description }}</p>
     </div>
