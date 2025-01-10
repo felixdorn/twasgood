@@ -39,7 +39,7 @@
     </div>
 
     @if (count($section->recipes) > 0)
-        <details class="mt-2 group/recipes"  @if ($open) open @endif>
+        <details class="mt-2 group/recipes" @if ($open) open @endif>
             <summary class="list-none">
                 <span class="group-open/recipes:hidden underline">Afficher les recettes</span>
                 <span class="hidden group-open/recipes:inline-block underline">
@@ -94,8 +94,21 @@
             </div>
         </details>
     @else
-        <div class="text-gray-700 mt-2">
-            Aucune recette.
+        <div class="w-full">
+            <h3 class="font-semibold mt-4">Ajouter une recette</h3>
+            <form class="max-w-lg w-full mt-1 flex" action="{{ route('console.sections.attach', $section) }}"
+                method="post">
+                @csrf
+                <x-input class="w-full" aria-label="Titre de la recette" first id="title_{{ $section->id }}"
+                    name="title" autocomplete="off" list="recipes"
+                    placeholder="Commencez à taper le titre d'une recette..." />
+                <x-button class="ml-4">Ajouter</x-button>
+            </form>
+            @error('title', 'section-attach' . $section->id)
+                <p class="text-red-600 mt-1">
+                    {{ $message }}
+                </p>
+            @enderror
         </div>
     @endif
 </div>
