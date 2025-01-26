@@ -26,7 +26,7 @@ class UploadAssets extends Command
                 continue;
             }
 
-            $name = Storage::disk('s3')->putFile('', new File($fullPath));
+            $name = Storage::disk(config('filesystems.assets'))->putFile('', new File($fullPath));
             $asset->update(['path' => $name]);
         }
     }

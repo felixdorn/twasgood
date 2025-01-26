@@ -36,7 +36,7 @@ class AssetsController
         return $assets;
     }
 
-    public function upload(Request $request): Asset
+    public function upload(Request $request)
     {
         $request->validate([
             'resource_type' => ['required', 'string', 'max:255'],
@@ -47,11 +47,10 @@ class AssetsController
         abort_if(! $morphed, 404);
 
         $request->validate([
-            'resource_id' => ['required', 'exists:'.(new $morphed)->getTable().',id'],
+            'resource_id' => ['required', 'exists:'.(new $morphed())->getTable().',id'],
             'group' => ['string', 'max:255'],
             'asset_id' => ['exists:assets,id'],
-
-            'asset' => ['nullable', 'image', 'max:8192'],
+            'asset' => ['nullable', 'image', 'max:16384'],
             'alt' => ['nullable', 'string', 'max:255'],
         ]);
 
@@ -82,7 +81,7 @@ class AssetsController
 
         if ($request->has('asset')) {
             $file = $request->file('asset');
-            Storage::disk('s3')->putFile(
+            Storage::disk(config('filesystems.assets'))->putFileAs(
                 '',
                 $file,
                 $file->hashName()
@@ -91,10 +90,11 @@ class AssetsController
             $uploadedAsset['path'] = $file->hashName();
         }
 
+        // TODO: Remove the '(vide)'
         $uploadedAsset['alt'] = $request->alt ?? $asset->alt ?? '(vide)';
 
         $asset->update($uploadedAsset);
 
-        return $asset;
+        return $request->wantsJson() ? $asset : back();
     }
 }

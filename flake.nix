@@ -7,6 +7,8 @@
       php = pkgs.php84.buildEnv {
         extraConfig = ''
           memory_limit = 1G
+          upload_max_filesize = 100M
+          post_max_size = 150M
         '';
 
         extensions = exts: exts.enabled ++ (with exts.all; [ xdebug ]);

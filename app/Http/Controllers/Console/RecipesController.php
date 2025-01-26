@@ -37,6 +37,7 @@ class RecipesController
     public function store(StoreRecipeRequest $request)
     {
         $recipe = Recipe::emptyWith(
+            $request->user()->id,
             $request->validated('title')
         );
 

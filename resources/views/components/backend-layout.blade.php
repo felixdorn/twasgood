@@ -42,6 +42,10 @@
                         </form>
                         <div id="search-results" class="relative"></div>
                     </li>
+                    <li class="text-right lg:w-fit lg:order-last">
+                        <a href="{{ route('console.profile.edit') }}"
+                            class="whitespace-nowrap text-gray-700 underline">Paramètres</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -57,7 +61,7 @@
                     <li>
                         <a href="{{ route('console.ingredients.index') }}"
                             class="text-gray-700 whitespace-nowrap underline block text-lg">
-                            Ingredients
+                            Ingrédients
                         </a>
                     </li>
                     <li>

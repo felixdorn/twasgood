@@ -50,7 +50,5 @@ class AppServiceProvider extends ServiceProvider
             'tag' => Tag::class,
             'user' => User::class,
         ]);
-
-        app()->setLocale('fr');
     }
 }

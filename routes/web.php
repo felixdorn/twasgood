@@ -9,6 +9,7 @@ use App\Http\Controllers\Console\RecipesPrerequisiteController;
 use App\Http\Controllers\Console\SectionsController;
 use App\Http\Controllers\Console\ToggleTagController;
 use App\Http\Controllers\OrderSectionsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShowCategoriesController;
 use App\Http\Controllers\ShowRecipeController;
 use App\Http\Controllers\ShowSearchResultsController;
@@ -31,7 +32,7 @@ Route::prefix('/partials')->group(function () {
 
         // DO THE QUERY STRING THING
         $query = $request->get('query');
-        $recipes = (new SearchRecipes)($query);
+        $recipes = (new SearchRecipes())($query);
 
         return view('partials.search-results', compact('query', 'recipes'));
     })->name('partials.preview-search-results');
@@ -39,6 +40,9 @@ Route::prefix('/partials')->group(function () {
 
 Route::name('console.')->prefix('/console')->middleware(['auth'])->group(function () {
     Route::redirect('/', '/console/recipes')->name('index');
+
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // recipes
     Route::resource('recipes', RecipesController::class)->except(['show']);

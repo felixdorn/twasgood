@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -81,12 +82,13 @@ class Recipe extends Model
         'uses_sterilization' => 'boolean',
     ];
 
-    public static function emptyWith(string $title): self
+    public static function emptyWith(int $user, string $title): self
     {
         return self::create([
             'title' => $title,
             'description' => '(vide)',
             'time_to_prepare' => '(vide)',
+            'user_id' => $user,
             'content' => '{"type":"doc","content":[]}',
             'category_id' => Category::default()->id,
         ]);
@@ -117,6 +119,7 @@ class Recipe extends Model
 
     public function shouldGenerateSlugs(): bool
     {
+        // TODO: Only store slug on publish
         return ! $this->mustBeDraft();
     }
 
@@ -195,6 +198,10 @@ class Recipe extends Model
     public function types(): BelongsToMany
     {
         return $this->tags()->where('group_id', Tag::where('name', 'recipe_type')->sole()->id);
+    }
+
+    public function author() {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function publish(): void

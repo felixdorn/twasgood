@@ -31,3 +31,4 @@ rr
 imgproxy-enc-key
 imgproxy-salt-key
 _ide_helper.php
+/storage/app/

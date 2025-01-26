@@ -54,6 +54,7 @@ class Asset extends Model
 
     private function imgproxyUrl(string $processingOptions): string
     {
+        // TODO: If the ASSET_DISK is local, skip this.
         $processingOptions = trim($processingOptions, '/');
         $keyBin = pack('H*', trim(config('services.imgproxy.key')));
         $saltBin = pack('H*', trim(config('services.imgproxy.salt')));
