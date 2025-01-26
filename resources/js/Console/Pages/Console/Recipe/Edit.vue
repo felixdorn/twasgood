@@ -1,33 +1,20 @@
 <script lang="ts" setup>
 import type { Ingredient, Recipe } from "@/Console/types";
-import { AdjustmentsHorizontalIcon } from "@heroicons/vue/24/outline";
 import type { Asset, Category, Prerequisite, Slug, Tag } from "@/Console/types";
 import { Head, Link, router, useForm } from "@inertiajs/vue3";
 import {
     ArrowLeftIcon,
     ArrowPathIcon,
     CheckCircleIcon,
-    ClockIcon,
-    PaperAirplaneIcon,
-    PhotoIcon,
-    PlusIcon,
-    ScaleIcon,
-    TagIcon,
     XMarkIcon,
 } from "@heroicons/vue/24/outline";
-import {
-    LockClosedIcon,
-    LockOpenIcon,
-    PencilIcon,
-    TrashIcon,
-} from "@heroicons/vue/24/solid";
+import { TrashIcon } from "@heroicons/vue/24/solid";
 import axios from "axios";
 import Input from "@/Console/Components/Input.vue";
 import { computed, ref } from "vue";
 import Button from "@/Console/Components/Button.vue";
 import InlineModal from "@/Console/Components/InlineModal.vue";
 import ModelSearch from "@/Console/Components/ModelSearch.vue";
-import SecondaryButton from "@/Console/Components/SecondaryButton.vue";
 import ImageUploader from "@/Console/Components/ImageUploader.vue";
 import RichText from "@/Console/Components/RichText.vue";
 import Textarea from "@/Console/Components/Textarea.vue";

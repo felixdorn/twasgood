@@ -25,7 +25,7 @@ class RecipesPrerequisiteController
             'recipe_id' => $recipe->id,
             'prerequisite_id' => $prerequisite,
             'prerequisite_type' => $prerequisiteType->value,
-            'details' => $data['details'],
+            'details' => $data['details'] ?? '',
             'quantity' => $data['quantity'],
             'optional' => $data['optional'] ?? false,
             'order' => $recipe->prerequisites()->count() + 1,
