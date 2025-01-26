@@ -463,7 +463,7 @@ const storeNewPrerequisite = async () => {
                             index: number;
                         }">
                             <li class="relative">
-                                <ImageUploader :value="element.path" height="h-[12rem]"
+                                <ImageUploader :value="element.url" height="h-[12rem]"
                                     class="object-cover object-center w-full bg-gray-50 border" @change="
                                         sync.syncAsset($event, {
                                             asset: element,
