@@ -104,12 +104,14 @@
 
                 <div class="not-prose border-t my-8 pt-8">
                     <div class="lg:flex clear-both">
-                        <img alt=""
-                            class="w-36 h-auto object-cover rounded-md object-left float-left lg:float-none mr-4 lg:mr-0"
-                            loading="lazy" src="{{ $recipe->author->portrait->small() }}" width="144"
-                            height="128">
+                        @if ($recipe->author->portrait !== null)
+                            <img alt=""
+                                class="w-36 h-auto object-cover rounded-md object-left float-left lg:float-none mr-4 lg:mr-0"
+                                loading="lazy" src="{{ $recipe->author->portrait?->small() }}" width="144"
+                                height="128">
+                        @endif
 
-                        <div class="lg:px-4">
+                        <div class="@if ($recipe->author->portrait !== null) lg:px-4 @endif">
                             <h3 class="font-semibold text-xl">
                                 {{ $recipe->author->name }}
                             </h3>
