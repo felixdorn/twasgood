@@ -45,7 +45,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Ingredient extends Model
 {
     use HasFactory;
-    use HasSlugs;
     use SoftDeletes;
 
     protected $casts = [
