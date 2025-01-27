@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Console\Command;
+
 use function Laravel\Prompts\select;
 
 class AssignUserToRecipes extends Command
@@ -29,7 +30,7 @@ class AssignUserToRecipes extends Command
     public function handle()
     {
         $user = select(
-            label: "Which user should be used for user-less recipes?",
+            label: 'Which user should be used for user-less recipes?',
             options: User::pluck('email', 'id'),
         );
 

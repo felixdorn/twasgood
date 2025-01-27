@@ -47,7 +47,7 @@ class AssetsController
         abort_if(! $morphed, 404);
 
         $request->validate([
-            'resource_id' => ['required', 'exists:'.(new $morphed())->getTable().',id'],
+            'resource_id' => ['required', 'exists:'.(new $morphed)->getTable().',id'],
             'group' => ['string', 'max:255'],
             'asset_id' => ['exists:assets,id'],
             'asset' => ['nullable', 'image', 'max:16384'],

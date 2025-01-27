@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -200,7 +199,8 @@ class Recipe extends Model
         return $this->tags()->where('group_id', Tag::where('name', 'recipe_type')->sole()->id);
     }
 
-    public function author() {
+    public function author()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 

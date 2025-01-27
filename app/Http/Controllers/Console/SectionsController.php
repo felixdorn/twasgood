@@ -69,7 +69,7 @@ class SectionsController
     {
         $section->recipes()->detach($recipe);
 
-        # TODO: We should move this to flash, and use back() instead of to_route('...') for the others.
+        // TODO: We should move this to flash, and use back() instead of to_route('...') for the others.
         return to_route('console.sections.index', ['focus' => $section->id]);
     }
 

@@ -52,7 +52,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
     public function portrait(): HasOneThrough
     {
         return $this->hasOneThrough(Asset::class, User::class, 'id', 'resource_id', 'id')->where('group', 'portrait:unique')->where('resource_type', 'user');
