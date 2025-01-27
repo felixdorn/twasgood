@@ -10,30 +10,23 @@ use function Laravel\Prompts\select;
 
 class AssignUserToRecipes extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:assign-user-to-recipes';
+    /** @var string */
+    protected $signature = 'app:assign-user-to-recipes {--force}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $description = 'Command description';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function handle(): void
     {
         $user = select(
             label: 'Which user should be used for user-less recipes?',
             options: User::pluck('email', 'id'),
         );
 
-        Recipe::whereNull('user_id')->update(['user_id' => $user]);
+        if ($this->option('force') && !app()->isProduction()) {
+            Recipe::query()->update(['user_id' => $user]);
+        } else {
+            Recipe::whereNull('user_id')->update(['user_id' => $user]);
+        }
     }
 }
