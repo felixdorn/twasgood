@@ -21,7 +21,7 @@ class SectionsController
         }
 
         // TODO: Take hidden_at (if null but force_hide is true, set hidden_at to 1900 and update the section)
-        $sections = Section::with(['recipes' => fn ($query) => $query->with('banner')])
+        $sections = Section::with('recipes')
             ->orderBy('order')
             ->get();
 

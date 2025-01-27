@@ -16,14 +16,16 @@
 
                     <ul class="flex space-x-6 mt-4 flex-nowrap overflow-x-scroll overflow-y-visible -mb-1 pb-1">
                         @foreach ($section->recipes as $k => $recipe)
-                            <li class="flex shadow-md rounded-xl">
+                            <li class="flex">
                                 <a href="{{ route('recipes.show', $recipe->slug->slug) }}"
                                     class="w-72 lg:w-96 flex-shrink-0 flex flex-col">
-                                    <img loading="{{ $k === 0 ? 'eager' : 'lazy' }}"
-                                        src="{{ $recipe->banner->small() }}" alt="{{ $recipe->banner->alt }}"
-                                        class="object-top object-cover rounded-t-xl h-60 w-full bg-gray-100" />
+                                    {{ $recipe->getFirstMedia('banner')
+                                        ?->img()->attributes([
+                                            'class' => 'object-top object-cover h-60 w-full bg-gray-100',
+                                            'lazy' => $k === 0 ? 'eager' : 'lazy',
+                                        ]) }}
 
-                                    <div class="p-4 bg-white rounded-b-xl">
+                                    <div class="border-l border-gray-300 px-4 pt-2">
                                         <h3 class="text-xl font-medium truncate underline">{{ $recipe->title }}</h3>
                                         <p class="text-gray-700 truncate">{{ $recipe->description }}</p>
                                     </div>

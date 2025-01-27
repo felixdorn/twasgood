@@ -12,13 +12,15 @@
         </x-tabs>
 
         @if (count($recipes) > 0)
-            <div class="sm:columns-2 lg:columns-3 xl:columns-4 mt-4">
+            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
                 @foreach ($recipes as $recipe)
                     <a href="{{ route('console.recipes.edit', $recipe) }}"
                         class="block mb-4 bg-white rounded-xl border group h-fit break-inside-avoid">
                         @if ($recipe->banner)
-                            <img loading="lazy" src="{{ $recipe->banner->url }}" class="rounded-t-xl" height="507"
-                                width="907" />
+                            {{ $recipe->getFirstMedia('banner')?->img()->attributes([
+                                'loading' => 'lazy',
+                                'class' => ''
+                            ]) }}
                         @else
                             <div v-else
                                 class="flex justify-center items-center h-40 text-sm text-gray-700 bg-gray-50 rounded-t-xl border-b">

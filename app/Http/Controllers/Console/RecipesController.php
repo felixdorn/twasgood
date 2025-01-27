@@ -23,9 +23,9 @@ class RecipesController
 
         return view('backend.recipes.index', [
             'recipes' => Recipe::query()
-                ->with('banner')
                 ->when($state === 'unpublished', fn ($query) => $query->where('published_at', null))
                 ->when($state === 'published', fn ($query) => $query->where('published_at', '<>', null))
+                ->with('banner')
                 ->orderBy('updated_at', 'desc')
                 ->get(),
             'unpublished_count' => Recipe::where('published_at', null)->count(),

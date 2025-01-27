@@ -10,7 +10,7 @@ enum Season: string
     case Winter = 'winter';
     case All = 'all';
 
-    public static function offsetFromCurrent()
+    public static function offsetFromCurrent(): int
     {
         $season = self::current();
 
@@ -23,7 +23,7 @@ enum Season: string
         ];
     }
 
-    public static function current()
+    public static function current(): self
     {
         $month = date('n');
 
@@ -42,7 +42,7 @@ enum Season: string
         return self::Winter;
     }
 
-    public function previous()
+    public function previous(): self
     {
         return match ($this) {
             self::Spring => self::Winter,
@@ -52,7 +52,7 @@ enum Season: string
         };
     }
 
-    public function next()
+    public function next(): self
     {
         return match ($this) {
             self::Spring => self::Summer,

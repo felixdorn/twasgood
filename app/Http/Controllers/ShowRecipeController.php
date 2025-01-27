@@ -14,16 +14,15 @@ class ShowRecipeController
             ->with('prerequisite')
             ->select(['id', 'details', 'quantity', 'optional', 'prerequisite_id', 'prerequisite_type', 'recipe_id', 'order'])
             ->orderBy('order', 'asc')
-            ->get()
-            ->append(['display_mode']);
+            ->get();
 
         $recipe->setRelation('prerequisites', $prerequisites);
 
         return view('frontend.recipes.show', [
             'recipe' => $recipe->load([
                 'category',
-                'banner' => fn ($query) => $query->select(['assets.id', 'path', 'alt']),
-                'illustrations' => fn ($query) => $query->select(['assets.id', 'path', 'alt', 'resource_id', 'resource_type', 'order'])->orderBy('order', 'asc'),
+                'illustrations',
+                'author' => fn ($q) => $q->with('portrait')
             ]),
         ]);
     }

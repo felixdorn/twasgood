@@ -1,6 +1,6 @@
 <x-frontend-layout title="{{ $recipe->title }} - {{ $recipe->category->name }}">
     <x-slot:head>
-        <meta content="{{ $recipe->banner->small() }}" property="og:image" />
+        <meta content="{{ $recipe->getFirstMediaUrl('banner') }}" property="og:image" />
         <meta content="{{ $recipe->title }}" property="og:title" />
         <meta content="{{ $recipe->description }}" property="og:description" />
         <meta content="article" property="og:type" />
@@ -8,7 +8,7 @@
         <meta content="summary_large_image" property="twitter:card">
         <meta content="{{ $recipe->title }}" property="twitter:title">
         <meta content="{{ $recipe->description }}" property="twitter:description">
-        <meta :content="{{ $recipe->banner->small() }}" property="twitter:image">
+        <meta :content="{{ $recipe->getFirstMediaUrl('banner') }}" property="twitter:image">
 
         <meta content="{{ $recipe->description }}" name="description" />
     </x-slot:head>
@@ -18,9 +18,11 @@
             <h1 class="font-semibold text-3xl lg:text-6xl my-12 text-center">
                 {{ $recipe->title }}
             </h1>
-            <img alt="{{ $recipe->banner->alt }}" src="{{ $recipe->banner->small() }}"
-                title="{{ $recipe->banner->alt }}" width="900" height="507"
-                class="rounded-xl w-full h-auto lg:w-[900px] lg:h-[507px] object-top object-cover mx-auto" />
+            {{ $recipe->getFirstMedia('banner') }}
+            <!--
+            <img alt="{ $recipe->banner->alt }}" src="{ $recipe->banner->small() }}"
+                title="{ $recipe->banner->alt }}" width="900" height="507"
+                class="rounded-xl w-full h-auto lg:w-[900px] lg:h-[507px] object-top object-cover mx-auto" />-->
         </div>
 
     </div>
@@ -65,10 +67,12 @@
             <ul class="divide-y hidden lg:block">
                 @foreach ($recipe->illustrations as $illustration)
                     <li class="mt-8 first:mt-0">
-                        <img src="{{ $illustration->small() }}" title="{{ $illustration->alt }}"
-                            class="w-full h-48 object-cover object-center" loading="lazy" />
+                        {{ $illustration->img()->attributes([
+                            'loading' => 'lazy',
+                            'class' => 'w-full h-48 object-cover object-center',
+                        ]) }}
                         <span class="block border-l border-gray-200 pl-2.5 pt-1">
-                            {{ $illustration->alt }}
+                            { $illustration->alt }
                         </span>
                     </li>
                 @endforeach
@@ -104,11 +108,11 @@
 
                 <div class="not-prose border-t my-8 pt-8">
                     <div class="lg:flex clear-both">
-                        @if ($recipe->author->portrait !== null)
-                            <img alt=""
-                                class="w-36 h-auto object-cover object-left float-left lg:float-none mr-4 lg:mr-0"
-                                loading="lazy" src="{{ $recipe->author->portrait?->small() }}" width="144"
-                                height="128">
+                        @if ($recipe->author->getFirstMedia('portrait'))
+                            {{ $recipe->author->getFirstMedia('portrait')->img()->attributes([
+                                    'loading' => 'lazy',
+                                    'class' => 'w-36 h-auto object-cover object-left float-left lg:float-none mr-4 lg:mr-0',
+                                ]) }}
                         @endif
 
                         <div class="@if ($recipe->author->portrait !== null) lg:px-4 @endif">
@@ -116,7 +120,7 @@
                                 {{ $recipe->author->name }}
                             </h3>
                             <p class="max-w-lg text-base mt-1">
-                                {{ $recipe->author->description }}
+                                {{ $recipe->author->bio }}
                             </p>
                         </div>
                     </div>

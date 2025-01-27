@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Season;
 use App\Models\Tag;
+use App\Models\TagGroup;
 use Illuminate\Console\Command;
 
 class SetupCommand extends Command
@@ -14,11 +15,8 @@ class SetupCommand extends Command
 
     public function handle(): void
     {
-        if (! Tag::where('name', 'recipe_type')->exists()) {
-            $group = Tag::create([
-                'name' => 'recipe_type',
-                'phantom' => true,
-            ])->id;
+        if (! TagGroup::where('name', 'recipe_type')->exists()) {
+            $group = TagGroup::create(['name' => 'recipe_type']);
 
             Tag::create(['group_id' => $group, 'name' => 'Apéro']);
             Tag::create(['group_id' => $group, 'name' => 'Goûter']);
@@ -29,11 +27,8 @@ class SetupCommand extends Command
             $this->components->task('Created recipe_type tags');
         }
 
-        if (! Tag::where('name', 'seasons')->exists()) {
-            $group = Tag::create([
-                'name' => 'seasons',
-                'phantom' => true,
-            ]);
+        if (! TagGroup::where('name', 'seasons')->exists()) {
+            $group = TagGroup::create(['name' => 'seasons']);
 
             Tag::create(['group_id' => $group->id, 'name' => Season::All->value]);
             Tag::create(['group_id' => $group->id, 'name' => Season::Spring->value]);
@@ -42,19 +37,6 @@ class SetupCommand extends Command
             Tag::create(['group_id' => $group->id, 'name' => Season::Winter->value]);
 
             $this->components->task('Created seasons tags');
-        }
-
-        if (! Tag::where('name', 'hot_cold')->exists()) {
-            $group = Tag::create([
-                'name' => 'hot_cold',
-                'phantom' => true,
-                'only_one' => true,
-            ]);
-
-            Tag::create(['group_id' => $group->id, 'name' => 'Quand il fait chaud']);
-            Tag::create(['group_id' => $group->id, 'name' => 'Quand il fait froid']);
-
-            $this->components->task('Created hot_cold tags');
         }
     }
 }

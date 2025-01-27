@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Exception;
 
 /**
  * @property int $id
@@ -54,15 +55,8 @@ class Asset extends Model
 
     private function imgproxyUrl(string $processingOptions): string
     {
-        // TODO: If the ASSET_DISK is local, skip this.
-        $processingOptions = trim($processingOptions, '/');
-        $keyBin = pack('H*', trim(config('services.imgproxy.key')));
-        $saltBin = pack('H*', trim(config('services.imgproxy.salt')));
-
-        $path = sprintf('/%s/plain/s3://%s/%s', $processingOptions, config('filesystems.disks.s3.bucket'), $this->path);
-        $signature = rtrim(strtr(base64_encode(hash_hmac('sha256', $saltBin.$path, $keyBin, true)), '+/', '-_'), '=');
-
-        return sprintf('%s/%s%s', config('services.imgproxy.endpoint'), $signature, $path);
+        return "";
+        throw new \Exception("Unimplemented");
     }
 
     public function url(): Attribute

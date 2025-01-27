@@ -63,8 +63,10 @@
                                 <x-icons.times class="size-5 text-gray-700" />
                             </button>
 
-                            <img loading="lazy" src="{{ $recipe->banner->small() }}" alt="{{ $recipe->banner->alt }}"
-                                class="object-center object-cover w-72 h-36  bg-gray-100" />
+                            {{ $recipe->getFirstMedia('banner')?->img()->attributes([
+                                'loading' => 'lazy',
+                                'class' => 'object-center object-cover w-72 h-36 bg-gray-100'
+                            ]) }}
                         </form>
 
                         <h3 class="font-medium truncate p-2 flex">

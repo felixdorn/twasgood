@@ -1,18 +1,18 @@
 <?php
 
+use App\Models\TagGroup;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::table('recipes', function (Blueprint $table) {
-            $table->string('short_title')->nullable()->change();
+        Schema::table('tags', function (Blueprint $table) {
+            $table->foreignIdFor(TagGroup::class)->constrained()->cascadeOnDelete();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('recipes', function (Blueprint $table) {
-            // No change
+        Schema::table('tags', function (Blueprint $table) {
+            //
         });
     }
 };

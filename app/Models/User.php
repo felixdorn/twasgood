@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -37,11 +38,11 @@ use Laravel\Sanctum\HasApiTokens;
  *
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use InteractsWithMedia;
 
     protected $fillable = ['name', 'email', 'password', 'description'];
 
@@ -52,8 +53,15 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function portrait(): HasOneThrough
+    public function registerMediaCollections(): void
     {
-        return $this->hasOneThrough(Asset::class, User::class, 'id', 'resource_id', 'id')->where('group', 'portrait:unique')->where('resource_type', 'user');
+        $this->addMediaCollection('portrait')
+            ->withResponsiveImages()
+            ->singleFile();
+    }
+
+    public function portrait()
+    {
+        return $this->media()->where('collection_name', 'portait');
     }
 }

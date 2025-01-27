@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int $id
@@ -71,9 +73,10 @@ use Laravel\Scout\Searchable;
  *
  * @mixin \Eloquent
  */
-class Recipe extends Model
+class Recipe extends Model implements HasMedia
 {
     use HasSlugs;
+    use InteractsWithMedia;
     use Searchable;
     use SoftDeletes;
 
@@ -170,20 +173,32 @@ class Recipe extends Model
         return $this->tags()->where('group_id', Tag::where('name', 'seasons')->sole()->id);
     }
 
-    public function banner(): HasOneThrough
+    public function registerMediaCollections(): void
     {
-        return $this->hasOneThrough(Asset::class, Recipe::class, 'id', 'resource_id', 'id')->where('group', 'banner:unique')->where('resource_type', 'recipe');
+        $this->addMediaCollection('illustrations')
+            ->withResponsiveImages();
+
+        $this->addMediaConversion('default')
+            ->format('webp')
+            ->nonQueued();
+        ;
+
+        $this->addMediaCollection('banner')
+            ->withResponsiveImages()
+            ->singleFile();
+    }
+
+
+    public function banner()
+    {
+        return $this->media()->where('collection_name', 'banner');
     }
 
     public function illustrations(): MorphMany
     {
-        return $this->assets()->where('group', 'illustrations')->orderBy('order');
+        return $this->media()->where('collection_name', 'illustrations');
     }
 
-    public function assets(): MorphMany
-    {
-        return $this->morphMany(Asset::class, 'resource');
-    }
 
     public function prerequisites(): HasMany
     {

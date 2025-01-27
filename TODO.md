@@ -3,5 +3,4 @@
 -   see code todos
 -   404 Page
 -   fix search
--   the columns layout means that the first items go in the first columns, not in the first rows.
 -   categories page need fixing

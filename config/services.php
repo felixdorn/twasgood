@@ -14,35 +14,9 @@ return [
     |
     */
 
-    'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
-        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
-        'scheme' => 'https',
-    ],
-
-    'laravelpassport' => [
-        'host' => env('IDENTITY_SERVER_URL'),
-        'client_id' => env('IDENTITY_SERVER_CLIENT_ID'),
-        'client_secret' => env('IDENTITY_SERVER_CLIENT_SECRET'),
-        'redirect' => env('IDENTITY_SERVER_CALLBACK_URL'),
-    ],
-
-    'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
-    ],
-
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-    ],
-
-    'imgproxy' => [
-        'endpoint' => env('IMGPROXY_ENDPOINT', 'http://localhost:8080'),
-        'key' => '',
-        'salt' => '',
-        'key_file' => env('IMGPROXY_KEY_FILE'),
-        'salt_file' => env('IMGPROXY_SALT_FILE'),
     ],
 ];
