@@ -27,7 +27,7 @@
 
     <div class="flex flex-col lg:flex-row justify-center items-start px-8 xl:px-0 lg:space-x-8">
         <div class="max-w-sm w-full space-y-8">
-            <div class="lg:bg-white lg:border lg:rounded-xl">
+            <div class="lg:bg-white lg:border">
                 <h2
                     class="text-xl lg:px-8 pt-4 pb-2 lg:pb-4 mb-2 lg:mb-0  lg:bg-gray-50 font-semibold border-b rounded-t-xl text-brand-700">
                     Ingrédients
@@ -64,17 +64,17 @@
 
             <ul class="divide-y hidden lg:block">
                 @foreach ($recipe->illustrations as $illustration)
-                    <li class="mt-8 first:mt-0 bg-white rounded-xl">
+                    <li class="mt-8 first:mt-0">
                         <img src="{{ $illustration->small() }}" title="{{ $illustration->alt }}"
-                            class="rounded-t-xl w-full h-48 object-cover object-center" loading="lazy" />
-                        <span class="block text-gray-900 px-4 py-2 rounded-b-xl border border-t-0">
+                            class="w-full h-48 object-cover object-center" loading="lazy" />
+                        <span class="block border-l border-gray-200 pl-2.5 pt-1">
                             {{ $illustration->alt }}
                         </span>
                     </li>
                 @endforeach
             </ul>
         </div>
-        <div class="max-w-[calc(65ch+2rem)] w-full lg:mb-0 lb:pb-0 lg:bg-white lg:border lg:rounded-xl mt-8 lg:mt-0">
+        <div class="max-w-[calc(65ch+2rem)] w-full lg:mb-0 lb:pb-0 lg:bg-white lg:border mt-8 lg:mt-0">
             <h2
                 class="text-xl font-semibold lg:px-8 pt-4 mb-2 pb-2 lg:mb-0 lg:pb-4 lg:bg-gray-50 border-b rounded-t-xl text-brand-700 ">
                 @if ($recipe->time_to_prepare)
@@ -106,7 +106,7 @@
                     <div class="lg:flex clear-both">
                         @if ($recipe->author->portrait !== null)
                             <img alt=""
-                                class="w-36 h-auto object-cover rounded-md object-left float-left lg:float-none mr-4 lg:mr-0"
+                                class="w-36 h-auto object-cover object-left float-left lg:float-none mr-4 lg:mr-0"
                                 loading="lazy" src="{{ $recipe->author->portrait?->small() }}" width="144"
                                 height="128">
                         @endif

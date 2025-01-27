@@ -93,6 +93,7 @@ class Recipe extends Model
         ]);
     }
 
+    #[SearchUsingFullText('description')]
     public function toSearchableArray(): array
     {
         return [

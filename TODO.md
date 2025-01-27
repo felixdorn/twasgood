@@ -1,3 +1,7 @@
 -   Add the filters back, without all that computed_categories non-sense
 -   Refactor EmbedComponent such that we can remove /recipes /recipes/by-id (which would also allow us to build a better component)
 -   see code todos
+-   404 Page
+-   fix search
+-   the columns layout means that the first items go in the first columns, not in the first rows.
+- categories page need fixing

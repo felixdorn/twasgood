@@ -19,20 +19,20 @@
 
 <body class="font-sans antialiased h-full">
     <header>
-        <nav class="w-full pt-3 lg:pb-3 px-4 lg:px-8">
+        <nav class="w-full pt-4 lg:pb-4 px-4 lg:px-8 text-lg xl:text-xl">
             <div class=" max-w-7xl mx-auto relative">
                 <ul class="w-full grid grid-cols-2 lg:flex lg:space-x-6 items-center">
                     <li class="flex-1">
 
                         <a class="underline whitespace-nowrap" href="/">
-                            <span class="font-bold text-xl text-brand-700 underline">Faire + Acheter -</span>
+                            <span class="font-bold text-brand-700 underline">Faire + Acheter -</span>
                         </a>
                     </li>
-                    <li class="order-last lg:order-none col-span-full lg:col-span-1 mt-2 lg:mt-0 lg:w-full lg:max-w-md">
+                    <li class="order-last lg:order-none col-span-full lg:col-span-1 mt-4 lg:mt-0 lg:w-full lg:max-w-md">
                         <form action="{{ route('search') }}" class="inset-0 relative rounded-xl w-full shadow-sm">
                             <input type="search" id="search" name="query" placeholder="Checher une recette..."
                                 autocomplete="off" aria-label="Search"
-                                class="block w-full rounded-xl border-0 py-2 pl-4 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600" />
+                                class="block w-full border-0 py-2 pl-4 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600" />
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
 
                                 <x-icons.search id="search-icon" aria-hidden="true" class="size-5 text-gray-400" />
@@ -43,14 +43,14 @@
                         <div id="search-results" class="relative"></div>
                     </li>
                     <li class="text-right lg:w-fit lg:order-last">
-                        <a href="{{ route('about-us') }}" class="whitespace-nowrap text-gray-700 underline">À propos</a>
+                        <a href="{{ route('about-us') }}" class="whitespace-nowrap underline">À propos</a>
                     </li>
                 </ul>
             </div>
         </nav>
 
         <div class="px-4 lg:px-8 lg:bg-gray-50 lg:border-y">
-            <div class="flex items-center justify-between max-w-7xl mx-auto py-1.5 lg:py-2.5">
+            <div class="flex items-center justify-between max-w-7xl mx-auto pt-2 lg:py-2.5">
                 <ul class="flex w-full overflow-x-scroll space-x-4 text-white font-semibold">
                     @foreach ($categories as $category)
                         <li>

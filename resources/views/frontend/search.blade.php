@@ -4,11 +4,11 @@
             Résultats pour « {{ $query }} »
         </h1>
 
-        @if (count($recipes) > 0)
-            <div class="columns-3 gap-x-8 mt-4">
-                @foreach ($recipes as $recipe)
+        @if (count($recipes['results']) > 0)
+            <div class="grid grid-cols-3 gap-x-8 mt-4">
+                @foreach ($recipes['results'] as $recipe)
                     <a href="{{ route('recipes.show', $recipe->slug->slug) }}"
-                        class="flex flex-col rounded-xl shadow-lg max-w-lg w-full bg-white break-inside-avoid mb-8">
+                        class="flex flex-col rounded-xl shadow-lg max-w-lg w-full bg-white mb-8">
                         <img loading="lazy" src="{{ $recipe->banner->small() }}" alt="{{ $recipe->banner->alt }}"
                             class="w-full rounded-t-xl" />
                         <div class="flex flex-col flex-1 px-6 py-4">

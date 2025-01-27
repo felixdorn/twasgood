@@ -8,23 +8,26 @@ use Illuminate\Support\Collection;
 
 class SearchRecipes
 {
-    public function __invoke(string $query, int $limit = 5): Collection
+    public function __invoke(string $query, int $limit = 5)
     {
         if (strlen($query) === 0) {
             return collect();
         }
 
-        $recipes = Recipe::search($query)
+        $total = Recipe::search($query)->query(fn (Builder $builder) => $builder->select('id'))->get()->count();
+
+        $query = Recipe::search($query)
             ->query(
                 fn (Builder $builder) => $builder
-                    ->with([
-                        'slug',
-                        'banner' => fn ($builder) => $builder->select('path', 'alt'),
-                    ])
-                    ->select('id', 'title', 'description')
-            )
-            ->take($limit)->get();
+                    ->with('slug')
+                    ->select('id', 'title')
+            );
 
-        return $recipes;
+        if ($limit > 0) {
+            $query->take($limit);
+        }
+
+
+        return [ 'total' => $total, 'results' => $query->get() ];
     }
 }
