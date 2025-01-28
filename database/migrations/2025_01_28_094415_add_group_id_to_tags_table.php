@@ -12,7 +12,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('tags', function (Blueprint $table) {
-            $table->foreignIdFor(TagGroup::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(TagGroup::class)->nullable()->constrained()->cascadeOnDelete();
         });
     }
 

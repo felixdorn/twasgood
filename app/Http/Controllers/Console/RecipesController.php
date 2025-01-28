@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\Tag;
+use App\Models\TagGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -64,8 +65,8 @@ class RecipesController
 
         return inertia('Console/Recipe/Edit', [
             'recipe' => $recipe,
-            'typeTags' => Tag::recipeTypeGroup()->children()->get(['id', 'name']),
-            'seasonTags' => Tag::seasonGroup()->children()->get(['id', 'name']),
+            'typeTags' => TagGroup::where('name', 'recipe_type')->sole()->tags()->get(['id', 'name']),
+            'seasonTags' => TagGroup::where('name', 'seasons')->sole()->tags()->get(['id', 'name']),
             'recipes' => Recipe::all(['id', 'title']),
             'ingredients' => Ingredient::all(['id', 'name']),
             'categories' => Category::all(),

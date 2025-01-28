@@ -343,7 +343,7 @@ const storeNewPrerequisite = async () => {
                     </ul>
                 </div>
                 <div class="mt-4">
-                    <h4 class="font-bold">Tags</h4>
+                    <h4 class="font-bold">Type de recette</h4>
                     <ul class="flex flex-wrap gap-y-2 gap-x-4 mt-1">
                         <li v-for="tag in typeTags"
                             class="inline-flex justify-between items-center py-1 px-2 text-sm font-medium text-gray-800 bg-gray-100 rounded-xl cursor-pointer"
@@ -584,32 +584,8 @@ const storeNewPrerequisite = async () => {
 
             <Input v-model="prerequisiteEditForm.quantity" label="Quantité" placeholder="Quantité" required />
 
-            <Checkbox :checked="prerequisiteEditForm.optional" label="Optionnel" name="optional"
+            <Checkbox :checked="prerequisiteEditForm.optional" label="Le prérequis est optionnel" name="optional"
                 @input="prerequisiteEditForm.optional = $event.target.checked" />
-            <p class="pt-4 mt-6 font-semibold border-t text-brand-500">
-                Aperçu
-            </p>
-
-            <div class="py-2 px-4 mt-1 rounded-xl border">
-                <p class="font-semibold">
-                    <span :class="{
-                        underline: prerequisiteEditForm.type === 'recipe',
-                    }" class="mr-1">{{
-                            prerequisiteEditForm.prerequisite[
-                            prerequisiteEditForm.type === "recipe"
-                                ? "title"
-                                : "name"
-                            ]
-                        }}</span>
-
-                    <span v-if="prerequisiteEditForm.details" class="font-normal text-gray-700">
-                        {{ prerequisiteEditForm.details }}
-                    </span>
-                </p>
-                <p v-if="prerequisiteEditForm.quantity" class="mt-1 text-gray-700">
-                    {{ prerequisiteEditForm.quantity }}
-                </p>
-            </div>
 
             <Button class="mt-4">Mettre à jour</Button>
         </form>

@@ -10,20 +10,19 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string $name
  * @property IngredientType $type
- * @property bool $contains_gluten
- * @property bool $contains_dairy
+ * @property int $contains_gluten
+ * @property int $contains_dairy
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\TFactory|null $use_factory
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Prerequisite> $prerequisites
  * @property-read int|null $prerequisites_count
- * @property-read \App\Models\Slug|null $slug
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Slug> $slugs
- * @property-read int|null $slugs_count
- *
  * @method static \Database\Factories\IngredientFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient newQuery()
@@ -39,7 +38,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Ingredient withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Ingredient extends Model

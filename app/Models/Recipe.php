@@ -17,26 +17,28 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int $category_id
  * @property string $title
  * @property string $description
  * @property string|null $time_to_prepare
+ * @property bool $uses_sterilization
  * @property string $content
- * @property bool $publishable
+ * @property int $publishable
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property string|null $published_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property bool $uses_sterilization
- * @property int $computed_categories
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Asset> $assets
- * @property-read int|null $assets_count
- * @property-read \App\Models\Asset|null $banner
+ * @property int|null $user_id
+ * @property-read \App\Models\User|null $author
  * @property-read \App\Models\Category $category
  * @property-read mixed $html
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Asset> $illustrations
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $illustrations
  * @property-read int|null $illustrations_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Prerequisite> $prerequisites
  * @property-read int|null $prerequisites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $seasons
@@ -47,15 +49,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read mixed $state
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $types
- * @property-read int|null $types_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereComputedCategories($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereDeletedAt($value)
@@ -63,14 +61,13 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe wherePublishable($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereShortTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereTimeToPrepare($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUsesSterilization($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Recipe extends Model implements HasMedia
@@ -170,7 +167,7 @@ class Recipe extends Model implements HasMedia
 
     public function seasons(): BelongsToMany
     {
-        return $this->tags()->where('group_id', Tag::where('name', 'seasons')->sole()->id);
+        return $this->tags();
     }
 
     public function registerMediaCollections(): void
@@ -208,11 +205,6 @@ class Recipe extends Model implements HasMedia
     public function slugs(): MorphMany
     {
         return $this->morphMany(Slug::class, 'sluggable');
-    }
-
-    public function types(): BelongsToMany
-    {
-        return $this->tags()->where('group_id', Tag::where('name', 'recipe_type')->sole()->id);
     }
 
     public function author()

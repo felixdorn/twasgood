@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\RecipeType;
 use App\Enums\Season;
 use App\Models\Tag;
 use App\Models\TagGroup;
@@ -15,28 +16,24 @@ class SetupCommand extends Command
 
     public function handle(): void
     {
-        if (! TagGroup::where('name', 'recipe_type')->exists()) {
-            $group = TagGroup::create(['name' => 'recipe_type']);
+        $group = TagGroup::firstOrCreate(['name' => 'recipe_type']);
 
-            Tag::create(['group_id' => $group, 'name' => 'Apéro']);
-            Tag::create(['group_id' => $group, 'name' => 'Goûter']);
-            Tag::create(['group_id' => $group, 'name' => 'Entrée']);
-            Tag::create(['group_id' => $group, 'name' => 'Plat']);
-            Tag::create(['group_id' => $group, 'name' => 'Dessert']);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => RecipeType::Apero->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => RecipeType::Snack->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => RecipeType::Starter->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => RecipeType::Dish->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => RecipeType::Desert->value]);
 
-            $this->components->task('Created recipe_type tags');
-        }
+        $this->components->task('Created recipe_type tags');
 
-        if (! TagGroup::where('name', 'seasons')->exists()) {
-            $group = TagGroup::create(['name' => 'seasons']);
 
-            Tag::create(['group_id' => $group->id, 'name' => Season::All->value]);
-            Tag::create(['group_id' => $group->id, 'name' => Season::Spring->value]);
-            Tag::create(['group_id' => $group->id, 'name' => Season::Summer->value]);
-            Tag::create(['group_id' => $group->id, 'name' => Season::Autumn->value]);
-            Tag::create(['group_id' => $group->id, 'name' => Season::Winter->value]);
+        $group = TagGroup::firstOrCreate(['name' => 'seasons']);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => Season::All->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => Season::Spring->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => Season::Summer->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => Season::Autumn->value]);
+        Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => Season::Winter->value]);
 
-            $this->components->task('Created seasons tags');
-        }
+        $this->components->task('Created seasons tags');
     }
 }

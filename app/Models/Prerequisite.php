@@ -7,20 +7,21 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
+ * 
+ *
  * @property int $id
  * @property string|null $details
  * @property string $quantity
  * @property bool $optional
+ * @property int|null $order
  * @property int $recipe_id
  * @property string $prerequisite_type
  * @property int $prerequisite_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $order
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $prerequisite
  * @property-read \App\Models\Recipe $recipe
  * @property-read mixed $type
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite query()
@@ -34,7 +35,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite whereRecipeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite whereUpdatedAt($value)
- *
  * @mixin \Eloquent
  */
 class Prerequisite extends Pivot
