@@ -172,16 +172,6 @@ let
         };
       };
     };
-    "inertiajs/inertia-laravel" = {
-      targetDir = "";
-      src = composerEnv.buildZipPackage {
-        name = "inertiajs-inertia-laravel-7e6a030ffab315099782a4844a2175455f511c68";
-        src = fetchurl {
-          url = "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/7e6a030ffab315099782a4844a2175455f511c68";
-          sha256 = "021cig516lqr4srs5dghz9h6glqf1sxh2vp5bsg4wxlm3g662cmr";
-        };
-      };
-    };
     "laminas/laminas-diactoros" = {
       targetDir = "";
       src = composerEnv.buildZipPackage {
@@ -919,16 +909,6 @@ let
         src = fetchurl {
           url = "https://api.github.com/repos/symfony/var-dumper/zipball/c6a22929407dec8765d6e2b6ff85b800b245879c";
           sha256 = "1g13jzzslna9pj5g2gjcq2pb7ddka72vwhmcpfbzl8qwvv8f29fm";
-        };
-      };
-    };
-    "tightenco/ziggy" = {
-      targetDir = "";
-      src = composerEnv.buildZipPackage {
-        name = "tightenco-ziggy-939576ad0f3d3e633a9401c8c377bc7bc873ff35";
-        src = fetchurl {
-          url = "https://api.github.com/repos/tighten/ziggy/zipball/939576ad0f3d3e633a9401c8c377bc7bc873ff35";
-          sha256 = "05z6i6vl1xgq88k0shk0x4d4k3n6famfqz6cw6x58krw17504rz4";
         };
       };
     };

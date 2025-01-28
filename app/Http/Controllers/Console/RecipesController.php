@@ -12,7 +12,6 @@ use App\Models\TagGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
 
 class RecipesController
 {
@@ -63,7 +62,7 @@ class RecipesController
 
         $recipe->setRelation('prerequisites', $prerequisites);
 
-        return inertia('Console/Recipe/Edit', [
+        return view('backend.recipes.edit', [
             'recipe' => $recipe,
             'typeTags' => TagGroup::where('name', 'recipe_type')->sole()->tags()->get(['id', 'name']),
             'seasonTags' => TagGroup::where('name', 'seasons')->sole()->tags()->get(['id', 'name']),
@@ -95,7 +94,7 @@ class RecipesController
 
         $recipe->publish();
 
-        return Inertia::location(route('console.recipes.index', ['state' => 'published']));
+        return to_route('console.recipes.index', ['state' => 'published']);
     }
 
     public function delete(Recipe $recipe)
@@ -115,6 +114,6 @@ class RecipesController
 
         $recipe->delete();
 
-        return Inertia::location(route('console.recipes.index', ['state' => $recipe->state]));
+        return to_route('console.recipes.index', ['state' => $recipe->state]);
     }
 }

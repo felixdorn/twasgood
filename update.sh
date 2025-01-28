@@ -2,16 +2,16 @@ set -ex
 
 CODEDIR=$(pwd)
 
-#NODEDIR=$(mktemp -d)
-#trap 'rm -rf -- "$NODEDIR"' EXIT
+NODEDIR=$(mktemp -d)
+trap 'rm -rf -- "$NODEDIR"' EXIT
 
-#cp "$CODEDIR"/package.json "$NODEDIR"
+cp "$CODEDIR"/package.json "$NODEDIR"
 
-#cd $NODEDIR
+cd $NODEDIR
 
-#node2nix --composition node-composition.nix
+node2nix --composition node-composition.nix
 
-#cp "$NODEDIR"/* "$CODEDIR"
+cp "$NODEDIR"/* "$CODEDIR"
 
 
 cd "$CODEDIR"
