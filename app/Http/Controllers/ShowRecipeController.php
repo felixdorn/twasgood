@@ -22,7 +22,7 @@ class ShowRecipeController
             'recipe' => $recipe->load([
                 'category',
                 'illustrations',
-                'author' => fn ($q) => $q->with('portrait')
+                'author' => fn ($q) => $q->with('portrait'),
             ]),
         ]);
     }

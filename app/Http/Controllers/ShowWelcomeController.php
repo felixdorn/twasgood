@@ -10,7 +10,7 @@ class ShowWelcomeController
     {
         $sections = Section::query()
             ->with([
-                'recipes' => fn ($q) => $q->with(['slug', 'banner'])->get(['id', 'title', 'description'])
+                'recipes' => fn ($q) => $q->with(['slug', 'banner'])->get(['id', 'title', 'description']),
             ])
             ->whereNull('hidden_at')
             ->orderBy('order')

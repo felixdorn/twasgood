@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -17,8 +16,6 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
- * 
- *
  * @property int $id
  * @property int $category_id
  * @property string $title
@@ -49,6 +46,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read mixed $state
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe onlyTrashed()
@@ -68,6 +66,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUsesSterilization($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Recipe extends Model implements HasMedia
@@ -178,13 +177,11 @@ class Recipe extends Model implements HasMedia
         $this->addMediaConversion('default')
             ->format('webp')
             ->nonQueued();
-        ;
 
         $this->addMediaCollection('banner')
             ->withResponsiveImages()
             ->singleFile();
     }
-
 
     public function banner()
     {
@@ -195,7 +192,6 @@ class Recipe extends Model implements HasMedia
     {
         return $this->media()->where('collection_name', 'illustrations');
     }
-
 
     public function prerequisites(): HasMany
     {

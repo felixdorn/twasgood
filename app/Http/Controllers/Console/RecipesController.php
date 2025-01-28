@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
-use App\Models\Tag;
 use App\Models\TagGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

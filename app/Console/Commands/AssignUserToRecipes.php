@@ -23,7 +23,7 @@ class AssignUserToRecipes extends Command
             options: User::pluck('email', 'id'),
         );
 
-        if ($this->option('force') && !app()->isProduction()) {
+        if ($this->option('force') && ! app()->isProduction()) {
             Recipe::query()->update(['user_id' => $user]);
         } else {
             Recipe::whereNull('user_id')->update(['user_id' => $user]);

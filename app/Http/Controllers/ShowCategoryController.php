@@ -17,7 +17,7 @@ class ShowCategoryController
             ->whereNotNull('published_at')
             ->with('slug')
             ->get();
-        //->get(['id', 'title', 'description']);
+        // ->get(['id', 'title', 'description']);
 
         /*
         $recipes->each(function ($recipe) use ($orderedSeason) {

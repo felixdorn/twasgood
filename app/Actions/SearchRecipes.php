@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
 class SearchRecipes
 {
@@ -27,7 +26,6 @@ class SearchRecipes
             $query->take($limit);
         }
 
-
-        return [ 'total' => $total, 'results' => $query->get() ];
+        return ['total' => $total, 'results' => $query->get()];
     }
 }

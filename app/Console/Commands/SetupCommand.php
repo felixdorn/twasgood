@@ -26,7 +26,6 @@ class SetupCommand extends Command
 
         $this->components->task('Created recipe_type tags');
 
-
         $group = TagGroup::firstOrCreate(['name' => 'seasons']);
         Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => Season::All->value]);
         Tag::firstOrCreate(['tag_group_id' => $group->id, 'name' => Season::Spring->value]);

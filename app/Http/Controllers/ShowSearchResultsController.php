@@ -19,7 +19,7 @@ class ShowSearchResultsController
             return to_route('welcome');
         }
 
-        $recipes = (new SearchRecipes())($query, -1);
+        $recipes = (new SearchRecipes)($query, -1);
 
         return view('frontend.search', compact('query', 'recipes'));
     }
