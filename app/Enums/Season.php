@@ -10,7 +10,7 @@ enum Season: string
     case Winter = 'winter';
     case All = 'all';
 
-    public static function offsetFromCurrent(): int
+    public static function offsetFromCurrent():  array
     {
         $season = self::current();
 
