@@ -22,7 +22,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Tiptap\Editor;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $category_id

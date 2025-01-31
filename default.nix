@@ -1,7 +1,11 @@
 { pkgs, stdenvNoCC, dataDir ? "/var/lib/twasgood", php }:
 
 let
-  nodeDeps = (pkgs.callPackage ./node-composition.nix { }).nodeDependencies;
+  nodeDeps = (import ./node-composition.nix {
+    inherit pkgs;
+    system = "x86_64-linux";
+    nodejs = pkgs.nodejs_23;
+  }).nodeDependencies;
   composerDeps = import ./composition.nix {
     inherit pkgs php;
     inherit (stdenvNoCC.hostPlatform) system;
@@ -9,7 +13,7 @@ let
   };
 in stdenvNoCC.mkDerivation {
   pname = "twasgood";
-  version = "7";
+  version = "11";
 
   buildPhase = ''
     runHook preBuild

@@ -29,14 +29,14 @@ const value = ref(props.modelValue);
         >
         <div
             :class="{ 'mt-1': !hideLabel }"
-            class="relative shadow-sm grow-wrap"
+            class="relative shadow-xs grow-wrap"
             :data-replicated-value="value"
         >
             <textarea
                 :id="name"
                 :aria-label="hideLabel ? label : null"
                 :name="name"
-                class="focus:ring-brand-500 focus:border-brand-500 block w-full focus:outline-none resize-none sm:text-sm border-gray-300 py-2 border"
+                class="focus:ring-brand-500 focus:border-brand-500 block w-full focus:outline-hidden resize-none sm:text-sm border-gray-300 py-2 border"
                 v-bind="$attrs"
                 @input="
                     $emit('update:modelValue', $event.target.value);

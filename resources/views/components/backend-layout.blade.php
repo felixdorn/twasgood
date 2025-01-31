@@ -28,7 +28,7 @@
                     </a>
                 </div>
                 <ul class="w-full flex flex-row-reverse lg:flex-row lg:justify-end items-center space-x-4 lg:space-x-6">
-                    <li class="inset-0 relative rounded-xl w-full shadow-sm lg:max-w-md hidden lg:block">
+                    <li class="inset-0 relative rounded-xl w-full shadow-xs lg:max-w-md hidden lg:block">
                         <form action="{{ route('search') }}">
                             <input type="search" id="search" name="query" placeholder="Chercher une recette..."
                                 autocomplete="off" aria-label="Search"

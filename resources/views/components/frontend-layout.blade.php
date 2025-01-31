@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li class="order-last lg:order-none col-span-full lg:col-span-1 mt-4 lg:mt-0 lg:w-full lg:max-w-md">
-                        <form action="{{ route('search') }}" class="inset-0 relative rounded-xl w-full shadow-sm">
+                        <form action="{{ route('search') }}" class="inset-0 relative rounded-xl w-full shadow-xs">
                             <input type="search" id="search" name="query" placeholder="Checher une recette..."
                                 autocomplete="off" aria-label="Search"
                                 class="block w-full border-0 py-2 pl-4 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600" />

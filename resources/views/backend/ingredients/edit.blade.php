@@ -30,7 +30,7 @@
                 <div class="flex relative items-start">
                     <div class="flex items-center h-5">
                         <input id="gluten" aria-describedby="gluten-description"
-                            class="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+                            class="w-4 h-4 rounded-sm border-gray-300 text-brand-600 focus:ring-brand-500"
                             @if ($ingredient->contains_gluten) checked @endif name="contains_gluten" type="checkbox" />
                     </div>
                     <div class="ml-3">
@@ -45,7 +45,7 @@
                     <div class="flex items-center h-5">
                         <input id="dairy" aria-describedby="dairy-description"
                             @if ($ingredient->contains_dairy) checked @endif
-                            class="w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+                            class="w-4 h-4 rounded-sm border-gray-300 text-brand-600 focus:ring-brand-500"
                             name="contains_dairy" type="checkbox" />
                     </div>
                     <div class="ml-3">

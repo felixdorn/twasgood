@@ -315,7 +315,7 @@ const storeNewPrerequisite = async () => {
                 " />
 
         <input v-model="recipe.title"
-            class="mt-4 w-full text-5xl font-bold text-center bg-transparent border-none shadow-none md:mt-5 focus:border-none focus:ring-0 focus:outline-none"
+            class="mt-4 w-full text-5xl font-bold text-center bg-transparent border-none shadow-none md:mt-5 focus:border-none focus:ring-0 focus:outline-hidden"
             placeholder="Titre" required type="text" @input="update('title', $event)" />
 
         <div class="flex flex-col-reverse mt-4 md:grid md:grid-cols-3 md:gap-x-4">

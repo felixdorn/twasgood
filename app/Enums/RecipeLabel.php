@@ -18,7 +18,6 @@ enum RecipeLabel: string
     case ForDish = 'for_dish';
     case ForDesert = 'for_desert';
 
-
     case ForSpring = 'for_spring';
     case ForSummer = 'for_summer';
     case ForAutumn = 'for_autumn';

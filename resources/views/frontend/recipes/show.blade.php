@@ -106,7 +106,7 @@
 
                     </div>
                 @endif
-                <div class="!mt-0">{{ $recipe->html }}</div>
+                <div class="mt-0!">{{ $recipe->html }}</div>
 
                 <div class="not-prose border-t my-8 pt-8">
                     <x-author-spotlight :author="$recipe->author" />

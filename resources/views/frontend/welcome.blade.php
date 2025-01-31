@@ -18,7 +18,7 @@
                         @foreach ($section->recipes as $k => $recipe)
                             <li class="flex">
                                 <a href="{{ route('recipes.show', $recipe->slug->slug) }}"
-                                    class="w-72 lg:w-96 flex-shrink-0 flex flex-col">
+                                    class="w-72 lg:w-96 shrink-0 flex flex-col">
                                     {{ $recipe->getFirstMedia('banner')
                                         ?->img()->attributes([
                                             'class' => 'object-top object-cover h-60 w-full bg-gray-100',

@@ -15,7 +15,7 @@
                 @foreach ($recipes['results'] as $recipe)
                     <li>
                         <a href="{{ route('recipes.show', ['recipe' => $recipe->slug->slug]) }}"
-                            class="px-4 flex py-2 focus:ring-emerald-600 focus:ring focus:outline-none hover:bg-gray-100  transition ">
+                            class="px-4 flex py-2 focus:ring-emerald-600 focus:ring-3 focus:outline-hidden hover:bg-gray-100  transition ">
 
                             <div>
                                 <span class="font-semibold block underline">{{ $recipe->title }}</span>

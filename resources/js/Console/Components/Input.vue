@@ -21,10 +21,10 @@ defineProps({
 <template>
     <div :class="{ 'mt-4': !first }">
         <label v-if="!hideLabel" :for="name" class="block font-medium text-gray-700">{{ label }}</label>
-        <div :class="{ 'mt-1': !hideLabel }" class="relative shadow-sm">
+        <div :class="{ 'mt-1': !hideLabel }" class="relative shadow-xs">
             <input :id="name" :aria-label="hideLabel ? label : null" :name="name" :type="type"
                 :value="modelValue ?? $attrs.value"
-                class="block py-2 pl-4 w-full border border-gray-300 sm:text-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500"
+                class="block py-2 pl-4 w-full border border-gray-300 sm:text-sm focus:outline-hidden focus:ring-brand-500 focus:border-brand-500"
                 :required="required" v-bind="$attrs" @input="$emit('update:modelValue', $event.target.value)" />
         </div>
         <p v-if="(errors ?? $page.props.errors)[name]" class="mt-2 text-sm font-semibold text-red-600">

@@ -51,14 +51,14 @@ const selected = computed({
         <ComboboxLabel v-if="!hideLabel" class="block font-medium text-gray-700">{{ label }}</ComboboxLabel>
         <div class="relative" :class="hideLabel ? '' : 'mt-1'">
             <ComboboxInput :display-value="(model) => model?.[searchProperty]"
-                class="py-2 pr-10 pl-3 w-full bg-white border border-gray-200 shadow-sm sm:text-sm focus:ring-1 focus:outline-none focus:border-brand-500 focus:ring-brand-500"
+                class="py-2 pr-10 pl-3 w-full bg-white border border-gray-200 shadow-xs sm:text-sm focus:ring-1 focus:outline-hidden focus:border-brand-500 focus:ring-brand-500"
                 v-bind="$attrs" @change="query = $event.target.value" />
-            <ComboboxButton class="flex absolute inset-y-0 right-0 items-center px-2 focus:outline-none">
+            <ComboboxButton class="flex absolute inset-y-0 right-0 items-center px-2 focus:outline-hidden">
                 <ChevronUpDownIcon aria-hidden="true" class="w-5 h-5 text-gray-400" />
             </ComboboxButton>
 
             <ComboboxOptions v-if="filtered.length > 0"
-                class="overflow-auto absolute py-1 mt-1 w-full max-h-60 text-base bg-white ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm focus:outline-none z-[1000]">
+                class="overflow-auto absolute py-1 mt-1 w-full max-h-60 text-base bg-white ring-1 ring-black ring-opacity-5 shadow-lg sm:text-sm focus:outline-hidden z-1000">
                 <ComboboxOption v-for="model in filtered" :key="model.id" v-slot="{ active, selected }" :value="model"
                     as="template">
                     <li :class="['relative cursor-default select-none py-2 pl-3 pr-9',

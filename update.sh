@@ -9,7 +9,7 @@ cp "$CODEDIR"/package.json "$NODEDIR"
 
 cd $NODEDIR
 
-node2nix --composition node-composition.nix
+node2nix --composition node-composition.nix -18
 
 cp "$NODEDIR"/* "$CODEDIR"
 
