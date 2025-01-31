@@ -15,7 +15,7 @@ class OrderSectionsController
         ]);
 
         DB::transaction(function () use ($request) {
-            Section::whereNotIn('id', $request->items)->update(['force_hide' => true, 'order' => 0]);
+            Section::whereNotIn('id', $request->items)->update(['hidden_at' => now(), 'order' => 0]);
 
             foreach ($request->items as $index => $sectionId) {
                 Section::where('id', $sectionId)->sole()->update(['order' => $index + 1]);

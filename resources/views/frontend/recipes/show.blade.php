@@ -71,9 +71,11 @@
                             'loading' => 'lazy',
                             'class' => 'w-full h-48 object-cover object-center',
                         ]) }}
-                        <span class="block border-l border-gray-200 pl-2.5 pt-1">
-                            { $illustration->alt }
-                        </span>
+                        @if (!empty($illustration->getCustomProperty('caption')))
+                            <span class="block border-l border-gray-200 pl-2.5 pt-1">
+                                {{ $illustration->getCustomProperty('caption') }}
+                            </span>
+                        @endif
                     </li>
                 @endforeach
             </ul>
@@ -107,23 +109,7 @@
                 <div class="!mt-0">{{ $recipe->html }}</div>
 
                 <div class="not-prose border-t my-8 pt-8">
-                    <div class="lg:flex clear-both">
-                        @if ($recipe->author->getFirstMedia('portrait'))
-                            {{ $recipe->author->getFirstMedia('portrait')->img()->attributes([
-                                    'loading' => 'lazy',
-                                    'class' => 'w-36 h-auto object-cover object-left float-left lg:float-none mr-4 lg:mr-0',
-                                ]) }}
-                        @endif
-
-                        <div class="@if ($recipe->author->portrait !== null) lg:px-4 @endif">
-                            <h3 class="font-semibold text-xl">
-                                {{ $recipe->author->name }}
-                            </h3>
-                            <p class="max-w-lg text-base mt-1">
-                                {{ $recipe->author->bio }}
-                            </p>
-                        </div>
-                    </div>
+                    <x-author-spotlight :author="$recipe->author" />
                 </div>
             </div>
         </div>

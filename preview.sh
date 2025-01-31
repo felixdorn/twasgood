@@ -1,7 +1,11 @@
 set -ex
 
-#docker load <$(nix-build image.nix --argstr version "preview")
-#docker push "rg.fr-par.scw.cloud/forevue/twasgood:preview"
+
+if [ "$1" != "--skip-build" ];
+then
+    docker load <$(nix-build image.nix --argstr version "preview")
+    docker push "rg.fr-par.scw.cloud/forevue/twasgood:preview"
+fi
 
 ssh descartes <<EOF
     docker pull "rg.fr-par.scw.cloud/forevue/twasgood:preview"

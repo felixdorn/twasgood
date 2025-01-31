@@ -1,15 +1,15 @@
-import { debounce } from "./Console/Components/editor/util";
+import { debounce } from "./utils/debounce";
 
-let searchInput = document.getElementById("search") as HTMLInputElement | null;
+let searchInput = document.getElementById("search");
 let searchResults = document.getElementById("search-results");
 let searchIcon = document.getElementById("search-icon");
 let spinner = document.getElementById("spinner-icon");
 if (searchInput && searchResults && searchIcon && spinner) {
     let lastQuery = "";
-    let searchItems: HTMLElement[] = [];
+    let searchItems = [];
     let isActiveElementSearchOrResults = () =>
         document.activeElement == searchInput ||
-        searchItems.indexOf(document.activeElement as any) !== -1;
+        searchItems.indexOf(document.activeElement) !== -1;
 
     searchInput.addEventListener("focusin", () => {
         searchResults.hidden = false;
@@ -21,8 +21,8 @@ if (searchInput && searchResults && searchIcon && spinner) {
 
     searchInput.addEventListener(
         "input",
-        debounce((e: Event) => {
-            let query: string = (e.target as HTMLInputElement).value;
+        debounce((e) => {
+            let query = e.target.value;
 
             if (query === "") {
                 searchResults.innerHTML = "";
@@ -52,7 +52,7 @@ if (searchInput && searchResults && searchIcon && spinner) {
     );
 
     searchResults.addEventListener("focusout", (e) => {
-        if (searchResults.contains(e.relatedTarget as any)) {
+        if (searchResults.contains(e.relatedTarget)) {
             return;
         }
 
@@ -61,8 +61,8 @@ if (searchInput && searchResults && searchIcon && spinner) {
 
     window.addEventListener("click", (e) => {
         if (
-            searchInput.contains(e.target as any) ||
-            searchResults.contains(e.target as any)
+            searchInput.contains(e.target) ||
+            searchResults.contains(e.target)
         ) {
             return;
         }
@@ -86,9 +86,7 @@ if (searchInput && searchResults && searchIcon && spinner) {
                 return;
             }
 
-            let focusedItemIndex = searchItems.indexOf(
-                document.activeElement as any,
-            );
+            let focusedItemIndex = searchItems.indexOf(document.activeElement);
 
             e.preventDefault();
             let direction = e.key == "ArrowDown" ? 1 : -1;

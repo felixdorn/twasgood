@@ -134,11 +134,8 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             \App\Models\Recipe::class => [
+                'filterableAttributes' => ['labels', 'category_id'],
             ],
-
-            // 'users' => [
-            //     'filterableAttributes'=> ['id', 'name', 'email'],
-            // ],
         ],
     ],
 

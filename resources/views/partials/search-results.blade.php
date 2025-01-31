@@ -1,5 +1,11 @@
 <div class="absolute w-full">
+
     <div class="bg-white max-w-lg mx-auto mt-2 border relative w-full shadow-2xl">
+    @isset($recipes['error'])
+<div>
+                <p class="text-red-500 px-4 py-2">Une erreur s'est produite. Veuillez réessayer plus tard.</p>
+            </div>
+    @else
         @if ($recipes['results']->isEmpty())
             <div>
                 <p class="text-gray-700 px-4 py-2">Aucun résultat pour «{{ $query }}»</p>
@@ -26,5 +32,6 @@
                 @endif
             </ul>
         @endif
+    @endif
     </div>
 </div>

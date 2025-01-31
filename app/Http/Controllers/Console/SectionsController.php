@@ -20,15 +20,14 @@ class SectionsController
             $focus = (int) $focus;
         }
 
-        // TODO: Take hidden_at (if null but force_hide is true, set hidden_at to 1900 and update the section)
         $sections = Section::with('recipes')
             ->orderBy('order')
             ->get();
 
         return view('backend.sections.index', [
             'focus' => $focus,
-            'visible_sections' => $sections->where('force_hide', false),
-            'hidden_sections' => $sections->where('force_hide', true),
+            'visible_sections' => $sections->whereNull('hidden_at'),
+            'hidden_sections' => $sections->whereNotNull('hidden_at'),
             'recipes' => Recipe::whereNotNull('published_at')->get(['id', 'title']),
         ]);
     }
@@ -41,7 +40,7 @@ class SectionsController
         ]);
 
         $section = Section::create(array_merge($data, [
-            'force_hide' => true,
+            'hidden_at' => now()
         ]));
 
         return to_route('console.sections.index', ['focus' => $section->id]);
@@ -103,7 +102,7 @@ class SectionsController
 
     public function toggle(Section $section): RedirectResponse
     {
-        $section->update(['force_hide' => ! $section->force_hide]);
+        $section->update(['hidden_at' => $section->hidden_at === null ? now() : null]);
 
         return to_route('console.sections.index');
     }

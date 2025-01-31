@@ -83,15 +83,10 @@ trait HasSlugs
             })
             ->first();
 
-        if (! $slug || ! $slug->sluggable || ! $this->shouldShow($slug->sluggable)) {
+        if (! $slug || ! $slug->sluggable) {
             abort(404);
         }
 
         return $slug->sluggable;
-    }
-
-    public function shouldShow(Model $model)
-    {
-        return true;
     }
 }

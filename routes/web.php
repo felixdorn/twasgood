@@ -14,6 +14,7 @@ use App\Http\Controllers\ShowCategoryController;
 use App\Http\Controllers\ShowRecipeController;
 use App\Http\Controllers\ShowSearchResultsController;
 use App\Http\Controllers\ShowWelcomeController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,11 @@ Route::get('/', ShowWelcomeController::class)->name('welcome');
 Route::get('/categories/{category}', ShowCategoryController::class)->name('categories.show');
 Route::get('/recettes/{recipe}', ShowRecipeController::class)->name('recipes.show');
 Route::get('/search', ShowSearchResultsController::class)->name('search');
-Route::view('/guides/comment-steriliser-ses-bocaux', 'frontend.articles.sterilization')->name('sterilization-warning');
+Route::get('/guides/comment-steriliser-ses-bocaux', function () {
+    $author = User::where('name', 'Charlotte Dorn')->first();
+
+    return view('frontend.articles.sterilization', compact('author'));
+})->name('sterilization-warning');
 Route::view('/a-propos', 'frontend.about')->name('about-us');
 
 Route::prefix('/partials')->group(function () {
@@ -32,7 +37,7 @@ Route::prefix('/partials')->group(function () {
 
         // DO THE QUERY STRING THING
         $query = $request->get('query');
-        $recipes = (new SearchRecipes)($query);
+        $recipes = (new SearchRecipes())($query);
 
         return view('partials.search-results', compact('query', 'recipes'));
     })->name('partials.preview-search-results');

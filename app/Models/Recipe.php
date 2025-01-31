@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\RecipeLabel;
+use App\Enums\RecipeType;
+use App\Enums\Season;
 use App\Models\Concerns\HasSlugs;
+use App\Services\RecipeEnrichment\RecipeEnricher;
 use App\Services\TiptapRenderer;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -11,11 +15,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\HtmlString;
 use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Tiptap\Editor;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int $category_id
  * @property string $title
@@ -46,7 +54,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property-read mixed $state
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe onlyTrashed()
@@ -66,7 +73,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUsesSterilization($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Recipe extends Model implements HasMedia
@@ -92,15 +98,68 @@ class Recipe extends Model implements HasMedia
         ]);
     }
 
-    #[SearchUsingFullText('description')]
     public function toSearchableArray(): array
     {
         return [
             'id' => $this->getKey(),
             'title' => $this->title,
-            'description' => $this->description,
+            'category_id' => $this->category_id,
+            'labels' => $this->getLabels(),
         ];
     }
+
+    public function shouldBeSearchable(): bool
+    {
+        return $this->deleted_at === null && $this->published_at !== null;
+    }
+
+    public function getLabels(): array
+    {
+        $labels = [];
+
+        $enrichment = RecipeEnricher::enrich($this);
+
+        if ($enrichment->isVegan) {
+            $labels[] = RecipeLabel::IsVegan;
+        }
+
+        if ($enrichment->isVegetarian) {
+            $labels[] = RecipeLabel::IsVegetarian;
+        }
+
+        if ($enrichment->containsGluten) {
+            $labels[] = RecipeLabel::ContainsGluten;
+        }
+
+        if ($enrichment->containsDairy) {
+            $labels[] = RecipeLabel::ContainsDairy;
+        }
+
+        $seasons = $this->tags()->where('tag_group_id', TagGroup::where('name', 'seasons')->sole(['id'])->id)->get();
+        foreach ($seasons as $season) {
+            $labels[] = match (Season::from($season->name)) {
+                Season::Spring => RecipeLabel::ForSpring,
+                Season::Winter => RecipeLabel::ForWinter,
+                Season::Summer => RecipeLabel::ForSummer,
+                Season::Autumn => RecipeLabel::ForAutumn,
+                Season::All => RecipeLabel::ForAllSeason
+            };
+        }
+
+        $types = $this->tags()->where('tag_group_id', TagGroup::where('name', 'recipe_type')->sole(['id'])->id)->get();
+        foreach ($types as $type) {
+            $labels[] = match (RecipeType::from($type->name)) {
+                RecipeType::Apero => RecipeLabel::ForApero,
+                RecipeType::Snack => RecipeLabel::ForSnack,
+                RecipeType::Starter => RecipeLabel::ForStarter,
+                RecipeType::Dish => RecipeLabel::ForDish,
+                RecipeType::Desert => RecipeLabel::ForDesert,
+            };
+        }
+
+        return $labels;
+    }
+
 
     protected static function booted(): void
     {
@@ -216,7 +275,11 @@ class Recipe extends Model implements HasMedia
     public function html(): Attribute
     {
         return new Attribute(
-            fn () => TiptapRenderer::process($this->content)
+            function () {
+                $html = (new Editor())->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
+
+                return new HtmlString($html);
+            }
         );
     }
 }

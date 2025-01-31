@@ -16,6 +16,7 @@ class FrontendLayout extends Component
         $this->categories = Category::query()
             ->where('hidden', false)
             ->with(['slug'])
+            ->orderBy('order')
             ->get();
     }
 

@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Models\Recipe;
 use Illuminate\Database\Eloquent\Builder;
+use Meilisearch\Exceptions\CommunicationException;
 
 class SearchRecipes
 {
@@ -13,14 +14,20 @@ class SearchRecipes
             return collect();
         }
 
-        $total = Recipe::search($query)->query(fn (Builder $builder) => $builder->select('id'))->get()->count();
+        try {
+            $total = Recipe::search($query)->query(fn (Builder $builder) => $builder->select('id'))->get()->count();
 
-        $query = Recipe::search($query)
-            ->query(
-                fn (Builder $builder) => $builder
-                    ->with('slug')
-                    ->select('id', 'title')
-            );
+            $query = Recipe::search($query)
+                ->query(
+                    fn (Builder $builder) => $builder
+                        ->with('slug')
+                        ->select('id', 'title')
+                );
+        } catch (CommunicationException $e) {
+            report($e);
+
+            return ['error' => 'Une erreur s\'est produite.'];
+        }
 
         if ($limit > 0) {
             $query->take($limit);

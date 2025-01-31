@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use Meilisearch\Client;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict(! app()->isProduction());
         Model::unguard();
 
+        $this->app->bind(Client::class, function () {
+            return $client = new Client(
+                config('scout.meilisearch.host'),
+                config('scout.meilisearch.key'),
+            );
+        });
         Relation::enforceMorphMap([
             'asset' => Asset::class,
             'category' => Category::class,

@@ -6,9 +6,9 @@
     </x-slot:header>
 
     <h2 class="text-xl mt-6">Visibles sur la page d'acceuil</h2>
-    <div class="mt-2" data-sortable data-sortable-href="{{ route('console.order-sections') }}">
+    <div class="mt-2" data-sorter data-sorter-callback="{{ route('console.order-sections') }}">
         @foreach ($visible_sections as $section)
-            <section class="even:bg-gray-50 first:border-t border-b group" data-sort-value="{{ $section->id }}">
+            <section class="even:bg-gray-50 first:border-t border-b group" data-sorter-item="{{ $section->id }}">
                 <div class="flex">
                     <div class="flex flex-col items-center justify-between border-r border-gray-100 py-4 px-2">
                         <div class="flex flex-col items-center">
@@ -20,7 +20,7 @@
                                 @csrf
                                 <button type="submit"
                                     class="p-1 -mx-1 mt-2 hover:bg-gray-200 group/toggle rounded-lg transition">
-                                    @if (!$section->force_hide)
+                                    @if ($section->hidden_at === null)
                                         <x-icons.open-eye
                                             class="size-4 text-brand-600 group-hover/toggle:text-brand-700" />
                                     @else
@@ -59,7 +59,7 @@
                                 @csrf
                                 <button type="submit"
                                     class="p-1 -mx-1  hover:bg-gray-200 group/toggle rounded-lg transition">
-                                    @if (!$section->force_hide)
+                                    @if ($section->hidden_at === null)
                                         <x-icons.open-eye
                                             class="size-4 text-brand-600 group-hover/toggle:text-brand-700" />
                                     @else
@@ -94,5 +94,7 @@
             <option value="{{ $recipe->title }}"></option>
         @endforeach
     </datalist>
-    @vite(['resources/js/pages/section-index.ts'])
+
+    <script src="{{ Vite::asset('resources/js/components/sorter.js') }}" type="module"></script>
+    <script src="{{ Vite::asset('resources/js/pages/section-index.js') }}"></script>
 </x-backend-layout>

@@ -23,7 +23,7 @@
             @csrf
             @method('PUT')
             <div class="grow-wrap">
-                <textarea name="description" aria-label="Description"
+                <textarea name="description" aria-label="Desription"
                     class="max-w-[65ch] w-full text-gray-900 focus:outline-none peer focus:border-brand-600 focus:ring-0">{{ $section->description }}</textarea>
                 <button
                     class="bg-white w-fit text-brand-700 border px-2 py-px absolute -right-2 translate-x-full whitespace-nowrap pointer-events-none focus:pointer-events-auto peer-focus:pointer-events-auto focus:outline-none focus:border-brand-600 focus:opacity-100 transition peer-focus:opacity-100 opacity-0 font-bold">
@@ -46,10 +46,10 @@
                     Cacher les recettes
                 </span>
             </summary>
-            <ul class="mt-2 grid lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-3 gap-4" data-sortable
-                data-sortable-href="{{ route('console.sections.order', $section) }}">
+            <ul class="mt-2 grid lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-3 gap-4" data-sorter
+                data-sorter-callback="{{ route('console.sections.order', $section) }}">
                 @foreach ($section->recipes as $recipe)
-                    <li class="w-72 border" data-sort-value="{{ $recipe->id }}">
+                    <li class="w-72 border" data-sorter-item="{{ $recipe->id }}">
                         <form method="post"
                             action="{{ route('console.sections.detach', ['section' => $section, 'recipe' => $recipe]) }}"
                             class="relative">
@@ -63,10 +63,11 @@
                                 <x-icons.times class="size-5 text-gray-700" />
                             </button>
 
-                            {{ $recipe->getFirstMedia('banner')?->img()->attributes([
-                                'loading' => 'lazy',
-                                'class' => 'object-center object-cover w-72 h-36 bg-gray-100'
-                            ]) }}
+                            {{ $recipe->getFirstMedia('banner')
+                                ?->img()->attributes([
+                                    'loading' => 'lazy',
+                                    'class' => 'object-center object-cover w-72 h-36 bg-gray-100',
+                                ]) }}
                         </form>
 
                         <h3 class="font-medium truncate p-2 flex">
