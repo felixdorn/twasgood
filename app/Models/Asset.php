@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
  * @property-read \App\Models\TFactory|null $use_factory
  * @property-read Model|\Eloquent $resource
  * @property-read mixed $url
+ *
  * @method static \Database\Factories\AssetFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Asset query()
+ *
  * @mixin \Eloquent
  */
 class Asset extends Model

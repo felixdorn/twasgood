@@ -9,6 +9,5 @@ class ComputedProperties
         public bool $isVegetarian = true,
         public bool $containsGluten = false,
         public bool $containsDairy = false,
-    ) {
-    }
+    ) {}
 }

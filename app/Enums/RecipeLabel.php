@@ -27,11 +27,11 @@ enum RecipeLabel: string
     public function filterLabel(): string
     {
         return match ($this) {
-            self::IsVegan => "Végane",
-            self::IsVegetarian => "Végétarien",
-            self::ContainsDairy => "Sans lactose",
-            self::ContainsGluten => "Sans gluten",
-            default => throw new Exception("Unimplemented")
+            self::IsVegan => 'Végane',
+            self::IsVegetarian => 'Végétarien',
+            self::ContainsDairy => 'Sans lactose',
+            self::ContainsGluten => 'Sans gluten',
+            default => throw new Exception('Unimplemented')
         };
     }
 }

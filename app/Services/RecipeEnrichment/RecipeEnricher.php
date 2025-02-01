@@ -10,12 +10,12 @@ class RecipeEnricher
 {
     public static function enrich(Recipe $recipe): ComputedProperties
     {
-        return (new self())->computeMetadataAboutPrerequisites($recipe);
+        return (new self)->computeMetadataAboutPrerequisites($recipe);
     }
 
     public function computeMetadataAboutPrerequisites(Recipe $recipe): ComputedProperties
     {
-        $props = new ComputedProperties();
+        $props = new ComputedProperties;
 
         $recipe->load(['prerequisites' => fn ($q) => $q->with(['prerequisite'])]);
 
@@ -25,14 +25,13 @@ class RecipeEnricher
                 continue;
             }
 
-
-            if ($prerequisite->prerequisite_type === "recipe") {
+            if ($prerequisite->prerequisite_type === 'recipe') {
                 // TODO: There's optimisation to be done here.
                 $props = $this->merge(
                     $props,
                     $this->computeMetadataAboutPrerequisites($prerequisite->prerequisite)
                 );
-            } elseif ($prerequisite->prerequisite_type === "ingredient") {
+            } elseif ($prerequisite->prerequisite_type === 'ingredient') {
                 $ingredient = $prerequisite->prerequisite;
 
                 $other = new ComputedProperties(
@@ -52,7 +51,7 @@ class RecipeEnricher
 
                 $props = $this->merge($props, $other);
             } else {
-                throw new Exception("Unexpected prerequisite_type: " . $prerequisite->prerequisite_type);
+                throw new Exception('Unexpected prerequisite_type: '.$prerequisite->prerequisite_type);
             }
         }
 
@@ -62,8 +61,8 @@ class RecipeEnricher
     public function merge(ComputedProperties $props, ComputedProperties $other): ComputedProperties
     {
         $props->containsGluten = $props->containsGluten || $other->containsGluten;
-        $props->containsDairy =  $props->containsDairy || $other->containsDairy;
-        $props->isVegan = $props->isVegan &&  $other->isVegan;
+        $props->containsDairy = $props->containsDairy || $other->containsDairy;
+        $props->isVegan = $props->isVegan && $other->isVegan;
         $props->isVegetarian = $props->isVegetarian && $other->isVegetarian;
 
         return $props;

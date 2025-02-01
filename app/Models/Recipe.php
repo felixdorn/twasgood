@@ -7,7 +7,6 @@ use App\Enums\RecipeType;
 use App\Enums\Season;
 use App\Models\Concerns\HasSlugs;
 use App\Services\RecipeEnrichment\RecipeEnricher;
-use App\Services\TiptapRenderer;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,8 +21,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Tiptap\Editor;
 
 /**
- *
- *
  * @property int $id
  * @property int $category_id
  * @property string $title
@@ -54,6 +51,7 @@ use Tiptap\Editor;
  * @property-read mixed $state
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe onlyTrashed()
@@ -73,6 +71,7 @@ use Tiptap\Editor;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUsesSterilization($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withoutTrashed()
+ *
  * @mixin \Eloquent
  */
 class Recipe extends Model implements HasMedia
@@ -159,7 +158,6 @@ class Recipe extends Model implements HasMedia
 
         return $labels;
     }
-
 
     protected static function booted(): void
     {
@@ -276,7 +274,7 @@ class Recipe extends Model implements HasMedia
     {
         return new Attribute(
             function () {
-                $html = (new Editor())->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
+                $html = (new Editor)->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
 
                 return new HtmlString($html);
             }

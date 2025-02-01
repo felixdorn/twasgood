@@ -40,7 +40,7 @@ class SectionsController
         ]);
 
         $section = Section::create(array_merge($data, [
-            'hidden_at' => now()
+            'hidden_at' => now(),
         ]));
 
         return to_route('console.sections.index', ['focus' => $section->id]);

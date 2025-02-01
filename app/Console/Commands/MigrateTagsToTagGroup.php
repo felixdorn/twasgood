@@ -39,12 +39,12 @@ class MigrateTagsToTagGroup extends Command
                 $tag->update([
                     'tag_group_id' => $recipeTypeId,
                     'name' => match ($tag->name) {
-                        "Apéro" => RecipeType::Apero->value,
-                        "Plat" => RecipeType::Dish->value,
-                        "Entrée" => RecipeType::Starter->value,
-                        "Goûter" => RecipeType::Snack->value,
-                        "Dessert" => RecipeType::Desert->value
-                    }
+                        'Apéro' => RecipeType::Apero->value,
+                        'Plat' => RecipeType::Dish->value,
+                        'Entrée' => RecipeType::Starter->value,
+                        'Goûter' => RecipeType::Snack->value,
+                        'Dessert' => RecipeType::Desert->value
+                    },
                 ]);
 
             }

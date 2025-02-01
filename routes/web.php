@@ -37,7 +37,7 @@ Route::prefix('/partials')->group(function () {
 
         // DO THE QUERY STRING THING
         $query = $request->get('query');
-        $recipes = (new SearchRecipes())($query);
+        $recipes = (new SearchRecipes)($query);
 
         return view('partials.search-results', compact('query', 'recipes'));
     })->name('partials.preview-search-results');

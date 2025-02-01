@@ -21,16 +21,15 @@ class ShowCategoryController
             'has.*' => [(new Enum(RecipeLabel::class))->only([RecipeLabel::IsVegan, RecipeLabel::IsVegetarian])],
             'has_not' => ['nullable', 'array'],
             'has_not.*' => [(new Enum(RecipeLabel::class))->only([RecipeLabel::ContainsDairy, RecipeLabel::ContainsGluten])],
-            'occasion' => [new Enum(RecipeType::class)]
+            'occasion' => [new Enum(RecipeType::class)],
         ]);
-
 
         $query = $data['q'] ?? '';
         $hasLabel = $data['has'] ?? [];
         $hasNotLabel = $data['has_not'] ?? [];
         $occasion = $data['occasion'] ?? null;
 
-        $filter = 'category_id = ' . $category->id;
+        $filter = 'category_id = '.$category->id;
 
         if (count($hasLabel) > 0) {
             foreach ($hasLabel as $label) {
@@ -39,7 +38,7 @@ class ShowCategoryController
         }
 
         if ($occasion !== null && $occasion !== RecipeType::ForAllOccasions->value) {
-            $label = (match(RecipeType::from($occasion)) {
+            $label = (match (RecipeType::from($occasion)) {
                 RecipeType::Apero => RecipeLabel::ForApero,
                 RecipeType::Snack => RecipeLabel::ForSnack,
                 RecipeType::Starter => RecipeLabel::ForStarter,
@@ -49,7 +48,6 @@ class ShowCategoryController
 
             $filter .= sprintf(' AND labels IN [%s]', $label);
         }
-
 
         if (count($hasNotLabel) > 0) {
             foreach ($hasNotLabel as $label) {
@@ -62,10 +60,10 @@ class ShowCategoryController
             'facets' => ['labels'],
             'attributesToRetrieve' => ['id', 'labels'],
             'locales' => ['fr'],
-            'limit' => 1000  // TODO: Pagination?
+            'limit' => 1000,  // TODO: Pagination?
         ]);
 
-        //dd($results, $hasLabel);
+        // dd($results, $hasLabel);
 
         $rawFacets = $results->getFacetDistribution()['labels'];
         $facets = [
@@ -85,14 +83,14 @@ class ShowCategoryController
 
         return view('frontend.categories.show', [
             'category' => $category,
-                'searchResults' => Recipe::query()
-                    ->with(['banner', 'slug'])
-                    ->whereIn('id', Arr::pluck($results->getHits(), 'id'))
-                    ->get(),
-                'query' => $query,
-                'occasion' => $occasion,
-                'facets' => $facets,
-                'estimatedTotal' => $results->getEstimatedTotalHits()
-            ]);
+            'searchResults' => Recipe::query()
+                ->with(['banner', 'slug'])
+                ->whereIn('id', Arr::pluck($results->getHits(), 'id'))
+                ->get(),
+            'query' => $query,
+            'occasion' => $occasion,
+            'facets' => $facets,
+            'estimatedTotal' => $results->getEstimatedTotalHits(),
+        ]);
     }
 }
