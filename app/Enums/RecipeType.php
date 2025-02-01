@@ -17,8 +17,8 @@ enum RecipeType: string
             self::Apero => "Pour l'apéro",
             self::Snack => "Pour le goûter",
             self::Starter => "Pour l'entrée",
-            self::Dish => "Pour le repas",
-            self::Desert => "Pour le desert",
+            self::Dish => "Pour le plat principal",
+            self::Desert => "Pour le dessert",
             self::ForAllOccasions => "Pour toute occasion"
         };
     }

@@ -1,5 +1,0 @@
--   Add the filters back
--   see code todos
--   404 Page
--   fix search
--   categories page need fixing

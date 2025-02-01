@@ -15,7 +15,7 @@
                             @foreach (\App\Enums\RecipeType::cases() as $recipeType)
                                 <option value="{{ $recipeType->value }}"
                                     @if ($occasion === null && $recipeType === \App\Enums\RecipeType::ForAllOccasions) selected
-                                    @elseif ($occasion !== null && $recipeType === $occasion) selected @endif>
+                                    @elseif ($occasion !== null && $recipeType->value === $occasion) selected @endif>
                                     {{ $recipeType->label() }}
                                 </option>
                             @endforeach
