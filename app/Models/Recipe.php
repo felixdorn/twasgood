@@ -6,7 +6,6 @@ use App\Enums\RecipeLabel;
 use App\Enums\RecipeType;
 use App\Enums\Season;
 use App\Models\Concerns\HasSlugs;
-use App\Services\RecipeEnrichment\RecipeEnricher;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +18,7 @@ use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Tiptap\Editor;
+use App\Actions;
 
 /**
  * @property int $id
@@ -116,7 +116,8 @@ class Recipe extends Model implements HasMedia
     {
         $labels = [];
 
-        $enrichment = RecipeEnricher::enrich($this);
+        $enrichment = (new Actions\LabelRecipes())($this);
+        ;
 
         if ($enrichment->isVegan) {
             $labels[] = RecipeLabel::IsVegan;
@@ -274,7 +275,7 @@ class Recipe extends Model implements HasMedia
     {
         return new Attribute(
             function () {
-                $html = (new Editor)->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
+                $html = (new Editor())->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
 
                 return new HtmlString($html);
             }
