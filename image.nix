@@ -66,7 +66,7 @@ let
 
       # Required by Octane
       pcntl
-    ])).buildEnv { extraConfig = builtins.readFile ./php.ini; };
+    ])).buildEnv { extraConfig = builtins.readFile ./nix/php.ini; };
 
   frankenphp = (pkgs.frankenphp.override { php = customPhp; }).overrideAttrs
     (oldAttrs: {

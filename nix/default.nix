@@ -13,7 +13,7 @@ let
   };
 in stdenvNoCC.mkDerivation {
   pname = "twasgood";
-  version = "11";
+  version = "23";
 
   buildPhase = ''
     runHook preBuild
