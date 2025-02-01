@@ -66,19 +66,7 @@
         @if (count($searchResults) > 0)
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2">
                 @foreach ($searchResults as $recipe)
-                    <a href="{{ route('recipes.show', $recipe->slug->slug) }}" class="flex flex-col max-w-lg w-full">
-
-                        {{ $recipe->getFirstMedia('banner')
-                            ?->img()->attributes([
-                                'loading' => 'lazy',
-                            ]) }}
-                        <div class="flex flex-col flex-1">
-                            <div class=" border-l border-gray-300 pt-2 pl-4">
-                                <h2 class="text-xl font-semibold underline">{{ $recipe->title }}</h2>
-                                <p class="text-lg mt-1">{{ $recipe->description }}</p>
-                            </div>
-                        </div>
-                    </a>
+                    <x-recipe-card :recipe="$recipe" :excerpt-only="false" :href="route('recipes.show', $recipe->slug->slug)" />
                 @endforeach
             </div>
     </div>

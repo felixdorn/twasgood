@@ -13,104 +13,102 @@
         <meta content="{{ $recipe->description }}" name="description" />
     </x-slot:head>
 
-    <div class="w-full pt-8 max-w-7xl px-8 lg:px-0 lg:mx-auto lg:mt-6">
-        <div class="flex flex-col-reverse">
-            <h1 class="font-semibold text-3xl lg:text-6xl my-12 text-center">
+    <div class="mt-8 lg:mt-8 lg:max-w-7xl mx-auto px-4 lg:px-8 xl:px-0">
+        <div>
+            {{ $recipe->getFirstMedia('banner') }}
+
+            <h1 class="font-semibold text-3xl lg:text-6xl mt-6 lg:mt-12 text-center">
                 {{ $recipe->title }}
             </h1>
-            {{ $recipe->getFirstMedia('banner') }}
-            <!--
-            <img alt="{ $recipe->banner->alt }}" src="{ $recipe->banner->small() }}"
-                title="{ $recipe->banner->alt }}" width="900" height="507"
-                class="rounded-xl w-full h-auto lg:w-[900px] lg:h-[507px] object-top object-cover mx-auto" />-->
+
+            <p class="max-w-prose mx-auto text-balance  text-center text-xl text-gray-800 lg:text-2xl mt-2 lg:mt-6">
+                {{ $recipe->description }}</p>
+
         </div>
 
     </div>
 
-    <div class="flex flex-col lg:flex-row justify-center items-start px-8 xl:px-0 lg:space-x-8">
-        <div class="max-w-sm w-full space-y-8">
-            <div class="lg:bg-white lg:border">
-                <h2
-                    class="text-xl lg:px-8 pt-4 pb-2 lg:pb-4 mb-2 lg:mb-0  lg:bg-gray-50 font-semibold border-b rounded-t-xl text-brand-700">
-                    Ingrédients
-                </h2>
+    <div class="mt-8 lg:mt-16 lg:max-w-7xl mx-auto px-4 lg:px-8 xl:px-0 flex flex-col lg:flex-row justify-center">
+        <aside class="lg:mr-24 pb-2 max-w-sm">
+            <h2 class="text-xl lg:text-2xl font-semibold text-brand-700">
+                Ingrédients
+            </h2>
 
-                <ul class="divide-y">
-                    @foreach ($recipe->prerequisites as $prerequisite)
-                        <li class="lg:px-8 py-3">
-                            <div>
-                                <span class="font-semibold text-lg">
-                                    {{ $prerequisite->prerequisite->title ?? $prerequisite->prerequisite->name }}
+            <ul class="mt-0.5">
+                @foreach ($recipe->prerequisites as $k => $prerequisite)
+                    <li class="py-1.5">
+                        <div>
+                            <span class="font-semibold text-lg">
+                                {{ $prerequisite->prerequisite->title ?? $prerequisite->prerequisite->name }}
 
-                                    @if ($prerequisite->details)
-                                        <span class="font-normal">
-                                            ({{ $prerequisite->details }})
-                                        </span>
-                                    @endif
-
-                                </span>
-                                @if ($prerequisite->optional)
-                                    <div class="mt-1">
-                                        <span
-                                            class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">Optionel</span>
-                                    </div>
+                                @if ($prerequisite->details)
+                                    <span class="font-normal">
+                                        ({{ $prerequisite->details }})
+                                    </span>
                                 @endif
-                                <span class="block mt-1 text-lg">
-                                    {{ $prerequisite->quantity }}
-                                </span>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
 
-            <ul class="divide-y hidden lg:block">
-                @foreach ($recipe->illustrations as $illustration)
-                    <li class="mt-8 first:mt-0">
-                        {{ $illustration->img()->attributes([
-                            'loading' => 'lazy',
-                            'class' => 'w-full h-48 object-cover object-center',
-                        ]) }}
-                        @if (!empty($illustration->getCustomProperty('caption')))
-                            <span class="block border-l border-gray-200 pl-2.5 pt-1">
-                                {{ $illustration->getCustomProperty('caption') }}
                             </span>
-                        @endif
+                            @if ($prerequisite->optional)
+                                <div class="mt-1 ml-2">
+                                    <span
+                                        class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">Optionel</span>
+                                </div>
+                            @endif
+                            <span class="block mt-1 text-lg ml-2">
+                                {{ $prerequisite->quantity }}
+                            </span>
+                        </div>
                     </li>
                 @endforeach
             </ul>
-        </div>
-        <div class="max-w-[calc(65ch+2rem)] w-full lg:mb-0 lb:pb-0 lg:bg-white lg:border mt-8 lg:mt-0">
-            <h2
-                class="text-xl font-semibold lg:px-8 pt-4 mb-2 pb-2 lg:mb-0 lg:pb-4 lg:bg-gray-50 border-b rounded-t-xl text-brand-700 ">
-                @if ($recipe->time_to_prepare)
-                    <span>Préparation: {{ $recipe->time_to_prepare }}</span>
-                @else
-                    <span>Préparation</span>
-                @endif
+
+            @if (count($recipe->illustrations) > 0)
+                <h2 class="text-xl lg:text-2xl font-semibold text-brand-700 mt-8">Illustrations</h2>
+                <ul class="divide-y hidden lg:block mt-1.5">
+                    @foreach ($recipe->illustrations as $illustration)
+                        <li class="mt-8 first:mt-0">
+                            {{ $illustration->img()->attributes([
+                                'loading' => 'lazy',
+                                'class' => 'object-cover object-center',
+                            ]) }}
+                            @if (!empty($illustration->getCustomProperty('caption')))
+                                <span class="block border-l border-gray-200 pl-2.5 pt-1">
+                                    {{ $illustration->getCustomProperty('caption') }}
+                                </span>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </aside>
+        <div class="max-w-prose w-full mt-4 lg:mt-0">
+            <h2>
+                <span class="text-xl lg:text-2xl font-semibold text-brand-700">
+                    Préparation
+                </span>
+                <span class="text-xl lg:text-2xl font-semibold text-gray-700">({{ $recipe->time_to_prepare }})</span>
             </h2>
 
-            <div class="prose prose-xl prose-emerald lg:px-8 prose-p:text-gray-900">
-                @if ($recipe->uses_sterilization)
-                    <div class="not-prose mt-6 rounded-xl bg-amber-100 px-8 py-4">
-                        <span class="font-bold lg:text-lg text-amber-900">
-                            Avertissement : cette recette nécessite de la stérilisation
-                        </span>
+            @if ($recipe->uses_sterilization)
+                <div class="mt-1.5
+                    mb-3 bg-amber-50 px-2 py-1">
+                    <span class="font-bold text-lg text-amber-900 block">
+                        Avertissement : cette recette nécessite de la stérilisation
+                    </span>
 
-                        <p>
-                            <a href="{{ route('sterilization-warning') }}"
-                                class="text-amber-900 font-medium underline text-base lg:text-lg">
-                                Comment bien stériliser ses bocaux &rarr;
-                            </a>
-                        </p>
-
-                    </div>
-                @endif
-                <div class="mt-0!">{{ $recipe->html }}</div>
-
-                <div class="not-prose border-t my-8 pt-8">
-                    <x-author-spotlight :author="$recipe->author" />
+                    <a href="{{ route('sterilization-warning') }}"
+                        class="block text-amber-900 font-medium underline text-lg">
+                        Comment bien stériliser ses bocaux &rarr;
+                    </a>
                 </div>
+            @endif
+
+            <div class="prose prose-xl prose-emerald prose-p:text-gray-900">
+                {{ $recipe->html }}
+            </div>
+
+            <div class="not-prose border-t my-8 pt-8">
+                <x-author-spotlight :author="$recipe->author" />
             </div>
         </div>
     </div>

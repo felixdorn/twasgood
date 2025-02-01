@@ -15,21 +15,10 @@
                     <p class="max-w-[65ch] text-gray-900 text-lg mt-1 text-balance">{{ $section->description }}</p>
 
                     <ul class="flex space-x-6 mt-4 flex-nowrap overflow-x-scroll overflow-y-visible -mb-1 pb-1">
-                        @foreach ($section->recipes as $k => $recipe)
+                        @foreach ($section->recipes as $recipe)
                             <li class="flex">
-                                <a href="{{ route('recipes.show', $recipe->slug->slug) }}"
-                                    class="w-72 lg:w-96 shrink-0 flex flex-col">
-                                    {{ $recipe->getFirstMedia('banner')
-                                        ?->img()->attributes([
-                                            'class' => 'object-top object-cover h-60 w-full bg-gray-100',
-                                            'lazy' => $k === 0 ? 'eager' : 'lazy',
-                                        ]) }}
-
-                                    <div class="border-l border-gray-300 px-4 pt-2">
-                                        <h3 class="text-xl font-medium truncate underline">{{ $recipe->title }}</h3>
-                                        <p class="text-gray-700 truncate">{{ $recipe->description }}</p>
-                                    </div>
-                                </a>
+                                <x-recipe-card :recipe="$recipe" :excerpt-only="true" :href="route('recipes.show', $recipe->slug->slug)"
+                                    class="w-72 lg:w-96" />
                             </li>
                         @endforeach
                     </ul>
