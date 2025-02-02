@@ -21,6 +21,8 @@ use Tiptap\Editor;
 use App\Actions;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int $category_id
  * @property string $title
@@ -34,7 +36,6 @@ use App\Actions;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int|null $user_id
- * @property-read \App\Models\User|null $author
  * @property-read \App\Models\Category $category
  * @property-read mixed $html
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $illustrations
@@ -51,7 +52,6 @@ use App\Actions;
  * @property-read mixed $state
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe onlyTrashed()
@@ -71,7 +71,6 @@ use App\Actions;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUsesSterilization($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withoutTrashed()
- *
  * @mixin \Eloquent
  */
 class Recipe extends Model implements HasMedia

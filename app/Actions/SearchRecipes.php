@@ -21,7 +21,7 @@ class SearchRecipes
                 ->query(
                     fn (Builder $builder) => $builder
                         ->with('slug')
-                        ->select('id', 'title')
+                        ->select(['id', 'title', 'description'])
                 );
         } catch (CommunicationException $e) {
             report($e);

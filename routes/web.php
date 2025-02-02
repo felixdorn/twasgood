@@ -15,8 +15,11 @@ use App\Http\Controllers\ShowRecipeController;
 use App\Http\Controllers\ShowSearchResultsController;
 use App\Http\Controllers\ShowWelcomeController;
 use App\Models\User;
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\InvalidStateException;
 
 Route::get('/', ShowWelcomeController::class)->name('welcome');
 Route::get('/categories/{category}', ShowCategoryController::class)->name('categories.show');
@@ -37,15 +40,13 @@ Route::prefix('/partials')->group(function () {
 
         // DO THE QUERY STRING THING
         $query = $request->get('query');
-        $recipes = (new SearchRecipes)($query);
+        $recipes = (new SearchRecipes())($query);
 
         return view('partials.search-results', compact('query', 'recipes'));
     })->name('partials.preview-search-results');
 });
 
 Route::name('console.')->prefix('/console')->middleware(['auth'])->group(function () {
-    Route::redirect('/', '/console/recipes')->name('index');
-
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -83,7 +84,31 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     Route::delete('/assets/{asset}', [AssetsController::class, 'destroy'])->name('assets.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('authentik')->redirect();
+})->name('auth.redirect');
+
+Route::view('auth/error', 'auth.error')->name('auth.error');
+
+Route::get('/auth/callback', function () {
+    try {
+        $authentikUser = Socialite::driver('authentik')->user();
+    } catch (InvalidStateException|ClientException $e) {
+        return to_route('auth.error');
+    }
+
+    $user = User::updateOrCreate([
+        'authentik_id' => $authentikUser->id
+    ], [
+            'name' => $authentikUser->name,
+            'email' => $authentikUser->email,
+            'authentik_token' => $authentikUser->token,
+            'authentik_refresh_token' => $authentikUser->refresh_token,
+        ]);
+
+    return to_route('console.recipes.index');
+});
+
 
 // legacy routes
 Route::get('/categories-{category}', function ($category) {

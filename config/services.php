@@ -19,4 +19,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+
+    'authentik' => [
+        'base_url' => env('AK_BASE_URL'),
+        'client_id' => env('AK_CLIENT_ID'),
+        'client_secret' => env('AK_CLIENT_SECRET'),
+        'redirect' => env('AK_REDIRECT_URI')
+    ]
 ];

@@ -13,6 +13,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Meilisearch\Client;
 
@@ -29,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
                 config('scout.meilisearch.key'),
             );
         });
+
+        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
+            $event->extendSocialite('authentik', \SocialiteProviders\Authentik\Provider::class);
+        });
+
+
         Relation::enforceMorphMap([
             'asset' => Asset::class,
             'category' => Category::class,
