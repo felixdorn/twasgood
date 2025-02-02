@@ -11,7 +11,9 @@ cd $TMPDIR
 
 node2nix -18 --composition node-composition.nix
 
-cp "$TMPDIR"/* "$CODEDIR"/nix
+rm "$TMPDIR"/package.json
+
+cp "$TMPDIR"/* "$CODEDIR"
 
 cd "$CODEDIR"
 
@@ -25,7 +27,7 @@ cp "$CODEDIR"/default.nix "$TMPDIR"
 cd $TMPDIR
 
 "$CODEDIR"/vendor/bin/composer2nix \
-  --name "twasgood" \
+  --name "twasgood-vendor" \
   --composition=php-composition.nix \
   --no-dev \
 
@@ -43,7 +45,7 @@ sed -e "s/stdenv\.lib/lib/g" \
 sed -e '7s/stdenv writeTextFile/stdenv lib writeTextFile/' \
     -i ./php-composition.nix
 
-cp "$TMPDIR"/* "$CODEDIR"/nix
+cp "$TMPDIR"/* "$CODEDIR"
 
 cd "$CODEDIR"
 

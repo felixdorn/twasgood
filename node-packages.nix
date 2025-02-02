@@ -121,31 +121,31 @@ let
         sha512 = "utI1ONF6uf/pPNO68kmN1b8rEwNXv3czukalo8VtJH8ksIkZXr3Q3VYudZLkCsDd4Wku120uF02hYK25XGPorw==";
       };
     };
-    "@tailwindcss/node-4.0.2" = {
+    "@tailwindcss/node-4.0.3" = {
       name = "_at_tailwindcss_slash_node";
       packageName = "@tailwindcss/node";
-      version = "4.0.2";
+      version = "4.0.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@tailwindcss/node/-/node-4.0.2.tgz";
-        sha512 = "/q5HXvgEc5GaaAhoVj8oeAw1TPRlZtRAnzWz2ChpFdKsEAVoHUAW6EX/tDr3tkUfQ1VVSBpxeGUg0V0gPZSs1A==";
+        url = "https://registry.npmjs.org/@tailwindcss/node/-/node-4.0.3.tgz";
+        sha512 = "QsVJokOl0pJ4AbJV33D2npvLcHGPWi5MOSZtrtE0GT3tSx+3D0JE2lokLA8yHS1x3oCY/3IyRyy7XX6tmzid7A==";
       };
     };
-    "@tailwindcss/oxide-4.0.2" = {
+    "@tailwindcss/oxide-4.0.3" = {
       name = "_at_tailwindcss_slash_oxide";
       packageName = "@tailwindcss/oxide";
-      version = "4.0.2";
+      version = "4.0.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@tailwindcss/oxide/-/oxide-4.0.2.tgz";
-        sha512 = "q8YHIs0qNlMjgwiJc6nqwCJLsJrjCh7osKISoQ4Dh+tYnSSsHTzjgDt5caVz4B7PvUvVEga8xZaxXmgRV9O0AA==";
+        url = "https://registry.npmjs.org/@tailwindcss/oxide/-/oxide-4.0.3.tgz";
+        sha512 = "FFcp3VNvRjjmFA39ORM27g2mbflMQljhvM7gxBAujHxUy4LXlKa6yMF9wbHdTbPqTONiCyyOYxccvJyVyI/XBg==";
       };
     };
-    "@tailwindcss/oxide-linux-x64-gnu-4.0.2" = {
+    "@tailwindcss/oxide-linux-x64-gnu-4.0.3" = {
       name = "_at_tailwindcss_slash_oxide-linux-x64-gnu";
       packageName = "@tailwindcss/oxide-linux-x64-gnu";
-      version = "4.0.2";
+      version = "4.0.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@tailwindcss/oxide-linux-x64-gnu/-/oxide-linux-x64-gnu-4.0.2.tgz";
-        sha512 = "pBeqHB0dbwztF7PaKqW32b2v9lNdardjJjBISeqZMotdUrMtDf7MeIQ1w6/WIr2xMvZpMl76dz02KZlUVWiiXg==";
+        url = "https://registry.npmjs.org/@tailwindcss/oxide-linux-x64-gnu/-/oxide-linux-x64-gnu-4.0.3.tgz";
+        sha512 = "Xfc3z/li6XkuD7Hs+Uk6pjyCXnfnd9zuQTKOyDTZJ544xc2yoMKUkuDw6Et9wb31MzU2/c0CIUpTDa71lL9KHw==";
       };
     };
     "@tailwindcss/typography-0.5.16" = {
@@ -157,13 +157,13 @@ let
         sha512 = "0wDLwCVF5V3x3b1SGXPCDcdsbDHMBe+lkFzBRaHeLvNi+nrrnZ1lA18u+OTWO8iSWU2GxUOCvlXtDuqftc1oiA==";
       };
     };
-    "@tailwindcss/vite-4.0.2" = {
+    "@tailwindcss/vite-4.0.3" = {
       name = "_at_tailwindcss_slash_vite";
       packageName = "@tailwindcss/vite";
-      version = "4.0.2";
+      version = "4.0.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@tailwindcss/vite/-/vite-4.0.2.tgz";
-        sha512 = "Q9MHw5MpXAPF+z3ZU7nUOX2ysUFkvdCo0FNoge9TNLD4JxCkoe9pru6C7wOzWE8NKkD3aOjngFpaPTVVP07hug==";
+        url = "https://registry.npmjs.org/@tailwindcss/vite/-/vite-4.0.3.tgz";
+        sha512 = "Qj6rSO+EvXnNDymloKZ11D54JJTnDrkRWJBzNHENDxjt0HtrCZJbSLIrcJ/WdaoU4othrel/oFqHpO/doxIS/Q==";
       };
     };
     "@tiptap/core-2.11.5" = {
@@ -1516,13 +1516,13 @@ let
         sha512 = "GTt8rSKje5FilG+wEdfCkOcLL7LWqpMlr2c3LRuKt/YXxcJ52aGSbGBAdI4L3aaqfrBt6y711El53ItyH1NWzg==";
       };
     };
-    "tailwindcss-4.0.2" = {
+    "tailwindcss-4.0.3" = {
       name = "tailwindcss";
       packageName = "tailwindcss";
-      version = "4.0.2";
+      version = "4.0.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/tailwindcss/-/tailwindcss-4.0.2.tgz";
-        sha512 = "cjWQjZEbzQNqH4IiSjRcYg96zjlu+rjzTFkqTc/fN3FNnIU4CoNlQvwCsIomwG/2EPWYT9ysFL1QF6Av3fZeNg==";
+        url = "https://registry.npmjs.org/tailwindcss/-/tailwindcss-4.0.3.tgz";
+        sha512 = "ImmZF0Lon5RrQpsEAKGxRvHwCvMgSC4XVlFRqmbzTEDb/3wvin9zfEZrMwgsa3yqBbPqahYcVI6lulM2S7IZAA==";
       };
     };
     "tapable-2.2.1" = {
@@ -1670,11 +1670,11 @@ let
       sources."@remirror/core-constants-3.0.0"
       sources."@rollup/rollup-linux-x64-gnu-4.34.0"
       sources."@tailwindcss/forms-0.5.10"
-      sources."@tailwindcss/node-4.0.2"
-      sources."@tailwindcss/oxide-4.0.2"
-      sources."@tailwindcss/oxide-linux-x64-gnu-4.0.2"
+      sources."@tailwindcss/node-4.0.3"
+      sources."@tailwindcss/oxide-4.0.3"
+      sources."@tailwindcss/oxide-linux-x64-gnu-4.0.3"
       sources."@tailwindcss/typography-0.5.16"
-      sources."@tailwindcss/vite-4.0.2"
+      sources."@tailwindcss/vite-4.0.3"
       sources."@tiptap/core-2.11.5"
       sources."@tiptap/extension-blockquote-2.11.5"
       sources."@tiptap/extension-bold-2.11.5"
@@ -1835,7 +1835,7 @@ let
       sources."supports-color-8.1.1"
       sources."sync-child-process-1.0.2"
       sources."sync-message-port-1.1.3"
-      sources."tailwindcss-4.0.2"
+      sources."tailwindcss-4.0.3"
       sources."tapable-2.2.1"
       sources."terser-5.37.0"
       sources."tslib-2.8.1"
