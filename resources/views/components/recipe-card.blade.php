@@ -1,7 +1,7 @@
 @props(['recipe', 'excerptOnly', 'href'])
 <a href="{{ $href }}" {{ $attributes->class('flex flex-col max-w-lg w-full') }}>
     {{ $recipe->getFirstMedia('banner')
-        ?->img()->attributes([
+        ?->img('thumb')->attributes([
             'loading' => 'lazy',
         ]) }}
 

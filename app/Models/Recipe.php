@@ -15,13 +15,14 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\HtmlString;
 use Laravel\Scout\Searchable;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Tiptap\Editor;
 use App\Actions;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $category_id
@@ -232,8 +233,14 @@ class Recipe extends Model implements HasMedia
             ->withResponsiveImages();
 
         $this->addMediaConversion('default')
+            ->format('webp');
+
+        $this->addMediaConversion('thumb')
             ->format('webp')
-            ->nonQueued();
+            ->fit(Fit::Crop, 1600, 900)
+            ->width(1600)
+            ->height(900)
+            ->withResponsiveImages();
 
         $this->addMediaCollection('banner')
             ->withResponsiveImages()
