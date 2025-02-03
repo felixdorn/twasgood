@@ -1,6 +1,5 @@
 <?php
 
-use App\Actions\SearchRecipes;
 use App\Http\Controllers\Console\AssetsController;
 use App\Http\Controllers\Console\CategoriesController;
 use App\Http\Controllers\Console\IngredientsController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\ShowSearchResultsController;
 use App\Http\Controllers\ShowWelcomeController;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -32,21 +30,9 @@ Route::get('/guides/comment-steriliser-ses-bocaux', function () {
 })->name('sterilization-warning');
 Route::view('/a-propos', 'frontend.about')->name('about-us');
 
-Route::prefix('/partials')->group(function () {
-    Route::get('/preview-search-results', function (Request $request) {
-        $request->validate([
-            'query' => ['nullable', 'string', 'max:1024'],
-        ]);
-
-        // DO THE QUERY STRING THING
-        $query = $request->get('query');
-        $recipes = (new SearchRecipes())($query);
-
-        return view('partials.search-results', compact('query', 'recipes'));
-    })->name('partials.preview-search-results');
-});
-
 Route::name('console.')->prefix('/console')->middleware(['auth'])->group(function () {
+    Route::redirect('/', '/console/recipes');
+
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -84,6 +70,7 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     Route::delete('/assets/{asset}', [AssetsController::class, 'destroy'])->name('assets.destroy');
 });
 
+Route::redirect('/login', '/auth/redirect')->name('login');
 Route::get('/auth/redirect', function () {
     return Socialite::driver('authentik')->redirect();
 })->name('auth.redirect');
@@ -105,6 +92,8 @@ Route::get('/auth/callback', function () {
             'authentik_token' => $authentikUser->token,
             'authentik_refresh_token' => $authentikUser->refresh_token,
         ]);
+
+    Auth::login($user, false);
 
     return to_route('console.recipes.index');
 });

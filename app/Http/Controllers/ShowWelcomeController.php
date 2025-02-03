@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Section;
+use Illuminate\Contracts\View\View;
 
 class ShowWelcomeController
 {
-    public function __invoke()
+    public function __invoke(): View
     {
         $sections = Section::query()
             ->with([
@@ -18,6 +19,7 @@ class ShowWelcomeController
 
         return view('frontend.welcome', [
             'sections' => $sections,
+            //'categories' => Category::withcount('recipes')->where('hidden', false)->get()
         ]);
     }
 }

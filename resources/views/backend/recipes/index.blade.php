@@ -4,47 +4,20 @@
             <x-button> Créer une recette </x-button>
         </a>
     </x-slot:header>
-    <div>
+    <x-tabs class="mt-4">
+        <x-tab-item :active="$state === 'published'" value="published">Publiées ({{ $published_count }})</x-tab-item>
+        <x-tab-item :active="$state === 'unpublished'" value="unpublished">Brouillons ({{ $unpublished_count }})</x-tab-item>
+    </x-tabs>
 
-        <x-tabs>
-            <x-tab-item :active="$state === 'published'" value="published">Publiées ({{ $published_count }})</x-tab-item>
-            <x-tab-item :active="$state === 'unpublished'" value="unpublished">Brouillons ({{ $unpublished_count }})</x-tab-item>
-        </x-tabs>
-
-        @if (count($recipes) > 0)
-            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-4">
-                @foreach ($recipes as $recipe)
-                    <a href="{{ route('console.recipes.edit', $recipe) }}"
-                        class="block mb-4 bg-white rounded-xl border group h-fit break-inside-avoid">
-                        @if ($recipe->banner)
-                            {{ $recipe->getFirstMedia('banner')?->img()->attributes([
-                                'loading' => 'lazy',
-                                'class' => ''
-                            ]) }}
-                        @else
-                            <div v-else
-                                class="flex justify-center items-center h-40 text-sm text-gray-700 bg-gray-50 rounded-t-xl border-b">
-                                Pas d'aperçu disponible
-                            </div>
-                        @endif
-
-                        <div class="py-3 px-5">
-                            <h3 class="justify-between items-center md:flex">
-                                <span class="text-lg underline">{{ $recipe->title }}</span>
-                            </h3>
-
-                            @if ($recipe->description)
-                                <p class="mt-2 max-w-xl text-gray-700 truncate">
-                                    {{ $recipe->description }}
-                                </p>
-                            @endif
-                        </div>
-                    </a>
-                @endforeach
-            </div>
-        @else
-            <div class="mt-4 bg-white rounded-xl">
-                Aucune recette.
-            </div>
-        @endif
+    @if (count($recipes) > 0)
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+            @foreach ($recipes as $recipe)
+                <x-recipe-card :recipe="$recipe" :excerpt-only="false" :href="route('console.recipes.edit', $recipe)" />
+            @endforeach
+        </div>
+    @else
+        <div class="mt-4 bg-white rounded-xl">
+            Aucune recette.
+        </div>
+    @endif
 </x-backend-layout>

@@ -22,4 +22,13 @@ enum RecipeType: string
             self::ForAllOccasions => 'Pour toute occasion'
         };
     }
+
+    public function shouldBeSelected(?RecipeType $prev, RecipeType $default = RecipeType::ForAllOccasions)
+    {
+        if ($prev === null) {
+            return $this === $default;
+        }
+
+        return $this === $prev;
+    }
 }

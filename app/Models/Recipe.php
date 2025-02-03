@@ -104,6 +104,7 @@ class Recipe extends Model implements HasMedia
             'title' => $this->title,
             'category_id' => $this->category_id,
             'labels' => $this->getLabels(),
+            'is_published' => $this->published_at !== null
         ];
     }
 

@@ -64,7 +64,7 @@
                             </button>
 
                             {{ $recipe->getFirstMedia('banner')
-                                ?->img()->attributes([
+                                ?->img('thumb')->attributes([
                                     'loading' => 'lazy',
                                     'class' => 'object-center object-cover w-72 h-36 bg-gray-100',
                                 ]) }}

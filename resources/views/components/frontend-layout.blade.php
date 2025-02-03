@@ -1,4 +1,4 @@
-@props(['title'])
+@props(['title', 'noSearch'])
 <!DOCTYPE html>
 <html lang="fr" class="h-full">
 
@@ -14,7 +14,7 @@
 
     {{ $head ?? '' }}
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css'])
 </head>
 
 <body class="font-sans antialiased h-full">
@@ -28,19 +28,8 @@
                             <span class="font-bold text-brand-700 underline">Faire + Acheter -</span>
                         </a>
                     </li>
-                    <li class="order-last lg:order-none col-span-full lg:col-span-1 mt-4 lg:mt-0 lg:w-full lg:max-w-md">
-                        <form action="{{ route('search') }}" class="inset-0 relative rounded-xl w-full shadow-xs">
-                            <input type="search" id="search" name="query" placeholder="Checher une recette..."
-                                autocomplete="off" aria-label="Search"
-                                class="block w-full border-0 py-2 pl-4 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600" />
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-
-                                <x-icons.search id="search-icon" aria-hidden="true" class="size-5 text-gray-400" />
-                                <x-icons.spinner id="spinner-icon" aria-hidden="true"
-                                    class="hidden size-5 animate-spin text-gray-200 fill-brand-700" />
-                            </div>
-                        </form>
-                        <div id="search-results" class="relative"></div>
+                    <li class="text-right lg:w-fit lg:order-last">
+                        <a href="{{ route('search') }}" class="whitespace-nowrap underline">Recherche</a>
                     </li>
                     <li class="text-right lg:w-fit lg:order-last">
                         <a href="{{ route('about-us') }}" class="whitespace-nowrap underline">À propos</a>

@@ -1,4 +1,4 @@
-<x-frontend-layout title="Accueil">
+<x-frontend-layout title="Accueil" :noSearch="true">
     <x-slot:head>
         <meta name="description" content="Des recettes et des guides pour réduire son empreinte écologique" />
     </x-slot:head>
@@ -7,6 +7,24 @@
         <h1 class="text-4xl lg:text-5xl text-emerald-700 font-bold">
             Des recettes et des guides pour réduire <br class="hidden lg:block"> son empreinte écologique
         </h1>
+
+        <x-recipe-search class="mt-4" action="{{ route('search') }}" />
+
+        {{-- <section class="mt-6 w-full">
+            <h2 class="text-2xl lg:text-3xl font-semibold">Catégories</h2>
+            <ul class="flex space-x-6 mt-4 flex-nowrap overflow-x-auto overflow-y-visible -mb-1 pb-1">
+                @foreach ($categories as $category)
+                    <li class="block border">
+                        <h3 class="text-xl  whitespace-nowrap font-semibold">{{ $category->name }} : {{ $category->subtitle }}</h3>
+                        <p class="text-lg">{{ $category->description }}</p>
+
+                        <a class="underline text-brand-600 mt-2">Explorer {{ $category->recipes_count }}
+                            {{ Str::plural('recette', $category->recipes_count) }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+        --}}
 
         <div class="w-full pt-4 pb-8 lg:py-8 space-y-16">
             @foreach ($sections as $section)
