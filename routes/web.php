@@ -13,6 +13,7 @@ use App\Http\Controllers\ShowCategoryController;
 use App\Http\Controllers\ShowRecipeController;
 use App\Http\Controllers\ShowSearchResultsController;
 use App\Http\Controllers\ShowWelcomeController;
+use App\Models\Recipe;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,11 @@ Route::get('/guides/comment-steriliser-ses-bocaux', function () {
 
     return view('frontend.articles.sterilization', compact('author'));
 })->name('sterilization-warning');
-Route::view('/a-propos', 'frontend.about')->name('about-us');
+Route::get('/a-propos', function () {
+    return view('frontend.about', [
+        'author' => User::where('name', 'Charlotte Dorn')->sole()
+    ]);
+})->name('about-us');
 
 Route::name('console.')->prefix('/console')->middleware(['auth'])->group(function () {
     Route::redirect('/', '/console/recipes');

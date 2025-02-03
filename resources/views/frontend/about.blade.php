@@ -1,13 +1,14 @@
 <x-frontend-layout title="À propos">
-    <div class="w-full py-8 container mx-auto mt-6 px-8 lg:px-0">
-        <img src="/moman.webp" class="rounded-xl w-full h-auto lg:w-[900px] lg:h-[507px] object-top object-cover mx-auto"
+    <div class="w-full py-8 container mx-auto mt-6 px-4 lg:px-8">
+        <img src="/moman.webp" class="w-full h-auto lg:w-[900px] lg:h-[507px] object-top object-cover mx-auto"
             alt="Photo de la fondatrice du site" />
 
         <h1 class="text-4xl lg:text-6xl font-semibold my-12 mx-auto text-center">
             À propos
         </h1>
 
-        <div class="prose mx-auto prose-lg">
+        <div class="max-w-prose mx-auto">
+<div class="prose  prose-lg">
             <h2>Un site non commercial</h2>
             <p>
                 Je n’ai rien à vendre. Je n’accepte aucun partenariat commercial et je considère le marketing comme
@@ -71,30 +72,10 @@
                 <a href="https://www.facebook.com/paysansbasrhin">Nous voulons des Paysans 67</a>.
             </p>
 
-            <div class="not-prose border-t my-8 pt-8">
-                <div class="lg:flex">
-                    <img src="/moman-portrait.webp" alt=""
-                        class="w-36 h-auto object-cover rounded-md object-left float-left lg:float-none mr-4 lg:mr-4">
-
-                    <div class="px-4">
-                        <h3 class="font-semibold text-xl">Charlotte Dorn</h3>
-                        <p class="max-w-lg text-base mt-1">
-                            Journaliste depuis 1996, prof de journalisme, citoyenne engagée, je partage des
-                            recettes et
-                            des
-                            guides
-                            pour
-                            faire plus soi-même et acheter moins tout fait. Le but : réduire son empreinte
-                            écologique et
-                            augmenter
-                            son
-                            autonomie.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
         </div>
-
+        <div class="border-t my-8 pt-8">
+            <x-author-spotlight :author="$author" />
+        </div>
+        </div>
     </div>
-    </x-layout>
+    </x-frontend-layout>

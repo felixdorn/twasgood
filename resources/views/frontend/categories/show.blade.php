@@ -1,5 +1,5 @@
 <x-frontend-layout title="{{ $category->name }}{{ $category->subtitle ? ': ' . $category->subtitle : '' }}">
-    <div class="w-full py-8 max-w-7xl px-8 xl:px-0  mx-auto">
+    <div class="w-full py-8 max-w-7xl px-4 lg:px-8 mx-auto">
         <h1 class="font-semibold w-fit text-4xl">{{ $category->name }}
             <span>: {{ $category->subtitle }}</span>
         </h1>
@@ -22,9 +22,9 @@
         </div>
 
         @if (count($recipes) > 0)
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2">
+            <div class=" space-y-8 sm:space-y-0 sm:gap-y-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-2">
                 @foreach ($recipes as $recipe)
-                    <x-recipe-card :recipe="$recipe" :excerpt-only="false" :href="route('recipes.show', $recipe->slug->slug)" />
+                    <x-recipe-card :recipe="$recipe" :excerpt-only="false" :href="route('recipes.show', $recipe->slug->slug)" class="max-w-lg w-full" />
                 @endforeach
             </div>
         @else

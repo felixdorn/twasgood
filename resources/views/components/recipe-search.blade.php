@@ -20,7 +20,7 @@
 
     @if (count($facets) > 0)
         <div>
-            <div class="flex space-x-1 lg:space-x-4 flex-nowrap mt-2 py-1 ">
+            <div class="flex space-x-2 lg:space-x-4 flex-nowrap mt-2 py-1 overflow-x-scroll">
                 @foreach ($facets as $facet)
                     <div class="flex items-center">
                         <input type="checkbox" name="{{ $facet['op'] }}[]" value="{{ $facet['label']->value }}"

@@ -36,7 +36,7 @@
                         @foreach ($section->recipes as $recipe)
                             <li class="flex">
                                 <x-recipe-card :recipe="$recipe" :excerpt-only="true" :href="route('recipes.show', $recipe->slug->slug)"
-                                    class="w-72 lg:w-96" />
+                                    class="w-64 lg:w-96" />
                             </li>
                         @endforeach
                     </ul>

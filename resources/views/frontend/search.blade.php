@@ -23,8 +23,7 @@
         </div>
 
         @if (count($recipes) > 0)
-
-            <div class="grid grid-cols-3 gap-x-8 gap-y-8 mt-2">
+            <div class="grid lg:grid-cols-3 gap-x-8 gap-y-8 mt-2">
                 @foreach ($recipes as $recipe)
                     <x-recipe-card :recipe="$recipe" :excerpt-only="false" :href="route('recipes.show', $recipe->slug->slug)" />
                 @endforeach
