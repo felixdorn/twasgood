@@ -42,5 +42,5 @@
         </div>
     @endif
 
-    <x-button type="submit" class="mt-2">Chercher</x-button>
+    <x-button type="submit" class="mt-2.5">Chercher</x-button>
 </form>

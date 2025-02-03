@@ -43,7 +43,7 @@ class SectionsController
             'hidden_at' => now(),
         ]));
 
-        return to_route('console.sections.index', ['focus' => $section->id]);
+        return to_route('console.pages.index', ['page' => 'home'])->with('focus', $session->id);
     }
 
     public function create(): View
@@ -61,15 +61,14 @@ class SectionsController
 
         $section->recipes()->attach($recipe);
 
-        return to_route('console.sections.index', ['focus' => $section->id]);
+        return back()->with('focus', $section->id);
     }
 
     public function detach(Section $section, Recipe $recipe): RedirectResponse
     {
         $section->recipes()->detach($recipe);
 
-        // TODO: We should move this to flash, and use back() instead of to_route('...') for the others.
-        return to_route('console.sections.index', ['focus' => $section->id]);
+        return back()->with('focus', $section->id);
     }
 
     public function order(Request $request, Section $section): RedirectResponse
@@ -97,20 +96,20 @@ class SectionsController
 
         $section->update($data);
 
-        return to_route('console.sections.index');
+        return back();
     }
 
     public function toggle(Section $section): RedirectResponse
     {
         $section->update(['hidden_at' => $section->hidden_at === null ? now() : null]);
 
-        return to_route('console.sections.index');
+        return back();
     }
 
     public function destroy(Section $section): RedirectResponse
     {
         $section->delete();
 
-        return to_route('console.sections.index');
+        return back();
     }
 }

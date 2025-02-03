@@ -1,4 +1,4 @@
-export function debounce(task, ms) {
+export default function debounce(task, ms) {
     let t = { promise: null, cancel: (_) => void 0 };
     return async (...args) => {
         try {

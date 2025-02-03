@@ -51,16 +51,16 @@
         </div>
     </header>
     {{ $slot }}
-    <footer class="border-t bg-white lg:px-0 mt-8 max-w-7xl mx-auto">
+    <footer class="border-t bg-white px-4 lg:px-8 mt-8 max-w-7xl mx-auto">
         <div class="py-6 lg:flex lg:justify-between">
             <div class="flex justify-between flex-col">
                 <h3 class="text-xl text-brand-600 font-bold underline"><a href="{{ route('welcome') }}">Faire +
                         Acheter -</a></h3>
-                <p class="text-gray-700 font-black">
+                <p class="text-gray-700 font-semibold">
                     Des recettes et des guides pour réduire son empreinte écologique.
                 </p>
             </div>
-            <ul class="flex  space-x-4  lg:space-x-0 lg:block items-center lg:space-y-3 mt-4 lg:mt-0">
+            <ul class="flex space-x-4 lg:space-x-0 lg:block items-center lg:space-y-3 mt-4 lg:mt-0">
                 <li>
                     <a class="flex underline items-center text-[#0865ff]"
                         href="https://www.facebook.com/faireplusachetermoins" rel="noreferrer noopener nofollow"

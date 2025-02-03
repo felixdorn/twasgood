@@ -4,11 +4,13 @@ namespace App\Models;
 
 use App\Enums\PrerequisiteType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
- * 
- *
  * @property int $id
  * @property string|null $details
  * @property string $quantity
@@ -19,9 +21,12 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @property int $prerequisite_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $prerequisite
+ * @property-read \App\Models\TFactory|null $use_factory
+ * @property-read Model|\Eloquent $prerequisite
  * @property-read \App\Models\Recipe $recipe
  * @property-read mixed $type
+ *
+ * @method static \Database\Factories\PrerequisiteFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite query()
@@ -35,10 +40,13 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite whereRecipeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Prerequisite whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Prerequisite extends Pivot
 {
+    use HasFactory;
+
     // Apparently this is needed, or Laravel uses prerequisite as the table name
     // Had no will power left in me to debug it
     protected $table = 'prerequisites';
@@ -49,7 +57,7 @@ class Prerequisite extends Pivot
 
     protected $appends = ['type'];
 
-    public function prerequisite()
+    public function prerequisite(): MorphTo
     {
         return $this->morphTo();
     }
@@ -61,7 +69,7 @@ class Prerequisite extends Pivot
         );
     }
 
-    public function recipe()
+    public function recipe(): BelongsTo
     {
         return $this->belongsTo(Recipe::class);
     }

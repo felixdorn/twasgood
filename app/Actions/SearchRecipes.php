@@ -37,9 +37,8 @@ class SearchRecipes
             'has_not' => ['nullable', 'array'],
             'has_not.*' => [(new Enum(RecipeLabel::class))->only([RecipeLabel::ContainsDairy, RecipeLabel::ContainsGluten])],
             'occasion' => [new Enum(RecipeType::class)],
-            'category' => ['nullable', 'exists:categories,id']
+            'category' => ['nullable', 'exists:categories,id'],
         ]));
-
 
         return new self(
             query: $data->get('q') ?? '',
@@ -55,6 +54,7 @@ class SearchRecipes
     public function setCategory(int $category): self
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -75,15 +75,15 @@ class SearchRecipes
                 RecipeType::Desert => RecipeLabel::ForDesert,
             };
 
-            $comparisons[] = ['labels', 'IN', '[' . $recipeType->value . ']'];
+            $comparisons[] = ['labels', 'IN', '['.$recipeType->value.']'];
         }
 
         foreach ($this->has as $hasLabel) {
-            $comparisons[] = ['labels', 'IN', '[' . $hasLabel . ']'];
+            $comparisons[] = ['labels', 'IN', '['.$hasLabel.']'];
         }
 
         foreach ($this->hasNot as $hasNotLabel) {
-            $comparisons[] = ['labels', 'NOT IN', '[' . $hasNotLabel . ']'];
+            $comparisons[] = ['labels', 'NOT IN', '['.$hasNotLabel.']'];
         }
 
         $filter = $this->buildFilter($comparisons);
@@ -92,7 +92,7 @@ class SearchRecipes
             'facets' => ['labels'],
             'attributesToRetrieve' => $this->select,
             'locales' => ['fr'],
-            'limit' => 1000
+            'limit' => 1000,
         ]);
 
         return new DTOs\SearchResults(
@@ -112,10 +112,10 @@ class SearchRecipes
         $filter = '';
 
         while (count($comparisons) > 0) {
-            $filter .= ' AND ' . implode(' ', array_pop($comparisons));
+            $filter .= ' AND '.implode(' ', array_pop($comparisons));
         }
 
         return ltrim($filter, ' AND ');
-        ;
+
     }
 }

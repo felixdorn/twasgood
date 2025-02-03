@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Asset;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Prerequisite;
@@ -14,7 +13,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\View as IlluminateView;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\View;
 use Meilisearch\Client;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,9 +36,7 @@ class AppServiceProvider extends ServiceProvider
             $event->extendSocialite('authentik', \SocialiteProviders\Authentik\Provider::class);
         });
 
-
         Relation::enforceMorphMap([
-            'asset' => Asset::class,
             'category' => Category::class,
             'ingredient' => Ingredient::class,
             'prerequisite' => Prerequisite::class,

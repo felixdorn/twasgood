@@ -16,33 +16,32 @@ class LabelRecipes
             'isVegan' => true,
             'isVegetarian' => true,
             'containsGluten' => false,
-            'containsDairy' => false
+            'containsDairy' => false,
         ];
 
         foreach ($recipe->prerequisites as $prerequisite) {
             switch ($prerequisite->prerequisite_type) {
-                case "recipe":
+                case 'recipe':
                     $labels = $this->combineLabels(
                         $labels,
-                        (new self())($prerequisite->prerequisite)
+                        (new self)($prerequisite->prerequisite)
                     );
                     break;
-                case "ingredient":
+                case 'ingredient':
                     $ingredient = $prerequisite->prerequisite;
 
                     $other = [
-                        "containsDairy" => $ingredient->contains_dairy,
-                        "containsGluten" => $ingredient->contains_gluten,
-                        "isVegan" => match ($ingredient->type) {
+                        'containsDairy' => $ingredient->contains_dairy,
+                        'containsGluten' => $ingredient->contains_gluten,
+                        'isVegan' => match ($ingredient->type) {
                             IngredientType::Vegan, IngredientType::Other => true,
                             IngredientType::Vegetarian, IngredientType::Meat => false
                         },
-                        "isVegetarian" => match ($ingredient->type) {
+                        'isVegetarian' => match ($ingredient->type) {
                             IngredientType::Vegan, IngredientType::Vegetarian, IngredientType::Other => true,
                             IngredientType::Meat => false
                         },
                     ];
-
 
                     $labels = $this->combineLabels($labels, $other);
                     break;
@@ -51,7 +50,7 @@ class LabelRecipes
             }
         }
 
-        return (object) $labels;
+        return $labels;
     }
 
     public function combineLabels(array $labels, array $other): array

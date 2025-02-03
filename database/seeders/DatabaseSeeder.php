@@ -3,21 +3,23 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Prerequisite;
+use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $author = User::factory()->create([
+            'name' => 'Charlotte Dorn',
         ]);
+
+        Recipe::factory()
+            ->count(100)
+            ->for($author, 'author')
+            ->has(Prerequisite::factory()->count(10))
+            ->create();
     }
 }

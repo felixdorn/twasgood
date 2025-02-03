@@ -19,7 +19,7 @@ class ShowWelcomeController
 
         return view('frontend.welcome', [
             'sections' => $sections,
-            //'categories' => Category::withcount('recipes')->where('hidden', false)->get()
+            // 'categories' => Category::withcount('recipes')->where('hidden', false)->get()
         ]);
     }
 }

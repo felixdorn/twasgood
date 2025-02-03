@@ -8,14 +8,15 @@ use App\Http\Controllers\Console\RecipesPrerequisiteController;
 use App\Http\Controllers\Console\SectionsController;
 use App\Http\Controllers\Console\ToggleTagController;
 use App\Http\Controllers\OrderSectionsController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShowCategoryController;
 use App\Http\Controllers\ShowRecipeController;
 use App\Http\Controllers\ShowSearchResultsController;
 use App\Http\Controllers\ShowWelcomeController;
-use App\Models\Recipe;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -31,12 +32,12 @@ Route::get('/guides/comment-steriliser-ses-bocaux', function () {
 })->name('sterilization-warning');
 Route::get('/a-propos', function () {
     return view('frontend.about', [
-        'author' => User::where('name', 'Charlotte Dorn')->sole()
+        'author' => User::where('name', 'Charlotte Dorn')->first(),
     ]);
 })->name('about-us');
 
+Route::redirect('/console', '/console/recipes')->name('console');
 Route::name('console.')->prefix('/console')->middleware(['auth'])->group(function () {
-    Route::redirect('/', '/console/recipes');
 
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -62,12 +63,14 @@ Route::name('console.')->prefix('/console')->middleware(['auth'])->group(functio
     Route::resource('categories', CategoriesController::class)->except(['show', 'delete']);
 
     // sections
-    Route::resource('sections', SectionsController::class)->except(['show', 'delete', 'edit']);
+    Route::resource('sections', SectionsController::class)->except(['index', 'show', 'delete', 'edit']);
     Route::post('/sections/{section}/attach', [SectionsController::class, 'attach'])->name('sections.attach');
     Route::post('/sections/{section}/detach/{recipe}', [SectionsController::class, 'detach'])->name('sections.detach');
     Route::post('/sections/{section}/order', [SectionsController::class, 'order'])->name('sections.order');
     Route::post('/sections/{section}/toggle', [SectionsController::class, 'toggle'])->name('sections.toggle');
     Route::post('/order-sections', OrderSectionsController::class)->name('order-sections');
+
+    Route::get('/pages', [PagesController::class, 'index'])->name('pages.index');
 
     // assets
     Route::post('/assets/upload', [AssetsController::class, 'upload'])->name('assets.upload');
@@ -90,19 +93,18 @@ Route::get('/auth/callback', function () {
     }
 
     $user = User::updateOrCreate([
-        'authentik_id' => $authentikUser->id
+        'authentik_id' => $authentikUser->id,
     ], [
-            'name' => $authentikUser->name,
-            'email' => $authentikUser->email,
-            'authentik_token' => $authentikUser->token,
-            'authentik_refresh_token' => $authentikUser->refresh_token,
-        ]);
+        'name' => $authentikUser->name,
+        'email' => $authentikUser->email,
+        'authentik_token' => $authentikUser->token,
+        'authentik_refresh_token' => $authentikUser->refresh_token,
+    ]);
 
     Auth::login($user, false);
 
     return to_route('console.recipes.index');
 });
-
 
 // legacy routes
 Route::get('/categories-{category}', function ($category) {

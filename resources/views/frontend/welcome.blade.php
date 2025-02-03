@@ -26,7 +26,7 @@
         </section>
         --}}
 
-        <div class="w-full pt-4 pb-8 lg:py-8 space-y-16">
+        <div class="w-full mt-8 pb-8 lg:py-8 space-y-8 lg:space-y-16">
             @foreach ($sections as $section)
                 <section>
                     <h2 class="text-2xl lg:text-3xl font-semibold">{{ $section->title }}</h2>

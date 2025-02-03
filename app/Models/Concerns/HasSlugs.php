@@ -6,45 +6,23 @@ use App\Models\Slug;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Throwable;
 
 trait HasSlugs
 {
-    public static function bootHasSlugs()
+    public function regenerateSlug(): Slug
     {
-        static::created(function (self $model) {
-            $model->generateSlug();
-        });
-
-        static::updated(function (self $model) {
-            $model->generateSlug();
-        });
-    }
-
-    public function shouldGenerateSlug(): bool
-    {
-        return true;
-    }
-
-    public function generateSlug(): Slug
-    {
-        if (! $this->shouldGenerateSlug()) {
-            return $this->slug;
-        }
-
         $newSlug = Str::slug($this->getSluggableValue());
 
         if ($this->slug && $this->slug->slug === $newSlug) {
             return $this->slug;
         }
 
-        $alreadyAssignedToRecipe = Slug::where('sluggable_type', $this->getMorphClass())->where('sluggable_id', $this->id)->where('slug', $newSlug)->first();
-        if ($alreadyAssignedToRecipe !== null) {
-            return $alreadyAssignedToRecipe;
+        try {
+            return $this->slugs()->create(['slug' => $newSlug]);
+        } catch (Throwable $e) {
+            dd($e);
         }
-
-        return $this->slugs()->create([
-            'slug' => $newSlug,
-        ]);
     }
 
     public function slug()// : Attribute
@@ -57,7 +35,7 @@ trait HasSlugs
 
     public function getSluggableValue()
     {
-        return $this->title ?? $this->name;
+        return $this->title ?? $this->name ?? throw new \RuntimeException(sprintf('Could not create a slug for %s - no sluggable value', $this::class));
     }
 
     public function slugs()
@@ -76,12 +54,11 @@ trait HasSlugs
     {
         $slug = Slug::query()
             ->where('sluggable_type', $this->getMorphClass())
-            ->when(preg_match('/^[0-9]+$/', $value), function ($query) use ($value) {
-                $query->where('sluggable_id', $value);
-            }, function ($query) use ($value) {
-                $query->where('slug', $value);
-            })
-            ->first();
+            ->when(
+                preg_match('/^[0-9]+$/', $value),
+                fn ($query) => $query->where('sluggable_id', $value),
+                fn ($query) => $query->where('slug', $value)
+            )->first();
 
         if (! $slug || ! $slug->sluggable) {
             abort(404);

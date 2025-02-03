@@ -17,7 +17,7 @@ class ShowSearchResultsController
             'recipes' => Recipe::query()
                 ->with(['banner', 'slug'])
                 ->whereIn('id', $search->ids())
-                ->get()
+                ->get(),
         ]);
     }
 }

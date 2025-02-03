@@ -3,9 +3,9 @@
 namespace App\View\Components;
 
 use App\Actions\DTOs\SearchResults;
+use App\Enums\RecipeLabel;
 use Closure;
 use Illuminate\View\Component;
-use App\Enums\RecipeLabel;
 use Illuminate\View\View;
 
 class RecipeSearch extends Component
@@ -38,7 +38,7 @@ class RecipeSearch extends Component
             }
 
             $facets = array_filter($facets, fn (array $facet) => $facet['must_keep']);
-            //dd($facets);
+            // dd($facets);
         }
 
         $this->facets = $facets;

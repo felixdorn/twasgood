@@ -1,11 +1,12 @@
 import { Sortable } from "sortablejs";
 
-for (const sorter of document.querySelectorAll("[data-sorter")) {
+for (const sorter of document.querySelectorAll("[data-sorter]")) {
     const httpCallback = sorter.dataset.sorterCallback;
 
     new Sortable(sorter, {
         animation: 150,
         ghostClass: "sortable-ghost",
+        handle: "[data-sorter-handle]",
         onEnd: (evt) => {
             let data = new FormData();
 

@@ -10,8 +10,7 @@ class SearchResults
     public function __construct(
         public SearchResult $response,
         public array $query,
-    ) {
-    }
+    ) {}
 
     public function ids(): array
     {

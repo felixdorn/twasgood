@@ -31,6 +31,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
     *,
     ::after,
     ::before,
@@ -42,50 +43,6 @@
 
 #app {
     @apply h-full;
-}
-
-.grow-wrap {
-    /* easy way to plop the elements on top of each other and have them both sized based on the tallest one's height */
-    display: grid;
-}
-
-.grow-wrap::after {
-    /* Note the weird space! Needed to preventy jumpy behavior */
-    content: attr(data-replicated-value) " ";
-
-    /* Hidden from view, clicks, and screen readers */
-    visibility: hidden;
-}
-
-.grow-wrap:has(> textarea) {
-    white-space: pre-wrap;
-}
-
-.grow-wrap > input,
-.grow-wrap > textarea {
-    /* Firefox shows scrollbar on growth, you can hide like this. */
-    overflow: hidden;
-}
-
-.grow-wrap > textarea {
-    resize: none;
-}
-
-.grow-wrap > textarea,
-.grow-wrap:has(> textarea)::after {
-    @apply border px-2 py-px border-gray-100 bg-transparent;
-    max-width: 65ch;
-    grid-area: 1 / 1 / 2 / 2;
-}
-
-.grow-wrap > input,
-.grow-wrap:has(> input)::after {
-    /* Identical styling required!! */
-    @apply px-2 py-px bg-transparent font-bold border border-gray-100;
-    font: inherit;
-
-    /* Place on top of each other */
-    grid-area: 1 / 1 / 2 / 2;
 }
 
 .sortable-ghost {

@@ -24,6 +24,6 @@ return [
         'base_url' => env('AK_BASE_URL'),
         'client_id' => env('AK_CLIENT_ID'),
         'client_secret' => env('AK_CLIENT_SECRET'),
-        'redirect' => env('AK_REDIRECT_URI')
-    ]
+        'redirect' => env('AK_REDIRECT_URI'),
+    ],
 ];

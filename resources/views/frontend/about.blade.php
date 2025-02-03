@@ -73,9 +73,11 @@
             </p>
 
         </div>
+        @if ($author)
         <div class="border-t my-8 pt-8">
             <x-author-spotlight :author="$author" />
         </div>
+        @endif
         </div>
     </div>
     </x-frontend-layout>

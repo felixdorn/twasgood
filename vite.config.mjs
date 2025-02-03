@@ -8,8 +8,8 @@ export default defineConfig({
             input: [
                 "resources/js/app.js",
                 "resources/css/app.css",
-                "resources/js/pages/section-index.js",
                 "resources/js/components/sorter.js",
+                "resources/js/components/field-autosizing.js",
             ],
             refresh: true,
         }),

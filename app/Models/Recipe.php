@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Actions;
 use App\Enums\RecipeLabel;
 use App\Enums\RecipeType;
 use App\Enums\Season;
 use App\Models\Concerns\HasSlugs;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\HtmlString;
 use Laravel\Scout\Searchable;
@@ -19,63 +20,10 @@ use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Tiptap\Editor;
-use App\Actions;
 
-/**
- *
- *
- * @property int $id
- * @property int $category_id
- * @property string $title
- * @property string $description
- * @property string|null $time_to_prepare
- * @property bool $uses_sterilization
- * @property string $content
- * @property int $publishable
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property string|null $published_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $user_id
- * @property-read \App\Models\Category $category
- * @property-read mixed $html
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $illustrations
- * @property-read int|null $illustrations_count
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Prerequisite> $prerequisites
- * @property-read int|null $prerequisites_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $seasons
- * @property-read int|null $seasons_count
- * @property-read \App\Models\Slug|null $slug
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Slug> $slugs
- * @property-read int|null $slugs_count
- * @property-read mixed $state
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
- * @property-read int|null $tags_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe wherePublishable($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe wherePublishedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereTimeToPrepare($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe whereUsesSterilization($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Recipe withoutTrashed()
- * @mixin \Eloquent
- */
 class Recipe extends Model implements HasMedia
 {
+    use HasFactory;
     use HasSlugs;
     use InteractsWithMedia;
     use Searchable;
@@ -85,18 +33,6 @@ class Recipe extends Model implements HasMedia
         'uses_sterilization' => 'boolean',
     ];
 
-    public static function emptyWith(int $user, string $title): self
-    {
-        return self::create([
-            'title' => $title,
-            'description' => '(vide)',
-            'time_to_prepare' => '(vide)',
-            'user_id' => $user,
-            'content' => '{"type":"doc","content":[]}',
-            'category_id' => Category::default()->id,
-        ]);
-    }
-
     public function toSearchableArray(): array
     {
         return [
@@ -104,7 +40,7 @@ class Recipe extends Model implements HasMedia
             'title' => $this->title,
             'category_id' => $this->category_id,
             'labels' => $this->getLabels(),
-            'is_published' => $this->published_at !== null
+            'is_published' => $this->published_at !== null,
         ];
     }
 
@@ -117,8 +53,7 @@ class Recipe extends Model implements HasMedia
     {
         $labels = [];
 
-        $enrichment = (new Actions\LabelRecipes())($this);
-        ;
+        $enrichment = (object) (new Actions\LabelRecipes)($this);
 
         if ($enrichment->isVegan) {
             $labels[] = RecipeLabel::IsVegan;
@@ -163,6 +98,7 @@ class Recipe extends Model implements HasMedia
 
     protected static function booted(): void
     {
+        /*
         static::updating(function (self $recipe) {
             $recipe->publishable = ! $recipe->mustBeDraft();
 
@@ -172,17 +108,13 @@ class Recipe extends Model implements HasMedia
             } else {
             }
         });
-
-    }
-
-    public function shouldGenerateSlugs(): bool
-    {
-        // TODO: Only store slug on publish
-        return ! $this->mustBeDraft();
+        */
     }
 
     public function mustBeDraft(): bool
     {
+        return true;
+        /*
         if ($this->category_id === Category::default()->id) {
             return true;
         }
@@ -197,13 +129,28 @@ class Recipe extends Model implements HasMedia
                 return true;
             }
         }
+        */
 
         return false;
     }
 
-    public function isAttributePlaceholder(string $attribute): bool
+    public function registerMediaCollections(): void
     {
-        return $this->getAttribute($attribute) === '(vide)';
+        $this->addMediaCollection('illustrations')
+            ->withResponsiveImages();
+
+        $this->addMediaCollection('banner')
+            ->withResponsiveImages()
+            ->singleFile();
+
+        $this->addMediaConversion('default')->format('webp');
+
+        $this->addMediaConversion('thumb')
+            ->format('webp')
+            ->fit(Fit::Crop, 1600, 900)
+            ->width(1600)
+            ->height(900)
+            ->withResponsiveImages();
     }
 
     public function tags(): BelongsToMany
@@ -216,59 +163,12 @@ class Recipe extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
-    public function state(): Attribute
-    {
-        return Attribute::get(function () {
-            return $this->published_at === null ? 'unpublished' : 'published';
-        });
-    }
-
-    public function seasons(): BelongsToMany
-    {
-        return $this->tags();
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('illustrations')
-            ->withResponsiveImages();
-
-        $this->addMediaConversion('default')
-            ->format('webp');
-
-        $this->addMediaConversion('thumb')
-            ->format('webp')
-            ->fit(Fit::Crop, 1600, 900)
-            ->width(1600)
-            ->height(900)
-            ->withResponsiveImages();
-
-        $this->addMediaCollection('banner')
-            ->withResponsiveImages()
-            ->singleFile();
-    }
-
-    public function banner()
-    {
-        return $this->media()->where('collection_name', 'banner');
-    }
-
-    public function illustrations(): MorphMany
-    {
-        return $this->media()->where('collection_name', 'illustrations');
-    }
-
     public function prerequisites(): HasMany
     {
         return $this->hasMany(Prerequisite::class);
     }
 
-    public function slugs(): MorphMany
-    {
-        return $this->morphMany(Slug::class, 'sluggable');
-    }
-
-    public function author()
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -282,7 +182,7 @@ class Recipe extends Model implements HasMedia
     {
         return new Attribute(
             function () {
-                $html = (new Editor())->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
+                $html = (new Editor)->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
 
                 return new HtmlString($html);
             }
