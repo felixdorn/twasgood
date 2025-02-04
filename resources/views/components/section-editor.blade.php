@@ -34,7 +34,7 @@
                 </span>
             </summary>
             <ul class="mt-2 grid lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-3 gap-4" data-sorter
-                data-sorter-callback="{{ route('console.sections.order', $section) }}">
+                data-sorter-callback="{{ route('console.sections.order-recipes', $section) }}">
                 @foreach ($section->recipes as $recipe)
                     <li class="w-72 border" data-sorter-item="{{ $recipe->id }}">
                         <form method="post"

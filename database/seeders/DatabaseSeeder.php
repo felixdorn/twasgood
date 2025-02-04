@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use App\Models\Prerequisite;
 use App\Models\Recipe;
 use App\Models\User;
@@ -12,14 +13,14 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $author = User::factory()->create([
-            'name' => 'Charlotte Dorn',
-        ]);
+        $author = User::factory()->create();
 
-        Recipe::factory()
+        $categories = Category::factory()->count(6)->create();
+
+        $recipes = Recipe::factory()
             ->count(100)
             ->for($author, 'author')
-            ->has(Prerequisite::factory()->count(10))
+            ->for(fake()->randomElement($categories), 'category')
             ->create();
     }
 }

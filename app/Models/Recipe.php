@@ -153,6 +153,17 @@ class Recipe extends Model implements HasMedia
             ->withResponsiveImages();
     }
 
+  public function banner()
+    {
+        return $this->media()->where('collection_name', 'banner');
+    }
+
+    public function illustrations(): MorphMany
+    {
+        return $this->media()->where('collection_name', 'illustrations');
+    }
+
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);

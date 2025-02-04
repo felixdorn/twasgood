@@ -1,17 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Console;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class ProfileController
+class UpdateProfileController
 {
-    public function edit(Request $request)
-    {
-        return view('backend.profile.edit', ['user' => $request->user()]);
-    }
-
-    public function update(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],

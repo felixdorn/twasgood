@@ -49,12 +49,14 @@ class Prerequisite extends Pivot
 
     // Apparently this is needed, or Laravel uses prerequisite as the table name
     // Had no will power left in me to debug it
+    // TODO: will power is back, fix this.
     protected $table = 'prerequisites';
 
     protected $casts = [
         'optional' => 'boolean',
     ];
 
+    // TODO: Is this used?
     protected $appends = ['type'];
 
     public function prerequisite(): MorphTo

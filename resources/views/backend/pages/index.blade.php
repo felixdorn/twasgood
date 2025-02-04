@@ -29,6 +29,10 @@
             <div class="max-w-7xl mx-auto pt-4 px-4 lg:px-8 xl:px-0 bg-white">
                 @if ($currentPage === 'home')
                     <x-page-editors.home />
+                @elseif ($currentPage === 'about')
+                    <x-page-editors.about />
+                @else
+                    Invalide.
                 @endif
             </div>
         </div>

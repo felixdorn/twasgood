@@ -30,7 +30,7 @@ trait HasSlugs
         return $this
             ->hasOneThrough(Slug::class, static::class, 'id', 'sluggable_id')
             ->where('sluggable_type', $this->getMorphClass())
-            ->latest();
+            ->orderByRaw('slugs.created_at DESC');
     }
 
     public function getSluggableValue()

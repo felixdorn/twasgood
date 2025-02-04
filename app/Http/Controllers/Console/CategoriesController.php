@@ -12,9 +12,8 @@ class CategoriesController
     {
         return view('backend.categories.index', [
             'categories' => Category::query()
-                ->addSelect(['id', 'name'])
                 ->withCount('recipes')
-                ->orderBy('updated_at', 'desc')
+                ->orderBy('order')
                 ->get(),
         ]);
     }
