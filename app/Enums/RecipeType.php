@@ -23,7 +23,7 @@ enum RecipeType: string
         };
     }
 
-    public function shouldBeSelected(?RecipeType $prev, RecipeType $default = RecipeType::ForAllOccasions)
+    public function shouldBeSelected(?RecipeType $prev, RecipeType $default = RecipeType::ForAllOccasions): bool
     {
         if ($prev === null) {
             return $this === $default;

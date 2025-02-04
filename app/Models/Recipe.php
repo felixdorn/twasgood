@@ -24,6 +24,7 @@ use Tiptap\Editor;
 
 class Recipe extends Model implements HasMedia
 {
+    /** @use HasFactory<\Database\Factories\RecipeFactory> **/
     use HasFactory;
     use HasSlugs;
     use InteractsWithMedia;
@@ -52,12 +53,14 @@ class Recipe extends Model implements HasMedia
     {
         return $this->deleted_at === null && $this->published_at !== null;
     }
-
+    /**
+     * @return enum(App\Enums\RecipeLabel::IsVegan)[]|enum(App\Enums\RecipeLabel::IsVegetarian)[]|enum(App\Enums\RecipeLabel::ContainsGluten)[]|enum(App\Enums\RecipeLabel::ContainsDairy)[]|array
+     */
     public function getLabels(): array
     {
         $labels = [];
 
-        $enrichment = (object) (new Actions\LabelRecipes)($this);
+        $enrichment = (object) (new Actions\LabelRecipes())($this);
 
         if ($enrichment->isVegan) {
             $labels[] = RecipeLabel::IsVegan;
@@ -207,7 +210,7 @@ class Recipe extends Model implements HasMedia
     {
         return new Attribute(
             function () {
-                $html = (new Editor)->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
+                $html = (new Editor())->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
 
                 return new HtmlString($html);
             }

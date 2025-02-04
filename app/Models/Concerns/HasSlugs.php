@@ -29,6 +29,10 @@ trait HasSlugs
         }
     }
 
+
+    /**
+    * @return HasOneThrough<Slug,covariant Model, covariant Model>
+    */
     public function slug(): HasOneThrough
     {
         return $this
@@ -37,11 +41,14 @@ trait HasSlugs
             ->orderByRaw('slugs.created_at DESC');
     }
 
-    public function getSluggableValue()
+    public function getSluggableValue(): string
     {
         return $this->title ?? $this->name ?? throw new \RuntimeException(sprintf('Could not create a slug for %s - no sluggable value', $this::class));
     }
 
+    /**
+    * @return MorphMany<Slug, covariant Model>
+    */
     public function slugs(): MorphMany
     {
         return $this->morphMany(Slug::class, 'sluggable');

@@ -5,11 +5,13 @@ namespace App\View\Components\PageEditors;
 use App\Models\Recipe;
 use App\Models\Section;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class Home extends Component
 {
-    public $sections;
+    /** @var Collection<int, Section> $sections **/
+    public Collection $sections;
 
     public function __construct()
     {

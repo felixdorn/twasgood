@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Prerequisite;
 use App\Models\Recipe;
+use Illuminate\Contracts\View\View;
 
 class ShowRecipeController
 {
-    public function __invoke(Recipe $recipe)
+    public function __invoke(Recipe $recipe): View
     {
         $prerequisites = Prerequisite::query()
             ->where('recipe_id', $recipe->id)

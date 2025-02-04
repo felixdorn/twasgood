@@ -6,5 +6,7 @@ use Illuminate\Http\Request;
 
 class UploadAssetController
 {
-    public function __invoke(Request $request) {}
+    public function __invoke(Request $request): void
+    {
+    }
 }
