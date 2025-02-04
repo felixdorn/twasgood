@@ -93,6 +93,7 @@ class Recipe extends Model implements HasMedia
                 RecipeType::Starter => RecipeLabel::ForStarter,
                 RecipeType::Dish => RecipeLabel::ForDish,
                 RecipeType::Desert => RecipeLabel::ForDesert,
+                RecipeType::ForAllOccasions => throw new \RuntimeException("Should not happen")
             };
         }
 
@@ -133,8 +134,6 @@ class Recipe extends Model implements HasMedia
             }
         }
         */
-
-        return false;
     }
 
     public function registerMediaCollections(): void

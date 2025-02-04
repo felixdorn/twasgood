@@ -49,6 +49,7 @@ enum Season: string
             self::Summer => self::Spring,
             self::Autumn => self::Summer,
             self::Winter => self::Autumn,
+            self::All => throw new \RuntimeException("Should not happen: Unexpected call on Season->previous() with All case")
         };
     }
 
@@ -59,6 +60,7 @@ enum Season: string
             self::Summer => self::Autumn,
             self::Autumn => self::Winter,
             self::Winter => self::Spring,
+            self::All => throw new \RuntimeException("Should not happen: Unexpected call on Season->next() with All case")
         };
     }
 }
