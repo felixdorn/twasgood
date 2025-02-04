@@ -3,11 +3,15 @@
 namespace App\Models\Concerns;
 
 use App\Models\Slug;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Str;
 use Throwable;
 
+/**
+ * @mixin Model
+ */
 trait HasSlugs
 {
     public function regenerateSlug(): Slug
@@ -25,7 +29,7 @@ trait HasSlugs
         }
     }
 
-    public function slug()// : Attribute
+    public function slug(): HasOneThrough
     {
         return $this
             ->hasOneThrough(Slug::class, static::class, 'id', 'sluggable_id')
@@ -38,7 +42,7 @@ trait HasSlugs
         return $this->title ?? $this->name ?? throw new \RuntimeException(sprintf('Could not create a slug for %s - no sluggable value', $this::class));
     }
 
-    public function slugs()
+    public function slugs(): MorphMany
     {
         return $this->morphMany(Slug::class, 'sluggable');
     }

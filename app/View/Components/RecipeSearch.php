@@ -28,7 +28,7 @@ class RecipeSearch extends Component
             foreach ($facets as $k => $facet) {
                 ['op' => $op, 'label' => $label] = $facet;
 
-                $active = in_array($label->value, $old->query[$op]);
+                $active = in_array($label->value, $old->query[$op], true);
                 $count = array_key_exists($label->value, $rawFacets) ? $rawFacets[$label->value] : 0;
                 $mustKeep = $active === true || ($count > 0 && $count < $hitCount);
 

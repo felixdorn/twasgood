@@ -2,8 +2,6 @@
 
 namespace App\Enums;
 
-use PHPUnit\Exception;
-
 enum RecipeLabel: string
 {
     case IsVegan = 'is_vegan';
@@ -31,7 +29,7 @@ enum RecipeLabel: string
             self::IsVegetarian => 'Végétarien',
             self::ContainsDairy => 'Sans lactose',
             self::ContainsGluten => 'Sans gluten',
-            default => throw new Exception('Unimplemented')
+            default => throw new \Exception('Unimplemented')
         };
     }
 }

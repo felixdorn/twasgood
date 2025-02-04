@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\HtmlString;
 use Laravel\Scout\Searchable;
@@ -32,7 +33,9 @@ class Recipe extends Model implements HasMedia
     protected $casts = [
         'uses_sterilization' => 'boolean',
     ];
-
+    /**
+     * @return array<string,mixed>
+     */
     public function toSearchableArray(): array
     {
         return [
@@ -53,7 +56,7 @@ class Recipe extends Model implements HasMedia
     {
         $labels = [];
 
-        $enrichment = (object) (new Actions\LabelRecipes)($this);
+        $enrichment = (object) (new Actions\LabelRecipes())($this);
 
         if ($enrichment->isVegan) {
             $labels[] = RecipeLabel::IsVegan;
@@ -153,7 +156,7 @@ class Recipe extends Model implements HasMedia
             ->withResponsiveImages();
     }
 
-    public function banner()
+    public function banner(): MorphMany
     {
         return $this->media()->where('collection_name', 'banner');
     }
@@ -162,22 +165,30 @@ class Recipe extends Model implements HasMedia
     {
         return $this->media()->where('collection_name', 'illustrations');
     }
-
+    /**
+     * @return BelongsToMany<Tag,Recipe>
+     */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
-
+    /**
+     * @return BelongsTo<Category,Recipe>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
-
+    /**
+     * @return HasMany<Prerequisite,Recipe>
+     */
     public function prerequisites(): HasMany
     {
         return $this->hasMany(Prerequisite::class);
     }
-
+    /**
+     * @return BelongsTo<User,Recipe>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -192,7 +203,7 @@ class Recipe extends Model implements HasMedia
     {
         return new Attribute(
             function () {
-                $html = (new Editor)->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
+                $html = (new Editor())->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
 
                 return new HtmlString($html);
             }

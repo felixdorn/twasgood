@@ -8,15 +8,17 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\TagGroup;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class RecipesController
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        abort_unless(in_array($request->state, [null, 'published', 'unpublished']), 404);
+        abort_unless(in_array($request->state, [null, 'published', 'unpublished'], true), 404);
 
         $state = $request->get('state', 'published');
 
@@ -33,17 +35,21 @@ class RecipesController
         ]);
     }
 
-    public function store(StoreRecipeRequest $request)
+    public function store(Request $request): RedirectResponse
     {
-        $recipe = Recipe::emptyWith(
-            $request->user()->id,
-            $request->validated('title')
-        );
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255', 'unique:recipes,title'],
+        ]);
+
+        $recipe = Recipe::create([
+            'user_id' => $request->user()->id,
+            'title' => $data['title']
+        ]);
 
         return to_route('console.recipes.edit', $recipe);
     }
 
-    public function edit(Recipe $recipe)
+    public function edit(Recipe $recipe): View
     {
         $recipe
             ->load([
@@ -71,19 +77,19 @@ class RecipesController
         ]);
     }
 
-    public function update(UpdateRecipeRequest $request, Recipe $recipe)
+    public function update(UpdateRecipeRequest $request, Recipe $recipe): Recipe
     {
         $recipe->update($request->validated());
 
         return $recipe;
     }
 
-    public function create()
+    public function create(): View
     {
         return view('backend.recipes.create');
     }
 
-    public function publish(Recipe $recipe)
+    public function publish(Recipe $recipe): RedirectResponse
     {
         if ($recipe->mustBeDraft()) {
             throw ValidationException::withMessages([
@@ -96,12 +102,12 @@ class RecipesController
         return to_route('console.recipes.index', ['state' => 'published']);
     }
 
-    public function delete(Recipe $recipe)
+    public function delete(Recipe $recipe): View
     {
         return view('backend.recipes.delete', ['recipe' => $recipe]);
     }
 
-    public function destroy(Request $request, Recipe $recipe)
+    public function destroy(Request $request, Recipe $recipe): RedirectResponse
     {
         $request->validate([
             'title' => ['required', 'string'],

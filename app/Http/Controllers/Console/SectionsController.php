@@ -10,28 +10,6 @@ use Illuminate\Http\Request;
 
 class SectionsController
 {
-    public function index(Request $request): View
-    {
-        $focus = $request->get('focus');
-
-        if (Section::find($focus) === null) {
-            $focus = null;
-        } else {
-            $focus = (int) $focus;
-        }
-
-        $sections = Section::with('recipes')
-            ->orderBy('order')
-            ->get();
-
-        return view('backend.sections.index', [
-            'focus' => $focus,
-            'visible_sections' => $sections->whereNull('hidden_at'),
-            'hidden_sections' => $sections->whereNotNull('hidden_at'),
-            'recipes' => Recipe::whereNotNull('published_at')->get(['id', 'title']),
-        ]);
-    }
-
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
@@ -43,7 +21,7 @@ class SectionsController
             'hidden_at' => now(),
         ]));
 
-        return to_route('console.pages.index', ['page' => 'home'])->with('focus', $session->id);
+        return to_route('console.pages.index', ['page' => 'home'])->with('focus', $section->id);
     }
 
     public function create(): View
