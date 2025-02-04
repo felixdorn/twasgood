@@ -7,6 +7,7 @@ use App\Models\Section;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class SectionsController
 {
@@ -49,7 +50,7 @@ class SectionsController
         return back()->with('focus', $section->id);
     }
 
-    public function order(Request $request, Section $section): RedirectResponse
+    public function order(Request $request, Section $section): Response
     {
         $request->validate([
             'items' => ['required', 'array', 'exists:recipes,id'],

@@ -60,9 +60,14 @@ class IngredientsController
         return view('backend.ingredients.create');
     }
 
-    public function update(UpdateIngredientRequest $request, Ingredient $ingredient): RedirectResponse
+    public function update(Request $request, Ingredient $ingredient): RedirectResponse
     {
-        $ingredient->update(array_merge($request->validated(), [
+        $data = $request->validate([
+                    'name' => ['required', 'string', 'max:255', 'unique:ingredients,name,' . $ingredient->id],
+                    'type' => ['required', (new Enum(IngredientType::class))],
+                ]);
+
+        $ingredient->update(array_merge($data, [
             'contains_gluten' => $request->get('contains_gluten') === 'on',
             'contains_dairy' => $request->get('contains_dairy') === 'on',
         ]));

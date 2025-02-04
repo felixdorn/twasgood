@@ -166,28 +166,28 @@ class Recipe extends Model implements HasMedia
         return $this->media()->where('collection_name', 'illustrations');
     }
     /**
-     * @return BelongsToMany<Tag,Recipe>
+     * @return BelongsToMany<Tag,covariant Recipe>
      */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
     /**
-     * @return BelongsTo<Category,Recipe>
+     * @return BelongsTo<Category,covariant Recipe>
      */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
     /**
-     * @return HasMany<Prerequisite,Recipe>
+     * @return HasMany<Prerequisite,covariant Recipe>
      */
     public function prerequisites(): HasMany
     {
         return $this->hasMany(Prerequisite::class);
     }
     /**
-     * @return BelongsTo<User,Recipe>
+     * @return BelongsTo<User,covariant Recipe>
      */
     public function author(): BelongsTo
     {

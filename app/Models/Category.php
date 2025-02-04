@@ -23,7 +23,7 @@ class Category extends Model
         });
     }
     /**
-     * @return HasMany<Recipe,Category>
+     * @return HasMany<Recipe,covariant Category>
      */
     public function recipes(): HasMany
     {
