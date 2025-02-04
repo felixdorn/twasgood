@@ -22,6 +22,7 @@ class Category extends Model
             $category->regenerateSlug();
         });
     }
+
     /**
      * @return HasMany<Recipe,covariant Category>
      */

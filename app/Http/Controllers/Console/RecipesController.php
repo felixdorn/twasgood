@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Console;
 
-use App\Http\Requests\StoreRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Models\Category;
 use App\Models\Ingredient;
@@ -43,7 +42,7 @@ class RecipesController
 
         $recipe = Recipe::create([
             'user_id' => $request->user()->id,
-            'title' => $data['title']
+            'title' => $data['title'],
         ]);
 
         return to_route('console.recipes.edit', $recipe);

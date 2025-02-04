@@ -25,7 +25,7 @@ class LabelRecipes
                 case 'recipe':
                     /** @var Recipe $subRecipe */
                     $subRecipe = $prerequisite->prerequisite;
-                    $labels = $this->combineLabels($labels, (new self())($subRecipe));
+                    $labels = $this->combineLabels($labels, (new self)($subRecipe));
                     break;
                 case 'ingredient':
                     /** @var Ingredient $ingredient */

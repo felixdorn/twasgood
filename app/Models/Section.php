@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Scout\Searchable;
 
 /**
- * 
- *
  * @property int $id
  * @property string $title
  * @property string|null $description
@@ -21,6 +19,7 @@ use Laravel\Scout\Searchable;
  * @property-read \App\Models\TFactory|null $use_factory
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Recipe> $recipes
  * @property-read int|null $recipes_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section query()
@@ -32,6 +31,7 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Section whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Section extends Model

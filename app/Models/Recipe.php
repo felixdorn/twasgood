@@ -33,6 +33,7 @@ class Recipe extends Model implements HasMedia
     protected $casts = [
         'uses_sterilization' => 'boolean',
     ];
+
     /**
      * @return array<string,mixed>
      */
@@ -56,7 +57,7 @@ class Recipe extends Model implements HasMedia
     {
         $labels = [];
 
-        $enrichment = (object) (new Actions\LabelRecipes())($this);
+        $enrichment = (object) (new Actions\LabelRecipes)($this);
 
         if ($enrichment->isVegan) {
             $labels[] = RecipeLabel::IsVegan;
@@ -93,7 +94,7 @@ class Recipe extends Model implements HasMedia
                 RecipeType::Starter => RecipeLabel::ForStarter,
                 RecipeType::Dish => RecipeLabel::ForDish,
                 RecipeType::Desert => RecipeLabel::ForDesert,
-                RecipeType::ForAllOccasions => throw new \RuntimeException("Should not happen")
+                RecipeType::ForAllOccasions => throw new \RuntimeException('Should not happen')
             };
         }
 
@@ -164,6 +165,7 @@ class Recipe extends Model implements HasMedia
     {
         return $this->media()->where('collection_name', 'illustrations');
     }
+
     /**
      * @return BelongsToMany<Tag,covariant Recipe>
      */
@@ -171,6 +173,7 @@ class Recipe extends Model implements HasMedia
     {
         return $this->belongsToMany(Tag::class);
     }
+
     /**
      * @return BelongsTo<Category,covariant Recipe>
      */
@@ -178,6 +181,7 @@ class Recipe extends Model implements HasMedia
     {
         return $this->belongsTo(Category::class);
     }
+
     /**
      * @return HasMany<Prerequisite,covariant Recipe>
      */
@@ -185,6 +189,7 @@ class Recipe extends Model implements HasMedia
     {
         return $this->hasMany(Prerequisite::class);
     }
+
     /**
      * @return BelongsTo<User,covariant Recipe>
      */
@@ -202,7 +207,7 @@ class Recipe extends Model implements HasMedia
     {
         return new Attribute(
             function () {
-                $html = (new Editor())->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
+                $html = (new Editor)->setContent(json_decode($this->content, associative: true, flags: JSON_THROW_ON_ERROR))->getHTML();
 
                 return new HtmlString($html);
             }

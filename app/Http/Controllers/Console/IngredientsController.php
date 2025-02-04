@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Console;
 
 use App\Enums\IngredientType;
 use App\Http\Requests\StoreIngredientRequest;
-use App\Http\Requests\UpdateIngredientRequest;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Contracts\View\View;
@@ -63,9 +62,9 @@ class IngredientsController
     public function update(Request $request, Ingredient $ingredient): RedirectResponse
     {
         $data = $request->validate([
-                    'name' => ['required', 'string', 'max:255', 'unique:ingredients,name,' . $ingredient->id],
-                    'type' => ['required', (new Enum(IngredientType::class))],
-                ]);
+            'name' => ['required', 'string', 'max:255', 'unique:ingredients,name,'.$ingredient->id],
+            'type' => ['required', (new Enum(IngredientType::class))],
+        ]);
 
         $ingredient->update(array_merge($data, [
             'contains_gluten' => $request->get('contains_gluten') === 'on',
