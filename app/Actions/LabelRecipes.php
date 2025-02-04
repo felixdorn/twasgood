@@ -23,7 +23,7 @@ class LabelRecipes
         foreach ($recipe->prerequisites as $prerequisite) {
             switch ($prerequisite->prerequisite_type) {
                 case 'recipe':
-                    /** @var Recipe $recipe */
+                    /** @var Recipe $subRecipe */
                     $subRecipe = $prerequisite->prerequisite;
                     $labels = $this->combineLabels($labels, (new self())($subRecipe));
                     break;

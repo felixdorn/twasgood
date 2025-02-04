@@ -63,7 +63,7 @@ class SectionsController
             $section->recipes()->updateExistingPivot($recipeId, ['order' => $index]);
         }
 
-        return response(204);
+        return response('', 204);
     }
 
     public function update(Request $request, Section $section): RedirectResponse

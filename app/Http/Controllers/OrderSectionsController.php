@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Section;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class OrderSectionsController
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $request->validate([
             'items' => ['required', 'array', 'exists:sections,id'],
@@ -22,6 +23,6 @@ class OrderSectionsController
             }
         });
 
-        return response(204);
+        return response('', 204);
     }
 }

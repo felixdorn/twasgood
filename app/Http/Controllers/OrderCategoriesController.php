@@ -20,6 +20,6 @@ class OrderCategoriesController
             }
         });
 
-        return response(204);
+        return response('', 204);
     }
 }
