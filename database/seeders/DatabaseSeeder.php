@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Category;
-use App\Models\Prerequisite;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Database\Seeder;

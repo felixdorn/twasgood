@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Section;
-use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as IlluminateDB;
 

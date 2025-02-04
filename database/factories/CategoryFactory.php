@@ -20,7 +20,7 @@ class CategoryFactory extends Factory
             'name' => fake()->city(),
             'subtitle' => fake()->words(6, true),
             'description' => fake()->realTextBetween(40, 120),
-            'hidden' => false
+            'hidden' => false,
         ];
     }
 }

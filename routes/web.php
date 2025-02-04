@@ -6,6 +6,7 @@ use App\Http\Controllers\Console\RecipesController;
 use App\Http\Controllers\Console\RecipesPrerequisiteController;
 use App\Http\Controllers\Console\SectionsController;
 use App\Http\Controllers\Console\ToggleTagController;
+use App\Http\Controllers\Console\UpdateProfileController;
 use App\Http\Controllers\OrderCategoriesController;
 use App\Http\Controllers\OrderSectionsController;
 use App\Http\Controllers\PagesController;
@@ -13,7 +14,6 @@ use App\Http\Controllers\ShowCategoryController;
 use App\Http\Controllers\ShowRecipeController;
 use App\Http\Controllers\ShowSearchResultsController;
 use App\Http\Controllers\ShowWelcomeController;
-use App\Http\Controllers\Console\UpdateProfileController;
 use App\Models\User;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +32,7 @@ Route::get('/guides/comment-steriliser-ses-bocaux', function () {
 })->name('sterilization-warning');
 Route::get('/a-propos', function () {
     return view('frontend.about', [
-        'author' => User::first()
+        'author' => User::first(),
     ]);
 })->name('about-us');
 

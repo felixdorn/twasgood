@@ -153,7 +153,7 @@ class Recipe extends Model implements HasMedia
             ->withResponsiveImages();
     }
 
-  public function banner()
+    public function banner()
     {
         return $this->media()->where('collection_name', 'banner');
     }
@@ -162,7 +162,6 @@ class Recipe extends Model implements HasMedia
     {
         return $this->media()->where('collection_name', 'illustrations');
     }
-
 
     public function tags(): BelongsToMany
     {
