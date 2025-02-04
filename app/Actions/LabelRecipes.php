@@ -3,12 +3,13 @@
 namespace App\Actions;
 
 use App\Enums\IngredientType;
+use App\Models\Ingredient;
 use App\Models\Recipe;
 use Exception;
 
 class LabelRecipes
 {
-    public function __invoke(Recipe $recipe)
+    public function __invoke(Recipe $recipe): array
     {
         $recipe->load(['prerequisites' => fn ($q) => $q->where('optional', false)->with(['prerequisite'])]);
 
@@ -22,12 +23,12 @@ class LabelRecipes
         foreach ($recipe->prerequisites as $prerequisite) {
             switch ($prerequisite->prerequisite_type) {
                 case 'recipe':
-                    $labels = $this->combineLabels(
-                        $labels,
-                        (new self)($prerequisite->prerequisite)
-                    );
+                    /** @var Recipe $recipe */
+                    $subRecipe = $prerequisite->prerequisite;
+                    $labels = $this->combineLabels($labels, (new self())($subRecipe));
                     break;
                 case 'ingredient':
+                    /** @var Ingredient $ingredient */
                     $ingredient = $prerequisite->prerequisite;
 
                     $other = [

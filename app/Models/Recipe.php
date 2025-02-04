@@ -149,11 +149,11 @@ class Recipe extends Model implements HasMedia
         $this->addMediaConversion('default')->format('webp');
 
         $this->addMediaConversion('thumb')
+            ->withResponsiveImages()
             ->format('webp')
             ->fit(Fit::Crop, 1600, 900)
             ->width(1600)
-            ->height(900)
-            ->withResponsiveImages();
+            ->height(900);
     }
 
     public function banner(): MorphMany

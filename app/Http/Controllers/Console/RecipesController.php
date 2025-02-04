@@ -119,6 +119,6 @@ class RecipesController
 
         $recipe->delete();
 
-        return to_route('console.recipes.index', ['state' => $recipe->state]);
+        return to_route('console.recipes.index');
     }
 }

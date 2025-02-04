@@ -18,7 +18,7 @@ trait HasSlugs
     {
         $newSlug = Str::slug($this->getSluggableValue());
 
-        if ($this->slug && $this->slug->slug === $newSlug) {
+        if ($this->slug !== null && $this->slug->slug === $newSlug) {
             return $this->slug;
         }
 
@@ -64,7 +64,7 @@ trait HasSlugs
                 fn ($query) => $query->where('slug', $value)
             )->first();
 
-        if (! $slug || ! $slug->sluggable) {
+        if ($slug === null || $slug->sluggable === null) {
             abort(404);
         }
 

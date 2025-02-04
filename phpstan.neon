@@ -1,8 +1,10 @@
 includes:
     - vendor/larastan/larastan/extension.neon
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
-    level: 1
+    level: 2
     paths:
         - app/
+
+    # from larastan
+    checkOctaneCompatibility: true
